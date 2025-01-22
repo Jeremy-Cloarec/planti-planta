@@ -10,8 +10,15 @@ export default {
     extend: {
       colors: {
         background: "var(--background)",
-        foreground: "var(--foreground)",
+        dark: "var(--dark)",
+        green: "var(--green)",
+        red: "var(--red)",
+        white: "var(--white)",
       },
+      fontFamily: {
+        display: "var(--display)",
+        sans: "var(--inter)",
+      }
     },
   },
   plugins: [],
