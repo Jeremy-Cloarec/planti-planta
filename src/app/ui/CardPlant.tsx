@@ -1,12 +1,11 @@
 import Button from "./Button";
 
-interface ButtonProp {
+interface CardPlantProps {
     title: string;
     price: string;
 }
 
-export default function CardPlant({ title, price }: ButtonProp) {
-
+export default function CardPlant({ title, price }: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`;
     const url = `./plants/${title.toLowerCase()}.png`;
 
@@ -17,8 +16,8 @@ export default function CardPlant({ title, price }: ButtonProp) {
                 alt={alt}
                 className="w-full h-auto rounded-md"
             />
-            <h3>{title}</h3>
-            <p>{price}</p>
+            <h3 className="text-ellipsis overflow-hidden">{title}</h3>
+            <p>{price}€</p>
             <Button text="Ajouter au panier" />
         </a>
     )

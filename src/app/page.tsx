@@ -1,8 +1,20 @@
+import { fetchPlants } from "./lib/data";
 import CardPlant from "./ui/CardPlant";
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 
-export default function Home() {
+export default async function Home() {
   const dateYear = new Date();
+  const plants = await fetchPlants();
+
+  console.log(plants);
+
+  const listPlants = plants.map(plant =>
+    <CardPlant
+      title={plant.title}
+      price={plant.price.toString()}
+      key={plant.id}
+    />
+  )
 
   return (
     <>
@@ -34,27 +46,13 @@ export default function Home() {
         </header>
         <main className="flex-1 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4
       ">
-          <CardPlant
-            title="Iridaceae"
-            price="20"
-          />
-          <CardPlant
-            title="Iridaceae"
-            price="20"
-          />
-          <CardPlant
-            title="Iridaceae"
-            price="20"
-          />
-          <CardPlant
-            title="Iridaceae"
-            price="20"
-          />
+          {listPlants}
         </main>
       </div>
       <footer className="w-full mt-10">
         <p>
-          Jérémy - {dateYear.getFullYear()}
+          {dateYear.getFullYear()} -
+          <a href="https://github.com/Jeremy-Cloarec" target="_blank"> Jérémy</a>
         </p>
       </footer>
     </>
