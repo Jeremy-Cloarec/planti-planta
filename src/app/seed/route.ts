@@ -6,7 +6,7 @@ if (client) console.log("Success to connect db");
 
 async function seedPlants() {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await client.sql`DROP TABLE IF EXISTS "plants"`;
+    // await client.sql`DROP TABLE IF EXISTS "plants"`;
     await client.sql`
         CREATE TABLE IF NOT EXISTS "plants" (
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
