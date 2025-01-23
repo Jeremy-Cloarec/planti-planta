@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className="flex flex-col min-h-dvh gap-8"
+      <body className="flex flex-col items-center min-h-dvh"
       >
         {children}
       </body>

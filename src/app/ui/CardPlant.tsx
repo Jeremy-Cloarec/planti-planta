@@ -11,7 +11,7 @@ export default function CardPlant({ title, price }: ButtonProp) {
     const url = `./plants/${title.toLowerCase()}.png`;
 
     return (
-        <a href="#" className="p-2 bg-white shadow-md rounded-lg flex flex-col gap-2 group transition delay-75 duration-300 hover:shadow-[#00000047]">
+        <a href="#" className="p-2 bg-white shadow-md rounded-lg flex flex-col gap-2 group transition delay-75 duration-300 hover:shadow-[#00000047] h-fit">
             <img
                 src={url}
                 alt={alt}
