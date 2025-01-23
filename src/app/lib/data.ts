@@ -3,7 +3,7 @@ import { Plants } from "./definitions";
 
 export async function fetchPlants() {
     try {
-        const data = await sql<Plants>`SELECT * FROM plants`;
+        const data = await sql`SELECT * FROM plants`;
         return data.rows;
 
     } catch (error:any) {
