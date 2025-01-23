@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #FDFFF0;
+  --background: #faefe3;
   --dark: #1D1E1B;
-  --green: #B6FF77;
+  --green: #12754d;
+  --green-hover: #12754dd7;
   --red: #FF5252;
-  --white: #FDFFF0;
+  --white: #ffffff;
 }
 
 @font-face {

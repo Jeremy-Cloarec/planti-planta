@@ -12,6 +12,7 @@ export default {
         background: "var(--background)",
         dark: "var(--dark)",
         green: "var(--green)",
+        greenHover:"var(--green-hover)",
         red: "var(--red)",
         white: "var(--white)",
       },
