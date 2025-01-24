@@ -3,8 +3,6 @@ import { db } from '@vercel/postgres';
 const client = await db.connect();
 
 async function seedPlants() {
-    await client.sql`DROP TABLE IF EXISTS "plants"`;
-    
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
 
     await client.sql`
