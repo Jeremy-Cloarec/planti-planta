@@ -1,42 +1,50 @@
-import { db } from '@vercel/postgres';
+import { neon } from "@neondatabase/serverless";
 
-const client = await db.connect();
+if (!process.env.POSTGRES_URL) {
+    throw new Error('POSTGRES_URL_URL is not defined');
+}
+const sql = neon(process.env.POSTGRES_URL);
 
-async function seedPlants() {
-    await client.sql`DROP TABLE IF EXISTS plants`;
-    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    await client.sql`
+async function seedData() {
+    try {
+        await sql`DROP TABLE IF EXISTS plants`; 
+        await sql`
         CREATE TABLE IF NOT EXISTS plants (
-            id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-            title VARCHAR(255) NOT NULL,
-            price INT NOT NULL,
+            id SERIAL PRIMARY KEY,
+            title TEXT NOT NULL,
+            price NUMERIC NOT NULL,
             shop BOOLEAN NOT NULL
         )
-    `
-    const insertPlants = await client.sql`
-            INSERT INTO plants (title, price, shop)
-            VALUES
-                ('Iridaceae', 16, FALSE),
-                ('Ericaceae', 24, FALSE),
-                ('Geraniaceae', 8, FALSE),
-                ('Aizoaceae', 12, FALSE),
-                ('Liliaceae', 31, FALSE),
-                ('Campanulaceae', 24, FALSE)
-            ON CONFLICT (id) DO NOTHING;
-        `;
-    return insertPlants
+    `;
+        await sql`
+        INSERT INTO plants (title, price, shop) VALUES
+            ('Iridaceae', 16, FALSE),
+            ('Ericaceae', 24, FALSE),
+            ('Geraniaceae', 8, FALSE),
+            ('Aizoaceae', 12, FALSE),
+            ('Liliaceae', 31, FALSE),
+            ('Campanulaceae', 24, FALSE)
+    `;
+        console.log('Database seeding successful');
+        Response.json({ message: 'Database seeded successfully' });
+
+    } catch (error) {
+        throw new Error(`Database seeding failed: ${error}`);
+    }
+
 }
 
+// Fonction GET pour initialiser la base de données
 export async function GET() {
     try {
-        await client.sql`BEGIN`;
-        await seedPlants();
-        await client.sql`COMMIT`;
-
-        return Response.json({ message: 'Database seeded successfully' });
+        await sql`BEGIN`;
+        await seedData();
+        await sql`COMMIT`;
+        Response.json({ message: 'Database seeded successfully' });
     } catch (error) {
-        await client.sql`ROLLBACK`;
-        return Response.json({ error }, { status: 500 });
+        console.error('Database Error:', error);
+        await sql`ROLLBACK`;
+        throw new Error('Failed to fetch data.');
     }
 }
 

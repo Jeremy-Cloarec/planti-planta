@@ -1,13 +1,18 @@
-import { sql } from "@vercel/postgres";
+import { neon } from "@neondatabase/serverless";
 import { Plants } from "./definitions";
 
 export async function fetchPlants() {
     try {
-        const data = await sql<Plants>`SELECT * FROM plants`;
-        return data.rows;
-
-    } catch (error) {
+        if (!process.env.POSTGRES_URL) {
+            throw new Error('DATABASE_URL is not defined');
+        }
+        const sql = neon(process.env.POSTGRES_URL);
+        const data = await sql`SELECT * FROM plants`;
+        console.log(data);
+        
+        return data
+    }catch(error) {
         console.error('Database Error:', error);
-        throw new Error('Failed to fetch plants data.');
+        throw new Error('Failed to fetch plants data.')
     }
 }
