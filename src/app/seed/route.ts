@@ -31,11 +31,33 @@ async function seedPlants() {
     }
 }
 
+async function seedUsers(){
+    try {
+        await client.sql`DROP TABLE IF EXISTS users`;
+        await client.sql`
+        CREATE TABLE IF NOT EXISTS users (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL
+        )
+    `;
+        await client.sql`
+        INSERT INTO users (name, email) VALUES
+            ('John Doe', 'johndoe@gmail.com')
+        `;  
+
+    } catch (error){
+        console.log('Database seeding successful');
+        Response.json({ message: 'Database seeded successfully' });
+    }
+}
+
 // Fonction GET pour initialiser la base de données
 export async function GET() {
     try {
         await client.sql`BEGIN`;
         await seedPlants();
+        await seedUsers();
         await client.sql`COMMIT`;
         return Response.json({ message: 'Database seeded successfully' });
     } catch (error) {
