@@ -3,10 +3,10 @@ import { db } from '@vercel/postgres';
 const client = await db.connect();
 
 async function seedPlants() {
+    await client.sql`DROP TABLE IF EXISTS "public"."plants"`;
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-
     await client.sql`
-        CREATE TABLE IF NOT EXISTS "plants" (
+        CREATE TABLE IF NOT EXISTS "public"."plants" (
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
             title VARCHAR(255) NOT NULL,
             price INT NOT NULL,
@@ -14,7 +14,7 @@ async function seedPlants() {
         )
     `
     const insertPlants = await client.sql`
-            INSERT INTO "plants" (title, price, shop)
+            INSERT INTO "public"."plants" (title, price, shop)
             VALUES
                 ('Iridaceae', 16, FALSE),
                 ('Ericaceae', 24, FALSE),
