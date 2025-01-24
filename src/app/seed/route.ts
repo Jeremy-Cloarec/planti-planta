@@ -1,9 +1,4 @@
-import { neon } from "@neondatabase/serverless";
-
-if (!process.env.POSTGRES_URL) {
-    throw new Error('POSTGRES_URL_URL is not defined');
-}
-const sql = neon(process.env.POSTGRES_URL);
+import { sql } from "@vercel/postgres";
 
 async function seedData() {
     try {
@@ -31,7 +26,6 @@ async function seedData() {
     } catch (error) {
         throw new Error(`Database seeding failed: ${error}`);
     }
-
 }
 
 // Fonction GET pour initialiser la base de données
