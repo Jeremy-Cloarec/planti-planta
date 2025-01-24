@@ -27,7 +27,7 @@ async function seedPlants() {
         Response.json({ message: 'Database seeded successfully' });
 
     } catch (error) {
-        throw new Error(`Database seeding failed: ${error}`);
+        Response.json(error);
     }
 }
 
@@ -47,8 +47,7 @@ async function seedUsers(){
         `;  
 
     } catch (error){
-        console.log('Database seeding successful');
-        Response.json({ message: 'Database seeded successfully' });
+        Response.json(error);
     }
 }
 
@@ -61,7 +60,6 @@ export async function GET() {
         await client.sql`COMMIT`;
         return Response.json({ message: 'Database seeded successfully' });
     } catch (error) {
-        console.error('Database Error:', error);
         await client.sql`ROLLBACK`;
         return Response.json({error}, {status: 500});
     }
