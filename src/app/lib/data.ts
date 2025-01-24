@@ -1,5 +1,4 @@
 import { neon } from "@neondatabase/serverless";
-import { Plants } from "./definitions";
 
 export async function fetchPlants() {
     try {
@@ -8,6 +7,7 @@ export async function fetchPlants() {
         }
         const sql = neon(process.env.POSTGRES_URL);
         const data = await sql`SELECT * FROM plants`;
+        
         console.log(data);
         
         return data
