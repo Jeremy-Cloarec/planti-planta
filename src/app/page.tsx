@@ -42,7 +42,7 @@ export default async function Home() {
       </nav>
       <div className="max-w-4xl flex flex-col flex-1 w-full">
         <header className="my-16">
-          <h1 className="text-center bg-rose-500">Planti Planta</h1>
+          <h1 className="text-center">Planti Planta</h1>
         </header>
         <main className="flex-1 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4
       ">
