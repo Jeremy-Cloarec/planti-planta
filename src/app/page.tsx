@@ -1,6 +1,7 @@
 import { fetchPlants } from "./lib/data";
 import CardPlant from "./ui/CardPlant";
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 
 export default async function Home() {
   const dateYear = new Date();
@@ -20,7 +21,13 @@ export default async function Home() {
     <>
       <nav className="flex items-center justify-between w-full">
         <a href="#" className="w-fit flex">
-          <img src="../../logo.png" alt="Logo du site : une petite plante mignone " className="w-12 h-auto" />
+          <Image
+            src="/logo.png"
+            alt="Logo du site : une petite plante mignone "
+            className="w-12 h-auto"
+            width={48}
+            height={56}
+          />
         </a>
         <ul className="flex gap-3">
           <li>
