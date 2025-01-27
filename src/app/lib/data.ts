@@ -1,8 +1,8 @@
-import { sql } from "@vercel/postgres";
+import {connectionPool as cp} from '@/app/db';
 
 export async function fetchPlants() {
     try {       
-        const data = await sql`SELECT * FROM plants`;
+        const data = await cp.query(`SELECT * FROM plants`);
         console.log(data);
         return data.rows;
     }catch(error) {
