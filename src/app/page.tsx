@@ -1,13 +1,12 @@
+import Heading from "./ui/Heading";
 import { fetchPlants } from "./lib/data";
 import CardPlant from "./ui/CardPlant";
-import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+
+import Nav from "./ui/Nav";
 
 export default async function Home() {
   const dateYear = new Date();
   const plants = await fetchPlants();
-
-  console.log(plants);
 
   const listPlants = plants.map(plant =>
     <CardPlant
@@ -19,38 +18,9 @@ export default async function Home() {
 
   return (
     <>
-      <nav className="flex items-center justify-between w-full">
-        <a href="#" className="w-fit flex">
-          <Image
-            src="/logo.png"
-            alt="Logo du site : une petite plante mignone "
-            className="w-12 h-auto"
-            width={48}
-            height={56}
-          />
-        </a>
-        <ul className="flex gap-3">
-          <li>
-            <a href="#">
-              <UserIcon className="size-9 text-dark" />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <MagnifyingGlassIcon className="size-9 text-dark" />
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <ShoppingCartIcon className="size-9 text-dark" />
-            </a>
-          </li>
-        </ul>
-      </nav>
+      <Nav/>
       <div className="max-w-4xl flex flex-col flex-1 w-full">
-        <header className="my-16">
-          <h1 className="text-center">Planti Planta</h1>
-        </header>
+        <Heading title="Planti Planta"/>
         <main className="flex-1 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4
       ">
           {listPlants}
