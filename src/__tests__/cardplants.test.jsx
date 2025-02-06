@@ -10,7 +10,7 @@ describe('Card Plant', () => {
     test('renders card with h2', () => {
         render(<CardPlant {...defaultProps} />)
         expect(
-            expect(screen.getByRole('heading', { level: 3 }, { name: `${defaultProps.title}` })).toHaveTextContent(`${defaultProps.title}`)
+            expect(screen.getByRole('heading', { level: 2 }, { name: `${defaultProps.title}` })).toHaveTextContent(`${defaultProps.title}`)
         )
     })
 

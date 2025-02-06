@@ -13,7 +13,7 @@ export default function CardPlant({ title, price }: CardPlantProps) {
     return (
         <a
             href="#"
-            className="p-2 bg-white shadow-md rounded-lg flex flex-col gap-2 group transition delay-75 duration-300 hover:shadow-[#00000047] h-fit"
+            className="ring-1 ring-green p-2 bg-white rounded-lg flex flex-col gap-4 group transition delay-75 duration-300 h-fit"
         >
             <Image
                 src={url}
@@ -22,7 +22,7 @@ export default function CardPlant({ title, price }: CardPlantProps) {
                 width={212}
                 height={209}
             />
-            <h3 className="text-ellipsis overflow-hidden">{title}</h3>
+            <h2 className="text-ellipsis">{title}</h2>
             <p>{price}€</p>
             <Button
                 text="Ajouter au panier"

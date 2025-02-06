@@ -12,20 +12,25 @@
 }
 
 @font-face {
-  font-family: 'Inter';
-  src: url('./fonts/inter/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
+  font-family: 'Sofia';
+  src: url('./fonts/sofia/Sofia-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Playfair Display';
-  src: url('./fonts/playfair/PlayfairDisplay-SemiBold.ttf') format('truetype');
+  font-family: 'Jaldi bold';
+  src: url('./fonts/jaldi/Jaldi-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Jaldi regular';
+  src: url('./fonts/jaldi/Jaldi-Regular.ttf') format('truetype');
 }
 
 body {
   color: var(--dark);
-  background: var(--background);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
-  padding: 16px;
+  background: var(--white);
+  font-family: 'Jaldi regular', Arial, Helvetica, sans-serif;
+  padding: 18px;
 }
 
 h1,
@@ -34,7 +39,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Sofia';
 }
 
 h1 {
@@ -50,7 +55,7 @@ h3 {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 @media (min-width: 768px) {
@@ -59,18 +64,14 @@ p {
   }
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 
   h3 {
     font-size: 1.75rem;
-  }
-
-  p {
-    font-size: 1.25rem;
   }
 }

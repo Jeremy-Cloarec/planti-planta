@@ -6,9 +6,9 @@ export default function Nav() {
         <nav className="flex items-center justify-between w-full">
             <a href="#" className="w-fit flex">
                 <Image
-                    src="/logo.png"
+                    src="/logo.svg"
                     alt="Logo du site : une petite plante mignone "
-                    className="w-12 h-auto"
+                    className="w-12 h-auto md:w-16"
                     width={48}
                     height={56}
                 />
