@@ -1,13 +1,11 @@
 "use client"
 import CardPlant from "./CardPlant"
 import { Plants } from "../lib/definitions"
+import { PlantsContext } from "../context/PlantsContext"
+import { useContext } from "react"
 
-interface ListCardsPlantsProps {
-    plants: Plants[],
-}
-
-export function ListCardsPlants({ plants }: ListCardsPlantsProps) {
-
+export function ListCardsPlants() {
+    const plants = useContext(PlantsContext)
     function handleClick(title: string) {
         console.log(`Click on ${title}`)
     }

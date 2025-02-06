@@ -10,9 +10,7 @@ const plants = [
 describe('ListCardsPlants', () => {
     it('render correctlt', () => {
         render(
-            <ListCardsPlants
-                plants={plants}
-            />
+            <ListCardsPlants/>
         )
         const listPlants = screen.getByRole('list')
         expect(listPlants).toBeInTheDocument()
