@@ -1,4 +1,4 @@
-export type Plants = {
+export type Plant = {
     id: number;
     title: string;
     price: string;

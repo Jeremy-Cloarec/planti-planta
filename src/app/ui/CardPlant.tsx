@@ -18,7 +18,7 @@ export default function CardPlant({ title, price }: CardPlantProps) {
             <Image
                 src={url}
                 alt={alt}
-                className="w-full h-auto rounded-md"
+                className="rounded-md w-full"
                 width={212}
                 height={209}
             />

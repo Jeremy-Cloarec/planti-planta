@@ -1,6 +1,6 @@
 "use client"
 import CardPlant from "./CardPlant"
-import { Plants } from "../lib/definitions"
+import { Plant } from "../lib/definitions"
 import { PlantsContext } from "../context/PlantsContext"
 import { useContext } from "react"
 
