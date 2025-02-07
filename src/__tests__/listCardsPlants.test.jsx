@@ -8,14 +8,14 @@ const plants = [
 ]
 
 describe('ListCardsPlants', () => {
-    it('render correctlt', () => {
+    it('render correctlt', async () => {
         render(
             <ListCardsPlants/>
         )
-        const listPlants = screen.getByRole('list')
+        const listPlants = await screen.findByRole('list')
         expect(listPlants).toBeInTheDocument()
 
-        const listItems = screen.getAllByRole('listitem')
+        const listItems = await screen.findAllByRole('listitem')
         expect(listItems).toHaveLength(plants.length)
     })
 
