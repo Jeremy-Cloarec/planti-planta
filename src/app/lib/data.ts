@@ -1,5 +1,11 @@
+import { connectionPool as cp } from "@/app/db";
+
 export async function fetchPlants() {
-    const res = await fetch("/api/plants");
-    if (!res.ok) throw new Error("Erreur lors de la récupération des plantes");
-    return res.json();
+    try {
+        const data = await cp.query(`SELECT * FROM plants`);
+        return data.rows;
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch plants data.");
+    }
 }

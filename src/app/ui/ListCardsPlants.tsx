@@ -1,26 +1,32 @@
 "use client"
-import { useStorePlant } from "../store/plantsStore"
 import CardPlant from "./CardPlant"
-import { Plant } from "../lib/definitions"
 import { PlantsContext } from "../context/PlantsContext"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
+import { Plant } from "../lib/definitions"
+import { StoreContext } from "../context/StoreContext"
 
 export function ListCardsPlants() {
-    const plants = useStorePlant((state) => state.plants)
-    const fetchPlants = useStorePlant((state) => state.fetch)
+    const plants = useContext(PlantsContext)
+    const {storePlants, setStorePlants} = useContext(StoreContext)
+
+
+    function handleClick(plant: Plant) {    
+        console.log(`Click on ${plant.title}`)
+        setStorePlants([
+            ...storePlants,
+            plant
+        ])
+    }
 
     useEffect(() => {
-        fetchPlants()
-    }, [fetchPlants])
+        console.log(storePlants);
+    }, [storePlants])
 
-    function handleClick(title: string) {
-        console.log(`Click on ${title}`)
-    }
 
     const listPlants = plants.map(plant =>
         <li
             key={plant.id}
-            onClick={() => handleClick(plant.title)}
+            onClick={() => handleClick(plant)}
         >
             <CardPlant
                 title={plant.title}

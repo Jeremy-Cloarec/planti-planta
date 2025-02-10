@@ -1,7 +1,7 @@
 "use client"
-import { createContext } from "react";
-import { Plants } from "../lib/definitions";
+import { createContext } from "react"
+import { Plant } from "../lib/definitions"
 
-export const PlantsContext = createContext<Plants[]>([]);
+export const PlantsContext = createContext<Plant[]>([])
 
 
