@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ContextProvider } from "./context/ContextProvider";
 
 export const metadata: Metadata = {
   title: "Planti Planta",
@@ -15,7 +16,9 @@ export default function RootLayout({
     <html lang="fr">
       <body className="flex flex-col items-center min-h-dvh"
       >
-        {children}
+        <ContextProvider>
+          {children}
+        </ContextProvider>
       </body>
     </html>
   );

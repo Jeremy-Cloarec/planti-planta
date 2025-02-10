@@ -3,20 +3,27 @@ import { PlantsContext } from "./PlantsContext"
 import { StoreContext } from "./StoreContext"
 import { ReactNode, useState } from "react"
 import { Plant } from "../lib/definitions"
+import { IsShopContext } from "./IsShopContext"
 
 interface ContextProviderProps {
     children: ReactNode,
-    plants: Plant[],
 }
 
-export function ContextProvider({ children, plants }: ContextProviderProps) {
+export function ContextProvider({ children }: ContextProviderProps) {
     const [storePlants, setStorePlants] = useState<Plant[]>([])
+    const [isShop, setIsShop] = useState(false)
 
     return (
-        <StoreContext.Provider value={{ storePlants, setStorePlants }}>
-            <PlantsContext.Provider value={plants}>
+        <IsShopContext.Provider value={{
+            isShop,
+            setIsShop
+        }} >
+            <StoreContext.Provider value={{
+                storePlants,
+                setStorePlants,
+            }}>
                 {children}
-            </PlantsContext.Provider>
-        </StoreContext.Provider>
+            </StoreContext.Provider>
+        </IsShopContext.Provider>
     );
 }

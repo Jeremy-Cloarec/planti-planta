@@ -1,7 +1,16 @@
-import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
+"use client"
+import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
+import Image from "next/image"
+import { useContext } from "react"
+import { IsShopContext } from "../context/IsShopContext"
 
 export default function Nav() {
+    const { setIsShop } = useContext(IsShopContext)
+
+    const handleClick = () => {
+        setIsShop(true)
+    }
+
     return (
         <nav className="flex items-center justify-between w-full">
             <a href="#" className="w-fit flex">
@@ -25,7 +34,7 @@ export default function Nav() {
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="#" onClick={handleClick}>
                         <ShoppingCartIcon className="size-9 text-dark" />
                     </a>
                 </li>
