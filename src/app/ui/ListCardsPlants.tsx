@@ -1,13 +1,14 @@
 "use client"
 import CardPlant from "./CardPlant"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { Plant } from "../lib/definitions"
 import { StoreContext } from "../context/StoreContext"
 import { fetchPlants } from "../lib/data"
+import { PlantsContext } from "../context/PlantsContext"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
-    const [plants, setPlants] = useState<Plant[]>([]);
+    const {plants,setPlants } = useContext(PlantsContext)
 
     useEffect(() => {
         async function getPlants() {

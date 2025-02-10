@@ -11,6 +11,7 @@ interface ContextProviderProps {
 
 export function ContextProvider({ children }: ContextProviderProps) {
     const [storePlants, setStorePlants] = useState<Plant[]>([])
+    const [plants, setPlants] = useState<Plant[]>([])
     const [isShop, setIsShop] = useState(false)
 
     return (
@@ -22,7 +23,12 @@ export function ContextProvider({ children }: ContextProviderProps) {
                 storePlants,
                 setStorePlants,
             }}>
-                {children}
+                <PlantsContext.Provider value={{
+                    plants,
+                    setPlants
+                }}>
+                    {children}
+                </PlantsContext.Provider>
             </StoreContext.Provider>
         </IsShopContext.Provider>
     );
