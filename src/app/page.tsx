@@ -3,7 +3,6 @@ import Nav from "./ui/Nav"
 import { ListCardsPlants } from "./ui/ListCardsPlants"
 import { fetchPlants } from "./lib/data"
 import { ContextProvider } from "./context/ContextProvider"
-import { Plant } from "./lib/definitions"
 import { PanelCard } from "./ui/PanelCard"
 
 export default async function Home() {
