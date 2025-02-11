@@ -8,7 +8,7 @@ import { PlantsContext } from "@/app/context/PlantsContext"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
-    const {plants,setPlants } = useContext(PlantsContext)
+    const { plants, setPlants } = useContext(PlantsContext)
 
     useEffect(() => {
         async function getPlants() {
@@ -18,23 +18,27 @@ export function ListCardsPlants() {
         getPlants()
     }, [])
 
-    function handleClick(plant: Plant) {
-        console.log(`Click on ${plant.title}`)
-        setStorePlants([
-            ...storePlants,
-            plant
-        ])
-    }
-
     useEffect(() => {
         console.log(storePlants);
     }, [storePlants])
 
+    function handleClick(e: React.FormEvent, plant: Plant) {
+        e.preventDefault()
+        const plantExists = storePlants.find(p => p.id === plant.id)
+        if (!plantExists) {
+            return setStorePlants([...storePlants, { ...plant, quantity: 1 }])
+        }
+
+        const nextQuantity = storePlants.map(p =>
+            p.id === plant.id ? { ...p, quantity: p.quantity + 1 } : p
+        );
+        return setStorePlants(nextQuantity)
+    }
 
     const listPlants = plants.map(plant =>
         <li
             key={plant.id}
-            onClick={() => handleClick(plant)}
+            onClick={(e) => { handleClick(e, plant) }}
         >
             <CardPlant
                 title={plant.title}

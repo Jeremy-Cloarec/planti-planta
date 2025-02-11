@@ -1,39 +1,51 @@
-const plants = [
+import { Plant } from "./definitions"
+
+const getRandomQuantity = () => Math.floor((Math.random() * 21) + 1);
+
+const plants: Plant[] = [
     {
-        name: 'Iridaceae',
+        id: 1,
+        title: 'Iridaceae',
         price: 16,
-        shop: false
+        quantity: getRandomQuantity()
     },
     {
-        name: 'Ericaceae',
+        id: 2,
+        title: 'Ericaceae',
         price: 24,
-        shop: false
+        quantity: getRandomQuantity()
     },
     {
-        name: 'Geraniaceae',
+        id: 3,
+        title: 'Geraniaceae',
         price: 8,
-        shop: false
+        quantity: getRandomQuantity()
     },
     {
-        name: 'Aizoaceae',
+        id: 4,
+        title: 'Aizoaceae',
         price: 12,
-        shop: false
+        quantity: getRandomQuantity()
     },
     {
-        name: 'Liliaceae',
+        id: 5,
+        title: 'Liliaceae',
         price: 31,
-        shop: false
+        quantity: getRandomQuantity()
     },
     {
-        name: 'Campanulaceae',
+        id: 6,
+        title: 'Campanulaceae',
         price: 24,
-        shop: false
+        quantity: getRandomQuantity()
     }
 ]
 
-const users = [{
-    name: 'John Doe',
-    email: 'johndoe@gmail.com'
-}]
+const users = [
+    {
+        name: 'John Doe',
+        email: 'johndoe@gmail.com'
+    }
+]
 
-export {plants, users}
+export { plants, users }

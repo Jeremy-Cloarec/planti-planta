@@ -8,13 +8,13 @@ async function seedPlants() {
                 id SERIAL PRIMARY KEY,
                 title TEXT NOT NULL,
                 price NUMERIC NOT NULL,
-                shop BOOLEAN NOT NULL
+                quantity NUMERIC NOT NULL
             )
         `);
     const insertPlants = await Promise.all(
         plants.map((plant) => {
             cp.query(`
-                INSERT INTO plants (title, price, shop) VALUES ('${plant.name}', '${plant.price}', '${plant.shop}')`)
+                INSERT INTO plants (title, price, quantity) VALUES ('${plant.title}', '${plant.price}', '${plant.quantity}')`)
         })
     );
 

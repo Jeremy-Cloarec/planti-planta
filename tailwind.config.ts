@@ -12,13 +12,14 @@ export default {
         background: "var(--background)",
         dark: "var(--dark)",
         green: "var(--green)",
-        greenHover:"var(--green-hover)",
+        greenHover: "var(--green-hover)",
         red: "var(--red)",
         white: "var(--white)",
       },
       fontFamily: {
-        display: "var(--display)",
-        sans: "var(--inter)",
+        sofia: ["Sofia", "serif"],
+        jaldiBold: ["Jaldi bold", "sans-serif"],
+        jaldiRegular: ["Jaldi regular", "sans-serif"],
       }
     },
   },

@@ -1,6 +1,7 @@
 export type Plant = {
-    id: number;
-    title: string;
-    price: string;
-    shop: boolean;
+    id: number
+    title: string
+    price: number
+    quantity: number
 }
+
