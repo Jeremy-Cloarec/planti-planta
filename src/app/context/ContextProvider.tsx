@@ -2,7 +2,7 @@
 import { PlantsContext } from "./PlantsContext"
 import { StoreContext } from "./StoreContext"
 import { ReactNode, useState } from "react"
-import { Plant } from "../lib/definitions"
+import { Plant } from "@/app/lib/definitions"
 import { IsShopContext } from "./IsShopContext"
 
 interface ContextProviderProps {

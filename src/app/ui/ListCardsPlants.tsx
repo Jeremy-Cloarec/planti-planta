@@ -1,10 +1,10 @@
 "use client"
 import CardPlant from "./CardPlant"
 import { useContext, useEffect } from "react"
-import { Plant } from "../lib/definitions"
-import { StoreContext } from "../context/StoreContext"
-import { fetchPlants } from "../lib/data"
-import { PlantsContext } from "../context/PlantsContext"
+import { Plant } from "@/app/lib/definitions"
+import { StoreContext } from "@/app/context/StoreContext"
+import { fetchPlants } from "@/app/lib/data"
+import { PlantsContext } from "@/app/context/PlantsContext"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
@@ -12,11 +12,11 @@ export function ListCardsPlants() {
 
     useEffect(() => {
         async function getPlants() {
-            const fetchedPlants = await fetchPlants();
-            setPlants(fetchedPlants);
+            const fetchedPlants = await fetchPlants()
+            setPlants(fetchedPlants)
         }
-        getPlants();
-    }, []);
+        getPlants()
+    }, [])
 
     function handleClick(plant: Plant) {
         console.log(`Click on ${plant.title}`)

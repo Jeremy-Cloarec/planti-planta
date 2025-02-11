@@ -33,6 +33,10 @@ body {
   padding: 18px;
 }
 
+body:has(.panel-card) {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,

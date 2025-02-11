@@ -2,7 +2,7 @@
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Image from "next/image"
 import { useContext } from "react"
-import { IsShopContext } from "../context/IsShopContext"
+import { IsShopContext } from "@/app/context/IsShopContext"
 
 export default function Nav() {
     const { setIsShop } = useContext(IsShopContext)
