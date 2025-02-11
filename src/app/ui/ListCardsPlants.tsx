@@ -16,7 +16,7 @@ export function ListCardsPlants() {
             setPlants(fetchedPlants)
         }
         getPlants()
-    }, [])
+    }, [setPlants])
 
     useEffect(() => {
         console.log(storePlants);

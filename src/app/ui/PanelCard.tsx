@@ -1,12 +1,12 @@
 "use client"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
 
 export function PanelCard() {
     const { setIsShop } = useContext(IsShopContext)
-    const { storePlants, setStorePlants } = useContext(StoreContext)
+    const { storePlants } = useContext(StoreContext)
 
     const handleClick = () => {
         setIsShop(false)
