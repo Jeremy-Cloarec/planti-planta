@@ -40,7 +40,7 @@ export function PanelCard() {
                         <ul>
                             {listPlantsStore}
                         </ul>
-                    ) : (<p>Vous n'avez pas encore de produit dans votre panier</p>)}
+                    ) : (<p>Vous n avez pas encore de produit dans votre panier</p>)}
 
                 </div>
             </div>
