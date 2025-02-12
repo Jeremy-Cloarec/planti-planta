@@ -3,13 +3,12 @@ import Heading from "./ui/Heading"
 import Nav from "./ui/Nav"
 import { ListCardsPlants } from "./ui/ListCardsPlants"
 import { PanelCard } from "./ui/PanelCard"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect } from "react"
 import { IsShopContext } from "./context/IsShopContext"
 
 export default function Home() {
   const dateYear = new Date()
   const { isShop } = useContext(IsShopContext)
-  const [isDisable, setIsDisable] = useState(false)
 
   useEffect(() => {
     console.log(isShop);
