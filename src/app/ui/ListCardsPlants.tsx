@@ -22,27 +22,33 @@ export function ListCardsPlants() {
         console.log(storePlants);
     }, [storePlants])
 
-    function handleClick(e: React.FormEvent, plant: Plant) {
-        e.preventDefault()
+    function handleClick(plant: Plant) {
         const plantExists = storePlants.find(p => p.id === plant.id)
+
         if (!plantExists) {
             return setStorePlants([...storePlants, { ...plant, quantity: 1 }])
         }
 
         const nextQuantity = storePlants.map(p =>
-            p.id === plant.id ? { ...p, quantity: p.quantity + 1 } : p
-        );
+            p.id === plant.id ?
+                {
+                    ...p,
+                    quantity: p.quantity + 1,
+                    price: p.price + plant.price
+                } : p
+        )
         return setStorePlants(nextQuantity)
     }
 
     const listPlants = plants.map(plant =>
         <li
             key={plant.id}
-            onClick={(e) => { handleClick(e, plant) }}
         >
             <CardPlant
                 title={plant.title}
-                price={plant.price.toString()}
+                price={plant.price}
+                quantity={plant.quantity}
+                handleClick={() => handleClick(plant)}
             />
         </li>
     )
