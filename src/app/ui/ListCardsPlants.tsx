@@ -22,14 +22,27 @@ export function ListCardsPlants() {
         console.log(storePlants);
     }, [storePlants])
 
-    function handleClick(plant: Plant) {
-        const plantExists = storePlants.find(p => p.id === plant.id)
+    const handleClick = (plant: Plant) => {
+        updateStore(plant)
+        updateStock(plant)
+    }
 
+    const updateStock =(plant: Plant) => {
+        const nextStock = plants.map(p => p.id === plant.id ? {
+            ...p,
+            quantity: p.quantity - 1,
+        } : p)
+
+        setPlants(nextStock)
+    }
+
+    const updateStore =(plant: Plant) => {
+        const plantExists = storePlants.find(p => p.id === plant.id)
         if (!plantExists) {
             return setStorePlants([...storePlants, { ...plant, quantity: 1 }])
         }
 
-        const nextQuantity = storePlants.map(p =>
+        const nextStore = storePlants.map(p =>
             p.id === plant.id ?
                 {
                     ...p,
@@ -37,7 +50,8 @@ export function ListCardsPlants() {
                     price: p.price + plant.price
                 } : p
         )
-        return setStorePlants(nextQuantity)
+
+        setStorePlants(nextStore)
     }
 
     const listPlants = plants.map(plant =>

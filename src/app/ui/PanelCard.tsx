@@ -4,18 +4,43 @@ import { IsShopContext } from "@/app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
 import CardPlantStore from "./CardPlantStore"
+import { PlantsContext } from "../context/PlantsContext"
 
 export function PanelCard() {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants, setStorePlants } = useContext(StoreContext)
+    const { plants, setPlants } = useContext(PlantsContext)
 
-    const handleClick = () => {
+    const closePanel = () => {
         setIsShop(false)
+    }
+
+    const clickOnPlus = (id: number) => {
+        addOnePlant(id)
+        updateStock(id, q => q - 1)
+    }
+
+    const clickOnMinus = (id: number) => {
+        removeOnePlant(id)
+        updateStock(id, q => q + 1)
+    }
+
+    const clickOnTrash = (id: number) => {
+        removeAllPlants(id)
+    }
+
+    const updateStock = (id: number, operation: (quantity: number) => number) => {
+        const nextStock = plants.map(p =>
+            p.id === id ? {
+                ...p,
+                quantity: operation(p.quantity),
+            } : p)
+
+        setPlants(nextStock)
     }
 
     const addOnePlant = (id: number) => {
         const newPlant = storePlants.map(p => {
-
             const unitPrice = p.price / p.quantity
             return p.id === id ?
                 {
@@ -24,7 +49,7 @@ export function PanelCard() {
                     price: p.price + unitPrice
                 } : p
         })
-        return setStorePlants(newPlant)
+        setStorePlants(newPlant)
     }
 
     const removeOnePlant = (id: number) => {
@@ -38,13 +63,17 @@ export function PanelCard() {
 
                 } : p
         })
-        return setStorePlants(removePlant)
+        setStorePlants(removePlant)
     }
 
     const removeAllPlants = (id: number) => {
+        const quantityToMoveInStock = storePlants.map(p => p.quantity)
+        
+        updateStock(id, q => q + quantityToMoveInStock[0])
+
         const nextStorePlants = storePlants.filter(p => p.id !== id)
 
-        return setStorePlants(nextStorePlants)
+        setStorePlants(nextStorePlants)
     }
 
     const listPlantsStore = storePlants.map(plant => {
@@ -54,27 +83,26 @@ export function PanelCard() {
                 title={plant.title}
                 price={plant.price}
                 quantity={plant.quantity}
-                addOnePlant={addOnePlant}
-                removeOnePlant={removeOnePlant}
-                removeAllPlants={removeAllPlants}
+                addOnePlant={clickOnPlus}
+                removeOnePlant={clickOnMinus}
+                removeAllPlants={clickOnTrash}
             />
         } </li>
     })
 
     useEffect(() => {
         console.log(storePlants);
-
     }, [storePlants])
 
     return (
-        <div className="panel-card absolute top-0 right-0 w-full h-dvh bg-black/5 flex justify-end" onClick={handleClick}>
+        <div className="panel-card absolute top-0 right-0 w-full h-dvh bg-black/5 flex justify-end" onClick={closePanel}>
             <div className="w-full md:w-4/5 lg:w-2/5 bg-white h-dvh p-3 flex flex-col gap-4" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between">
                     <h2 className="font-jaldiBold">Mon panier</h2>
                     <button
                         name="Fermer le menu"
                         className="cursor-pointer hover:bg-slate-200 rounded-md transition duration-300"
-                        onClick={handleClick}
+                        onClick={closePanel}
                     >
                         <XMarkIcon
                             width={24}
@@ -87,7 +115,6 @@ export function PanelCard() {
                             {listPlantsStore}
                         </ul>
                     ) : (<p>Vous n avez pas encore de produit dans votre panier</p>)}
-
                 </div>
             </div>
         </div>
