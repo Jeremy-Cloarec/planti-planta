@@ -67,7 +67,7 @@ export default function CardPlantStore({
                         </button>
 
                     </div>
-                    {isPlantOutOfStock && <p className="absolute bottom-0 text-xs w-full text-center text-green">Plus de stock !</p>}
+                    {isPlantOutOfStock && <p className="absolute top-11 text-xs w-full text-center text-green">Plus de stock !</p>}
                 </div>
             </div>
             <button
