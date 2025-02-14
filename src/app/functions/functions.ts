@@ -1,5 +1,4 @@
 import { Plant } from "../lib/definitions"
-import { plants } from "../lib/placeholder-data"
 
 export const isNotInStock = (plants: Plant[], id: number, index: number) => {
     let isNotInStock = false
