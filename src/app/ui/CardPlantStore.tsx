@@ -2,34 +2,35 @@ import Image from "next/image"
 import { PlusIcon } from "@heroicons/react/24/solid"
 import { MinusIcon } from "@heroicons/react/24/solid"
 import { TrashIcon } from "@heroicons/react/24/solid"
+import { Plant } from "../lib/definitions"
 
 interface CardPlantStoreProps {
-    id: number
-    title: string
-    price: number
-    quantity: number
+    plant: Plant
     addOnePlant: (id: number) => void
     removeOnePlant: (id: number) => void
     removeAllPlants: (id: number) => void
+    isPlantOutOfStock: boolean
 }
 
 export default function CardPlantStore({
-    id,
-    title,
-    price,
-    quantity,
+    plant,
     addOnePlant,
     removeOnePlant,
-    removeAllPlants
+    removeAllPlants,
+    isPlantOutOfStock,
 }: CardPlantStoreProps) {
 
-    const alt: string = `Photographie de la plante ${title}`
-    const url = `/plants/${title.toLowerCase()}.png`
+    const alt: string = `Photographie de la plante ${plant.title}`
+    const url = `/plants/${plant.title.toLowerCase()}.png`
 
-    const isDisable = quantity === 1
+    const isDisable = plant.quantity === 1
+    console.log(isPlantOutOfStock);
 
-    const iconeDisable = isDisable ? "var(--dark2)" : "var(--dark)"
-    const hoverDisable = isDisable ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"
+    const iconeMinusDisable = isDisable ? "var(--dark2)" : "var(--dark)"
+    const hoverMinusDisable = isDisable ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"
+
+    const iconePlusDisable = isPlantOutOfStock ? "var(--dark2)" : "var(--dark)"
+    const hoverPlusDisable = isPlantOutOfStock ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"
 
     return (
         <div className="flex justify-between gap-2 items-center">
@@ -41,34 +42,37 @@ export default function CardPlantStore({
                     width={63}
                     height={63}
                 />
-                <div>
-                    <h3 className="text-ellipsis">{title}</h3>
-                    <p className="font-">{price}€</p>
+                <div className="w-[140px] md:w-[198px]">
+                    <h3 className="text-ellipsis">{plant.title}</h3>
+                    <p className="font-">{plant.price}€</p>
                 </div>
-            </div>
-            <div className="flex gap-3 items-center ring-1 ring-slate-200 p-1 h-[63px] rounded-lg">
-                <button
-                    className={hoverDisable}
-                    onClick={() => {
-                        if (!isDisable) removeOnePlant(id);
-                    }}
-                >
-                    <MinusIcon width={18} color={iconeDisable} />
-                </button>
-                <p>
-                    {quantity}
-                </p>
+                <div className="relative">
+                    <div className="ring-1 ring-slate-200 p-1 h-[63px] rounded-lg flex gap-3 items-center w-fit">
+                        <button
+                            className={hoverMinusDisable}
+                            onClick={() => {
+                                if (!isDisable) removeOnePlant(plant.id);
+                            }}
+                        >
+                            <MinusIcon width={18} color={iconeMinusDisable} />
+                        </button>
+                        <p>
+                            {plant.quantity}
+                        </p>
+                        <button
+                            className={hoverPlusDisable}
+                            onClick={() => addOnePlant(plant.id)}
+                        >
+                            <PlusIcon width={18} color={iconePlusDisable} />
+                        </button>
 
-                <button
-                    className="hover:bg-slate-100 p-1 rounded-sm duration-300 transition"
-                    onClick={() => addOnePlant(id)}
-                >
-                    <PlusIcon width={18} color="var(--dark)" />
-                </button>
+                    </div>
+                    {isPlantOutOfStock && <p className="absolute bottom-0 text-xs w-full text-center text-green">Plus de stock !</p>}
+                </div>
             </div>
             <button
                 className="hover:bg-slate-100 p-1 rounded-sm duration-300 transition"
-                onClick={() => removeAllPlants(id)}
+                onClick={() => removeAllPlants(plant.id)}
             >
                 <TrashIcon width={18} color="var(--red)" />
             </button>

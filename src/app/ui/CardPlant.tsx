@@ -1,14 +1,17 @@
 import Button from "./Button"
 import Image from "next/image"
+import ButtonNoStock from "./ButtonNoStock"
 
 interface CardPlantProps {
     title: string
     price: number
     quantity: number
     handleClick: () => void
+    isPlantOutOfStock: boolean
+    notMuchPlant: boolean
 }
 
-export default function CardPlant({ title, price, quantity, handleClick }: CardPlantProps) {
+export default function CardPlant({ title, price, quantity, handleClick, isPlantOutOfStock, notMuchPlant }: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
 
@@ -24,9 +27,13 @@ export default function CardPlant({ title, price, quantity, handleClick }: CardP
             <h2 className="text-ellipsis">{title}</h2>
             <div className="flex items-center justify-between">
                 <p>{price}€</p>
-                <p>{quantity} </p>
+                {notMuchPlant &&  <p className="text-green text-xs">Plus que {quantity} en stock</p>}
             </div>
-            <Button text="Ajouter au panier" handleClick={handleClick} />
+            {!isPlantOutOfStock ?
+                (<Button text="Ajouter au panier" handleClick={handleClick} />)
+                :
+                (<ButtonNoStock text="Le stock est épuisé"/>)}
+
         </div>
     )
 }

@@ -5,6 +5,7 @@ import { Plant } from "@/app/lib/definitions"
 import { StoreContext } from "@/app/context/StoreContext"
 import { fetchPlants } from "@/app/lib/data"
 import { PlantsContext } from "@/app/context/PlantsContext"
+import { isNotInStock, isPlantOutOfStock, notMuchPlant } from "../functions/functions"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
@@ -23,11 +24,13 @@ export function ListCardsPlants() {
     }, [storePlants])
 
     const handleClick = (plant: Plant) => {
+        const notInStock = isNotInStock(plants, plant.id, 0)
+        if (notInStock) return
         updateStore(plant)
         updateStock(plant)
     }
 
-    const updateStock =(plant: Plant) => {
+    const updateStock = (plant: Plant) => {
         const nextStock = plants.map(p => p.id === plant.id ? {
             ...p,
             quantity: p.quantity - 1,
@@ -36,7 +39,7 @@ export function ListCardsPlants() {
         setPlants(nextStock)
     }
 
-    const updateStore =(plant: Plant) => {
+    const updateStore = (plant: Plant) => {
         const plantExists = storePlants.find(p => p.id === plant.id)
         if (!plantExists) {
             return setStorePlants([...storePlants, { ...plant, quantity: 1 }])
@@ -63,6 +66,8 @@ export function ListCardsPlants() {
                 price={plant.price}
                 quantity={plant.quantity}
                 handleClick={() => handleClick(plant)}
+                isPlantOutOfStock={isPlantOutOfStock(plant.id, plants)}
+                notMuchPlant= {notMuchPlant(plant.id, plants) }
             />
         </li>
     )
