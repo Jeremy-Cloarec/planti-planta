@@ -94,12 +94,11 @@ export function ListCardsPlants() {
                 {listPlants}
             </ul>
         </>
-
     )
 }
 
 const PopUp = ({ plantsClicked }: { plantsClicked: string[] }) => {
-    return <ul className="fixed bottom-10 left-0 w-full max-w-full text-center flex flex-col items-center gap-2">{
+    return <ul className="z-50 fixed bottom-10 left-0 w-full max-w-full text-center flex flex-col items-center gap-2">{
         plantsClicked.map((plantClicked, i) =>
             <li
                 key={i}
