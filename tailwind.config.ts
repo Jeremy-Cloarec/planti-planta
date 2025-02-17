@@ -13,6 +13,8 @@ export default {
         dark: "var(--dark)",
         green: "var(--green)",
         greenHover: "var(--green-hover)",
+        greenLight:"var(--green-light)",
+        greenLightOpacity: "var(--green-light-opacity)",
         red: "var(--red)",
         white: "var(--white)",
       },
