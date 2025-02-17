@@ -3,7 +3,7 @@ import Heading from "./ui/Heading"
 import Nav from "./ui/Nav"
 import { ListCardsPlants } from "./ui/ListCardsPlants"
 import { PanelCard } from "./ui/PanelCard"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { IsShopContext } from "./context/IsShopContext"
 
 export default function Home() {
