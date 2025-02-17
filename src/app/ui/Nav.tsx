@@ -5,7 +5,7 @@ import { useContext, useState, useEffect } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
 
-export default function Nav() {
+export default function Nav({storeScrollPosition} : {storeScrollPosition: () => void}) {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants } = useContext(StoreContext)
     const [isScrolled, setIsScrolled] = useState(false)
@@ -22,6 +22,7 @@ export default function Nav() {
     }, []);
 
     const handleShopClick = () => {
+        storeScrollPosition()
         setIsShop(true)
     }
 

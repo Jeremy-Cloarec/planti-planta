@@ -10,11 +10,31 @@ export default function Home() {
   const dateYear = new Date()
   const { isShop } = useContext(IsShopContext)
 
+  const storeScrollPosition = () => {
+    const scroll_y = { position: window.scrollY }
+    localStorage.setItem("scroll", JSON.stringify(scroll_y))
+  }
+
+  const getScrollPosition = () => {
+    const storedScroll = localStorage.getItem("scroll")
+
+    if (!storedScroll) return
+
+    const scroll_y = JSON.parse(storedScroll)
+
+    setTimeout(() => {
+      window.scrollTo({ top: scroll_y.position, behavior: "instant" });
+    }, 10)
+
+    localStorage.removeItem("scroll")
+  }
+
   return (
     <>
-      <Nav />
-      {isShop && <PanelCard />}
+      <Nav storeScrollPosition={storeScrollPosition} />
+      {isShop && <PanelCard getScrollPosition={getScrollPosition} />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
+
         <Heading title="Planti Planta" />
         <main className="flex-1
       ">

@@ -8,13 +8,14 @@ import { PlantsContext } from "../context/PlantsContext"
 import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 
-export function PanelCard() {
+export function PanelCard({getScrollPosition} : {getScrollPosition: () => void}) {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants, setStorePlants } = useContext(StoreContext)
     const { plants, setPlants } = useContext(PlantsContext)
 
     const closePanel = () => {
         setIsShop(false)
+        getScrollPosition()
     }
 
     const clickOnPlus = (id: number) => {
