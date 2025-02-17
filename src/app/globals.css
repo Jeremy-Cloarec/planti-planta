@@ -33,10 +33,12 @@ body {
   color: var(--dark);
   background: var(--white);
   font-family: 'Jaldi regular', Arial, Helvetica, sans-serif;
-  padding: 18px;
+  padding: 0 18px;
 }
 
 body:has(.panel-card) {
+  position: fixed;
+  width: 100%;
   overflow: hidden;
 }
 

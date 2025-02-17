@@ -15,7 +15,7 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
-      <body className="flex flex-col items-center min-h-dvh"
+      <body className="flex flex-col items-center min-h-dvh relative"
       >
         <ContextProvider>
           {children}

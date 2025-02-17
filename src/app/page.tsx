@@ -10,10 +10,6 @@ export default function Home() {
   const dateYear = new Date()
   const { isShop } = useContext(IsShopContext)
 
-  useEffect(() => {
-    console.log(isShop);
-  }, [isShop])
-
   return (
     <>
       <Nav />
