@@ -4,8 +4,9 @@ import Image from "next/image"
 import { useContext, useState, useEffect } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
+import { storeScrollPosition } from "../functions/functions"
 
-export default function Nav({storeScrollPosition} : {storeScrollPosition: () => void}) {
+export default function Nav() {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants } = useContext(StoreContext)
     const [isScrolled, setIsScrolled] = useState(false)

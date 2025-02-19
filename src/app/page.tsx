@@ -3,36 +3,22 @@ import Heading from "./ui/Heading"
 import Nav from "./ui/Nav"
 import { ListCardsPlants } from "./ui/ListCardsPlants"
 import { PanelCard } from "./ui/PanelCard"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { IsShopContext } from "./context/IsShopContext"
+import { getScrollPosition } from "./functions/functions"
 
 export default function Home() {
   const dateYear = new Date()
   const { isShop } = useContext(IsShopContext)
 
-  const storeScrollPosition = () => {
-    const scroll_y = { position: window.scrollY }
-    localStorage.setItem("scroll", JSON.stringify(scroll_y))
-  }
-
-  const getScrollPosition = () => {
-    const storedScroll = localStorage.getItem("scroll")
-
-    if (!storedScroll) return
-
-    const scroll_y = JSON.parse(storedScroll)
-
-    setTimeout(() => {
-      window.scrollTo({ top: scroll_y.position, behavior: "instant" });
-    }, 10)
-
-    localStorage.removeItem("scroll")
-  }
+  useEffect(() => {
+    getScrollPosition()
+  }, [isShop])
 
   return (
     <>
-      <Nav storeScrollPosition={storeScrollPosition} />
-      {isShop && <PanelCard getScrollPosition={getScrollPosition} />}
+      <Nav />
+      {isShop && <PanelCard  />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
 
         <Heading title="Planti Planta" />

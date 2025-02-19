@@ -1,5 +1,5 @@
 "use client"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
@@ -8,14 +8,13 @@ import { PlantsContext } from "../context/PlantsContext"
 import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 
-export function PanelCard({getScrollPosition} : {getScrollPosition: () => void}) {
+export function PanelCard() {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants, setStorePlants } = useContext(StoreContext)
     const { plants, setPlants } = useContext(PlantsContext)
 
     const closePanel = () => {
         setIsShop(false)
-        getScrollPosition()
     }
 
     const clickOnPlus = (id: number) => {
@@ -94,7 +93,7 @@ export function PanelCard({getScrollPosition} : {getScrollPosition: () => void})
     })
 
     return (
-        <div className="z-30 panel-card absolute top-0 right-0 w-full h-dvh bg-black/5 flex justify-end" onClick={closePanel}>
+        <div className="z-30 panel-card fixed top-0 right-0 w-full h-dvh bg-black/5 flex justify-end" onClick={closePanel}>
             <div className="w-full md:w-4/5 lg:w-2/5 bg-white h-dvh p-3 flex flex-col gap-4" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between">
                     <h2 className="font-jaldiBold">Mon panier</h2>
