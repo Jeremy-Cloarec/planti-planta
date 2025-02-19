@@ -42,8 +42,8 @@ export default function CardPlantStore({
                     width={63}
                     height={63}
                 />
-                <div className="w-[140px] md:w-[198px]">
-                    <h3 className="text-ellipsis">{plant.title}</h3>
+                <div className="w-[110px] md:w-[198px]">
+                    <h3 className="text-ellipsis overflow-hidden">{plant.title}</h3>
                     <p className="font-">{plant.price}€</p>
                 </div>
                 <div className="relative">

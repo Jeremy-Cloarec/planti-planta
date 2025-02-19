@@ -104,7 +104,7 @@ const PopUp = ({ plantsClicked }: { plantsClicked: string[] }) => {
                 key={i}
                 className="bg-greenLightOpacity w-fit py-1 px-3 rounded-lg"
             >
-                {plantClicked} ajoutée au panier !
+                {plantClicked} ajoutée au panier&nbsp;!
             </li>)
     }</ul>
 }

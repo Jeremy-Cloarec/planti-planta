@@ -29,7 +29,7 @@ export default function CardPlant({ title, price, quantity, handleClick, isPlant
                     height={209}
                 />
             </div>
-            <h2 className="text-ellipsis">{title}</h2>
+            <h2 className="text-ellipsis overflow-hidden">{title}</h2>
             <div className="flex items-center justify-between">
                 <p>{price}€</p>
                 {notMuchPlant && <p className="text-green text-xs">Plus que {quantity} en stock</p>}
