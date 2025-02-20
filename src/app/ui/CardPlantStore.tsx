@@ -24,7 +24,6 @@ export default function CardPlantStore({
     const url = `/plants/${plant.title.toLowerCase()}.png`
 
     const isDisable = plant.quantity === 1
-    console.log(isPlantOutOfStock);
 
     const iconeMinusDisable = isDisable ? "var(--dark2)" : "var(--dark)"
     const hoverMinusDisable = isDisable ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"

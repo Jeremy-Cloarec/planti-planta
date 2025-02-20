@@ -15,21 +15,21 @@ export function ContextProvider({ children }: ContextProviderProps) {
     const [isShop, setIsShop] = useState(false)
 
     return (
-        <IsShopContext.Provider value={{
-            isShop,
-            setIsShop
-        }} >
-            <StoreContext.Provider value={{
-                storePlants,
-                setStorePlants,
-            }}>
-                <PlantsContext.Provider value={{
-                    plants,
-                    setPlants
+            <IsShopContext.Provider value={{
+                isShop,
+                setIsShop
+            }} >
+                <StoreContext.Provider value={{
+                    storePlants,
+                    setStorePlants,
                 }}>
-                    {children}
-                </PlantsContext.Provider>
-            </StoreContext.Provider>
-        </IsShopContext.Provider>
+                    <PlantsContext.Provider value={{
+                        plants,
+                        setPlants
+                    }}>
+                        {children}
+                    </PlantsContext.Provider>
+                </StoreContext.Provider>
+            </IsShopContext.Provider>
     );
 }

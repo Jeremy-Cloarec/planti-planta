@@ -6,6 +6,7 @@ import { StoreContext } from "@/app/context/StoreContext"
 import { fetchPlants } from "@/app/lib/data"
 import { PlantsContext } from "@/app/context/PlantsContext"
 import { isNotInStock, isPlantOutOfStock, notMuchPlant } from "../functions/functions"
+import { PopUpAddedToCard } from "./PopUpAddedToCard"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
@@ -14,20 +15,23 @@ export function ListCardsPlants() {
     const [plantsClicked, setPlantsClicked] = useState<string[]>([])
 
     useEffect(() => {
+        const savedCart = localStorage.getItem("storePlants")
+        if (savedCart) {
+            setStorePlants(JSON.parse(savedCart))
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem("storePlants", JSON.stringify(storePlants))
+    }, [storePlants])
+
+    useEffect(() => {
         async function getPlants() {
             const fetchedPlants = await fetchPlants()
             setPlants(fetchedPlants)
         }
         getPlants()
     }, [setPlants])
-
-    useEffect(() => {
-        console.log(storePlants);
-    }, [storePlants])
-
-    useEffect(() => {
-        console.log(plantsClicked)
-    }, [plantsClicked])
 
     const handleClick = (plant: Plant) => {
         const notInStock = isNotInStock(plants, plant.id, 0)
@@ -89,7 +93,7 @@ export function ListCardsPlants() {
 
     return (
         <div className="flex items-center justify-center">
-            {isPopUp && <PopUp plantsClicked={plantsClicked} />}
+            {isPopUp && <PopUpAddedToCard plantsClicked={plantsClicked} />}
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3">
                 {listPlants}
             </ul>
@@ -97,14 +101,3 @@ export function ListCardsPlants() {
     )
 }
 
-const PopUp = ({ plantsClicked }: { plantsClicked: string[] }) => {
-    return <ul className="z-20 fixed bottom-10 left-1/2 -translate-x-1/2 text-center flex flex-col gap-2">{
-        plantsClicked.map((plantClicked, i) =>
-            <li
-                key={i}
-                className="bg-greenLightOpacity w-fit py-1 px-3 rounded-lg"
-            >
-                {plantClicked} ajoutée au panier&nbsp;!
-            </li>)
-    }</ul>
-}

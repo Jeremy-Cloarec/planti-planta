@@ -36,4 +36,3 @@ export const storeScrollPosition = () => {
     const scroll_y = { position: window.scrollY }
     localStorage.setItem("scroll", JSON.stringify(scroll_y))
 }
-
