@@ -14,9 +14,9 @@ export function ListCardsPlants() {
     const [isPopUp, setIsPopup] = useState(false)
     const [plantsClicked, setPlantsClicked] = useState<string[]>([])
 
-    useEffect(() => {
+    useEffect(()=> {
         const savedCart = localStorage.getItem("storePlants")
-        if (savedCart) {
+        if(savedCart) {
             setStorePlants(JSON.parse(savedCart))
         }
     }, [])

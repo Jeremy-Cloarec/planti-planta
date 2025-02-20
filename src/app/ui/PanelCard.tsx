@@ -166,7 +166,7 @@ export function PanelCard() {
                                 <Button text="Passer la commande" handleClick={() => alert('Commande passée !')} />
                             </div>
                         </>
-                    ) : (<p>Vous n'avez pas encore de produit dans votre panier</p>)}
+                    ) : (<p>Vous n&apos;avez pas encore de produit dans votre panier</p>)}
                 </div>
             </div>
         </div>
