@@ -6,12 +6,12 @@ import { StoreContext } from "@/app/context/StoreContext"
 import { fetchPlants } from "@/app/lib/data"
 import { PlantsContext } from "@/app/context/PlantsContext"
 import { isNotInStock, isPlantOutOfStock, notMuchPlant } from "../functions/functions"
-import { PopUpAddedToCard } from "./PopUpAddedToCard"
+import { PopUpAddedToCard } from "./PopUp"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
     const { plants, setPlants } = useContext(PlantsContext)
-    const [isPopUp, setIsPopup] = useState(false)
+    const [isPopUpAddToCard, setIsPopupAddToCard] = useState(false)
     const [plantsClicked, setPlantsClicked] = useState<string[]>([])
 
     useEffect(()=> {
@@ -69,7 +69,7 @@ export function ListCardsPlants() {
 
     const popUpAddToCard = (title: string) => {
         setPlantsClicked(pc => [...pc, title]);
-        setIsPopup(true)
+        setIsPopupAddToCard(true)
 
         setTimeout(() => {
             setPlantsClicked(pc => pc.slice(1));
@@ -93,7 +93,7 @@ export function ListCardsPlants() {
 
     return (
         <div className="flex items-center justify-center">
-            {isPopUp && <PopUpAddedToCard plantsClicked={plantsClicked} />}
+            {isPopUpAddToCard && <PopUpAddedToCard plantsClicked={plantsClicked} />}
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3">
                 {listPlants}
             </ul>

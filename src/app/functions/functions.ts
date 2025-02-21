@@ -13,7 +13,7 @@ export const isNotInStock = (plants: Plant[], id: number, index: number) => {
 export const isPlantOutOfStock = (id: number, plants: Plant[]) => {
     const plant = plants.find(p => p.id === id)
     return plant ? plant.quantity === 0 : false
-};
+}
 
 export const notMuchPlant = (id: number, plants: Plant[]) => {
     const plant = plants.find(p => p.id === id)

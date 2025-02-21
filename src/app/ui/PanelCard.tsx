@@ -9,8 +9,9 @@ import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
 import Button from "./Button"
+import { updateStoreProduct } from "../api/plants/route"
 
-export function PanelCard() {
+export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => void }) {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants, setStorePlants } = useContext(StoreContext)
     const { plants, setPlants } = useContext(PlantsContext)
@@ -141,6 +142,14 @@ export function PanelCard() {
         } </li>
     })
 
+    const validateOrder = () => {
+        updateStoreProduct(storePlants)
+        setStorePlants([])
+        localStorage.clear()
+        setIsOrder(true)
+        setIsShop(false)
+    }
+
     return (
         <div className="z-30 panel-card fixed top-0 right-0 w-full h-full bg-[#1d1e1b30] flex justify-end" onClick={closePanel}>
             <div className="w-full md:w-[500px] bg-white p-3 flex flex-col gap-8 overflow-y-auto h-full" onClick={e => e.stopPropagation()}>
@@ -187,7 +196,7 @@ export function PanelCard() {
                                     </>
                                 }
                                 <p className="py-8 text-2xl border-t-2">Total : {calculateTotal()}€</p>
-                                <Button text="Passer la commande" handleClick={() => alert('Commande passée !')} />
+                                <Button text="Passer la commande" handleClick={validateOrder} />
                             </div>
                         </>
                     ) : (<p>Vous n&apos;avez pas encore de produit dans votre panier</p>)}
