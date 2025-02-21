@@ -20,7 +20,7 @@ export function PanelCard() {
     const discountAmount = 5
     const styleMessage = isDiscount ? "text-sm mt-1 text-green " : "text-sm mt-1 text-red"
 
-    const closePanel = () => {  
+    const closePanel = () => {
         setIsShop(false)
     }
 
@@ -41,7 +41,7 @@ export function PanelCard() {
             setMessage("Le bon de reduction n'est pas correct")
             setIsDiscount(false)
         } else {
-            setMessage("Le bon de réduction est correct")
+            setMessage("La réduction a bien été prise en compte")
             setIsDiscount(true)
         }
     }
@@ -121,8 +121,8 @@ export function PanelCard() {
     })
 
     return (
-        <div className="z-30 panel-card fixed top-0 right-0 w-full h-dvh bg-[#1d1e1b30] flex justify-end" onClick={closePanel}>
-            <div className="w-full md:w-[500px] bg-white min-h-dvh p-3 flex flex-col gap-8 overflow-y-auto h-full" onClick={e => e.stopPropagation()}>
+        <div className="z-30 panel-card fixed top-0 right-0 w-full h-full bg-[#1d1e1b30] flex justify-end" onClick={closePanel}>
+            <div className="w-full md:w-[500px] bg-white p-3 flex flex-col gap-8 overflow-y-auto h-full" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between">
                     <h2 className="font-jaldiBold">Mon panier</h2>
                     <button
@@ -158,9 +158,12 @@ export function PanelCard() {
                                 <p className={styleMessage} >{message}</p>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <p>Sous total : {calculateSubtotal()}€</p>
+
                                 {isDiscount &&
-                                    <p className="text-red"> Réduction : - {(calculateSubtotal() * 5 / 100)}€</p>
+                                    <>
+                                        <p>Sous total : {calculateSubtotal()}€</p>
+                                        <p className="text-red"> Réduction : - {(calculateSubtotal() * 5 / 100)}€</p>
+                                    </>
                                 }
                                 <p className="py-8 text-2xl border-t-2">Total : {calculateTotal()}€</p>
                                 <Button text="Passer la commande" handleClick={() => alert('Commande passée !')} />
