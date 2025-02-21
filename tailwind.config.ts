@@ -19,9 +19,7 @@ export default {
         white: "var(--white)",
       },
       fontFamily: {
-        sofia: ["Crimson", "serif"],
-        jaldiBold: ["Jaldi bold", "sans-serif"],
-        jaldiRegular: ["Jaldi regular", "sans-serif"],
+        jaldiBold: ['var(--jaldiBold)'],
       }
     },
   },

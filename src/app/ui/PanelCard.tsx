@@ -145,7 +145,7 @@ export function PanelCard() {
         <div className="z-30 panel-card fixed top-0 right-0 w-full h-full bg-[#1d1e1b30] flex justify-end" onClick={closePanel}>
             <div className="w-full md:w-[500px] bg-white p-3 flex flex-col gap-8 overflow-y-auto h-full" onClick={e => e.stopPropagation()}>
                 <div className="flex items-center justify-between">
-                    <h2 className="font-jaldiBold">Mon panier</h2>
+                    <h2 className="font-jaldiBold font-bold">Mon panier</h2>
                     <button
                         name="Fermer le menu"
                         className="cursor-pointer hover:bg-slate-200 rounded-md transition duration-300"

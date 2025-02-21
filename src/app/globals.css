@@ -14,25 +14,9 @@
   --white: #ffffff;
 }
 
-@font-face {
-  font-family: 'Crimson';
-  src: url('./fonts/crimson/CrimsonText-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Jaldi bold';
-  src: url('./fonts/jaldi/Jaldi-Bold.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Jaldi regular';
-  src: url('./fonts/jaldi/Jaldi-Regular.ttf') format('truetype');
-}
-
 body {
   color: var(--dark);
   background: white;
-  font-family: 'Jaldi regular', Arial, Helvetica, sans-serif;
   padding: 0 18px;
 }
 
@@ -47,7 +31,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Crimson', Arial, Helvetica, sans-serif;
+  font-family: var(--crimson);
 }
 
 h1 {
