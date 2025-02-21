@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
@@ -7,6 +7,7 @@ import CardPlantStore from "./CardPlantStore"
 import { PlantsContext } from "../context/PlantsContext"
 import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
+import { Discount } from "../lib/definitions"
 import Button from "./Button"
 
 export function PanelCard() {
@@ -24,6 +25,17 @@ export function PanelCard() {
         setIsShop(false)
     }
 
+    useEffect(() => {
+        const savedDiscount = localStorage.getItem("discount")
+        if (savedDiscount) {
+            console.log(savedDiscount);
+            const discount: Discount = JSON.parse(savedDiscount)
+            setDiscount(discount.discountInput)
+            setIsDiscount(discount.isDiscount)
+            setMessage(discount.message)
+        }
+    }, [])
+
     const calculateSubtotal = () => {
         const subTotal = storePlants.reduce((acc, curr) => acc + curr.price, 0)
         return subTotal
@@ -36,14 +48,23 @@ export function PanelCard() {
         return subTotal - (subTotal * discountAmount) / 100
     }
 
-    const handleIsDiscount = async () => {
-        if (discountWorld !== discount) {
-            setMessage("Le bon de reduction n'est pas correct")
-            setIsDiscount(false)
-        } else {
-            setMessage("La réduction a bien été prise en compte")
-            setIsDiscount(true)
-        }
+    const handleIsDiscount = () => {
+        const isValid = discount === discountWorld
+        const message = isValid ? "La réduction a bien été prise en compte" : "Le bon de réduction n'est pas correct"
+        setMessage(message)
+        setIsDiscount(_ => {
+            const newIsDiscount = isValid
+            updateLocalStorage(newIsDiscount, discount, message)
+            return newIsDiscount
+        })
+    }
+
+    const updateLocalStorage = (isDiscountValue: boolean, discountValue: string, messageValue: string) => {
+        localStorage.setItem("discount", JSON.stringify({
+            isDiscount: isDiscountValue,
+            discountInput: discountValue,
+            message: messageValue
+        }))
     }
 
     const clickOnPlus = (id: number) => {

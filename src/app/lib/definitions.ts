@@ -5,3 +5,9 @@ export type Plant = {
     quantity: number
 }
 
+export type Discount = {
+    isDiscount: boolean,
+    discountInput: string,
+    message: string
+}
+

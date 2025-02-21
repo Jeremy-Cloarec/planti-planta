@@ -20,7 +20,7 @@ export default function CardPlant({ title, price, quantity, handleClick, isPlant
     return (
         <div className="ring-1 ring-green p-2 bg-white rounded-lg flex flex-col gap-4  h-fit">
             <div className="relative bg-white flex items-center">
-                {isPlantOutOfStock && <p className="text-black z-10 absolute text-center w-full">Plus de stock !</p>}
+                {isPlantOutOfStock && <p className="text-black z-10 absolute text-center w-full">Victime de son succès 🦋</p>}
                 <Image
                     src={url}
                     alt={alt}
