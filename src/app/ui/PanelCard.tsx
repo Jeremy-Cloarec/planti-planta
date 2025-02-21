@@ -52,7 +52,7 @@ export function PanelCard() {
         const isValid = discount === discountWorld
         const message = isValid ? "La réduction a bien été prise en compte" : "Le bon de réduction n'est pas correct"
         setMessage(message)
-        setIsDiscount(_ => {
+        setIsDiscount(() => {
             const newIsDiscount = isValid
             updateLocalStorage(newIsDiscount, discount, message)
             return newIsDiscount
