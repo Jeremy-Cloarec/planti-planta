@@ -35,9 +35,14 @@ export default function Nav() {
         alert('La connexion/inscription est en cours de construction')
     }
 
+    const countStoreProduct = () => {
+        const productNumberStore = storePlants.reduce((prev, curr) => prev+ curr.quantity, 0)
+        return productNumberStore
+    }
+
     const notif = (
         <div className="absolute -right-2 -top-1 bg-greenLight text-sm h-5 w-5 text-center rounded-full">
-            {storePlants.length}
+            {countStoreProduct()}
         </div>
     )
 
