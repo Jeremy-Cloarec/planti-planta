@@ -31,7 +31,7 @@
 
 body {
   color: var(--dark);
-  background: var(--white);
+  background: white;
   font-family: 'Jaldi regular', Arial, Helvetica, sans-serif;
   padding: 0 18px;
 }

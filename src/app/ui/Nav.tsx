@@ -42,7 +42,7 @@ export default function Nav() {
     )
 
     return (
-        <nav className="transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-[#ffffffb3]">
+        <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10" }`}>
             <a href="#" className="w-fit flex">
                 <Image
                     src="/logo.svg"
