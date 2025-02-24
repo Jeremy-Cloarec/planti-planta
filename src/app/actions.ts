@@ -1,7 +1,6 @@
 'use server'
 import { Plant } from "@/app/lib/definitions";
 import { connectionPool as cp } from "@/app/db"
-import { revalidatePath } from "next/cache"
 
 export async function updateStockStore(storePlants: Plant[]) {
     try {
@@ -13,5 +12,4 @@ export async function updateStockStore(storePlants: Plant[]) {
     } catch (error) {
         console.error(error)
     }
-    revalidatePath('/post')
 }
