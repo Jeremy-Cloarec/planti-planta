@@ -142,8 +142,8 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
         } </li>
     })
 
-    const validateOrder = () => {
-        updateStockStore(storePlants)
+    const validateOrder = async () => {
+        await updateStockStore(storePlants)
         setStorePlants([])
         localStorage.clear()
         setIsOrder(true)
