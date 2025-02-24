@@ -25,7 +25,7 @@ export async function updateStockStore(storePlants: Plant[]) {
 
             const { id, quantity, title } = validatePlantData.data
 
-            await cp.query(`UPDATE plants SET quantity = quantity - '${quantity}' WHERE id = '${id}'`)
+            await cp.query(`UPDATE plants SET quantity = quantity - $1 WHERE id = $2`, [quantity, id])
             console.log(`${title} a bien été modifiée`)
         } 
         revalidatePath('/')

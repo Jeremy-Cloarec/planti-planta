@@ -14,7 +14,7 @@ async function seedPlants() {
     const insertPlants = await Promise.all(
         plants.map((plant) => {
             cp.query(`
-                INSERT INTO plants (title, price, quantity) VALUES ('${plant.title}', '${plant.price}', '${plant.quantity}')`)
+                INSERT INTO plants (title, price, quantity) VALUES ($1, $2, $3)`, [plant.title, plant.price, plant.quantity])
         })
     );
 
@@ -34,8 +34,7 @@ async function seedUsers() {
     const insertUsers = await Promise.all(
         users.map((user) => {
             cp.query(`
-                INSERT INTO users (name, email) VALUES ('${user.name}', '${user.email}'
-                `)
+                INSERT INTO users (name, email) VALUES ($1, $2)`, [user.name, user.email])
         })
     );
     return insertUsers;
