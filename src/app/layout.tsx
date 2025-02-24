@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ContextProvider } from "./context/ContextProvider"
-import { jaldiRegular, crimson, jaldiBold } from "./ui/fonts";
+import { jaldiRegular, crimson, jaldiBold } from "./ui/fonts"
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Planti Planta",
@@ -21,6 +22,7 @@ export default function RootLayout({
         <ContextProvider>
           {children}
         </ContextProvider>
+        <Analytics />
       </body>
     </html>
   );
