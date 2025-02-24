@@ -1,7 +1,6 @@
 "use server";
 import { NextResponse } from "next/server"
 import { connectionPool as cp } from "@/app/db"
-import { Plant } from "@/app/lib/definitions";
 
 export async function GET() {
     try {
@@ -21,11 +20,5 @@ export async function GET() {
             { error: "Failed to fetch plants data." },
             { status: 500 }
         );
-    }
-}
-
-export async function updateStoreProduct (storePlants : Plant[] ) {
-    for (const plant of storePlants) {
-        cp.query(`UPDATE plants SET quantity = quantity - '${plant.quantity}' WHERE id = '${plant.id}'`)
     }
 }

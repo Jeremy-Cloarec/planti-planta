@@ -11,3 +11,4 @@ export async function fetchPlants() {
         console.error({message : "Oups, un problème est survenue"}, {error})
     }
 }
+

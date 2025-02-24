@@ -9,7 +9,7 @@ import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
 import Button from "./Button"
-import { updateStoreProduct } from "../api/plants/route"
+import { updateStockStore } from "../actions"
 
 export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => void }) {
     const { setIsShop } = useContext(IsShopContext)
@@ -143,7 +143,7 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     })
 
     const validateOrder = () => {
-        updateStoreProduct(storePlants)
+        updateStockStore(storePlants)
         setStorePlants([])
         localStorage.clear()
         setIsOrder(true)
