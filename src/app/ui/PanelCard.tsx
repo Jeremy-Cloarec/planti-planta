@@ -1,5 +1,5 @@
 "use client"
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useReducer, useState } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
@@ -10,6 +10,7 @@ import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
 import Button from "./Button"
 import { updateStockStore } from "../lib/actions"
+import plantsReducer from "../functions/plantsReducer"
 
 export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => void }) {
     const { setIsShop } = useContext(IsShopContext)
@@ -18,6 +19,7 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     const [discount, setDiscount] = useState("")
     const [isDiscount, setIsDiscount] = useState(false)
     const [message, setMessage] = useState('')
+    const [state, dispatch] = useReducer(plantsReducer, { storePlants, plants })
     const discountWorld = 'plantiplanta'
     const discountAmount = 5
     const styleMessage = isDiscount ? "text-sm mt-1 text-green " : "text-sm mt-1 text-red"
@@ -69,75 +71,32 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     }
 
     const clickOnPlus = (id: number) => {
-        // Return if the stock === 0
-        const notInStock = isNotInStock(plants, id, 0)
-        if (notInStock) {
-            return
-        }
-        addOnePlant(id)
-        updateStock(id, q => q - 1)
+        const notInStock = isNotInStock(state.plants, id, 0)
+        if (notInStock) return
+
+        dispatch({ type: "addOnePlant", id, operation: q => q + 1 })
+        dispatch({ type: "updateStock", id, operation: q => q - 1 })
     }
 
     const clickOnMinus = (id: number) => {
-        removeOnePlant(id)
-        updateStock(id, q => q + 1)
+        dispatch({ type: "removeOnePlant", id, operation: q => q - 1 })
+        dispatch({ type: "updateStock", id, operation: q => q + 1 })
     }
 
     const clickOnTrash = (id: number) => {
-        removeAllPlants(id)
-    }
-
-    const updateStock = (id: number, operation: (quantity: number) => number) => {
-        const nextStock = plants.map(p =>
-            p.id === id ? {
-                ...p,
-                quantity: operation(p.quantity),
-            } : p)
-
-        setPlants(nextStock)
-    }
-
-    const addOnePlant = (id: number) => {
-        const newPlant = storePlants.map(p => {
-            const unitPrice = p.price / p.quantity
-            return p.id === id ?
-                {
-                    ...p,
-                    quantity: p.quantity + 1,
-                    price: p.price + unitPrice
-                } : p
-        })
-        setStorePlants(newPlant)
-    }
-
-    const removeOnePlant = (id: number) => {
-        const removePlant = storePlants.map(p => {
-            const unitPrice = p.price / p.quantity
-            return p.id === id ?
-                {
-                    ...p,
-                    quantity: p.quantity - 1,
-                    price: p.price - unitPrice
-                } : p
-        })
-        setStorePlants(removePlant)
-    }
-
-    const removeAllPlants = (id: number) => {
         const quantityToMoveInStock = storePlants.map(p => p.quantity)
-        updateStock(id, q => q + quantityToMoveInStock[0])
-        const nextStorePlants = storePlants.filter(p => p.id !== id)
-        setStorePlants(nextStorePlants)
+        dispatch({ type: "updateStock", id, operation: q => q + quantityToMoveInStock[0]})
+        dispatch({type: "removeAllPlants", id})
     }
 
-    const listPlantsStore = storePlants.map(plant => {
+    const listPlantsStore = state.storePlants.map(plant => {
         return <li key={plant.id}>{
             <CardPlantStore
                 plant={plant}
                 addOnePlant={clickOnPlus}
                 removeOnePlant={clickOnMinus}
                 removeAllPlants={clickOnTrash}
-                isPlantOutOfStock={isPlantOutOfStock(plant.id, plants)}
+                isPlantOutOfStock={isPlantOutOfStock(plant.id, state.plants)}
             />
         } </li>
     })
