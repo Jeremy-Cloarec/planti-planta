@@ -1,13 +1,12 @@
 "use client"
 import CardPlant from "./CardPlant"
-import { useContext, useEffect, useState, useReducer } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Plant } from "@/app/lib/definitions"
 import { StoreContext } from "@/app/context/StoreContext"
 import { fetchPlants } from "@/app/lib/data"
 import { PlantsContext } from "@/app/context/PlantsContext"
 import { isNotInStock, isPlantOutOfStock, notMuchPlant } from "../functions/functions"
 import { PopUpAddedToCard } from "./PopUp"
-import plantsReducer from "../functions/plantsReducer"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
@@ -15,18 +14,16 @@ export function ListCardsPlants() {
     const [isPopUpAddToCard, setIsPopupAddToCard] = useState(false)
     const [plantsClicked, setPlantsClicked] = useState<string[]>([])
 
-    const [state, dispatch] = useReducer(plantsReducer, { storePlants, plants })
-
-    useEffect(() => {
+    useEffect(()=> {
         const savedCart = localStorage.getItem("storePlants")
-        if (savedCart) {
+        if(savedCart) {
             setStorePlants(JSON.parse(savedCart))
         }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem("storePlants", JSON.stringify(state.storePlants))
-    }, [state.storePlants])
+        localStorage.setItem("storePlants", JSON.stringify(storePlants))
+    }, [storePlants])
 
     useEffect(() => {
         async function getPlants() {
