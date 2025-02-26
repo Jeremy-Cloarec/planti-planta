@@ -9,7 +9,7 @@ import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
 import Button from "./Button"
-import { updateStockStore } from "../lib/actions"
+import { updateStockStore } from "../actions"
 
 export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => void }) {
     const { setIsShop } = useContext(IsShopContext)
