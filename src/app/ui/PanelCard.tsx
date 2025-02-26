@@ -10,6 +10,7 @@ import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
 import Button from "./Button"
 import { updateStockStore } from "../actions"
+import { z } from 'zod'
 
 export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => void }) {
     const { setIsShop } = useContext(IsShopContext)
@@ -18,13 +19,17 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     const [discount, setDiscount] = useState("")
     const [isDiscount, setIsDiscount] = useState(false)
     const [message, setMessage] = useState('')
-    const discountWorld = 'plantiplanta'
+    const discountWorld = 'PLANTIPLANTA'
     const discountAmount = 5
     const styleMessage = isDiscount ? "text-sm mt-1 text-green " : "text-sm mt-1 text-red"
 
     const closePanel = () => {
         setIsShop(false)
     }
+
+    const invoiceShema = z.string({
+        required_error: "Le code est requis"
+    })
 
     useEffect(() => {
         const savedDiscount = localStorage.getItem("discount")
@@ -50,7 +55,8 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     }
 
     const handleIsDiscount = () => {
-        const isValid = discount === discountWorld
+        const validateWord = invoiceShema.parse(discount).trim().toUpperCase()
+        const isValid = validateWord === discountWorld
         const message = isValid ? "La réduction a bien été prise en compte" : "Le bon de réduction n'est pas correct"
         setMessage(message)
         setIsDiscount(() => {
@@ -180,7 +186,12 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
                                             className="ring-1 ring-green rounded-2xl py-2 px-3 flex-1 focus-visible:outline-green"
                                             placeholder="Entrez votre bon de réduction"
                                             value={discount}
-                                            onChange={e => setDiscount(e.target.value)}
+                                            onChange={e => setDiscount(e.target.value.toUpperCase())}
+                                            onKeyDown={e => {
+                                                if (e.key === "Enter") {
+                                                    handleIsDiscount();
+                                                }
+                                            }}
                                         />
                                         <Button text="Appliquer" handleClick={handleIsDiscount} />
                                     </div>
@@ -188,7 +199,6 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
                                 <p className={styleMessage} >{message}</p>
                             </div>
                             <div className="flex flex-col gap-2">
-
                                 {isDiscount &&
                                     <>
                                         <p>Sous total : {calculateSubtotal()}€</p>
