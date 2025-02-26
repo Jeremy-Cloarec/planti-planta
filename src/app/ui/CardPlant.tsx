@@ -15,10 +15,10 @@ export default function CardPlant({ title, price, quantity, handleClick, isPlant
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
 
-    const imgIsStock = !isPlantOutOfStock ? "rounded-md w-full" : "rounded-md w-full opacity-50"
+    const imgIsStock = !isPlantOutOfStock ? "rounded-2xl w-full" : "rounded-2xl w-full opacity-50"
 
     return (
-        <div className="ring-1 ring-green p-2 bg-white rounded-lg flex flex-col gap-4 h-full justify-between">
+        <div className="ring-1 ring-green p-3 bg-white rounded-3xl flex flex-col gap-4 h-full justify-between">
             <div className="relative bg-white flex items-center">
                 {isPlantOutOfStock && <p className="text-black z-10 absolute text-center w-full">Victime de son succès 🦋</p>}
                 <Image

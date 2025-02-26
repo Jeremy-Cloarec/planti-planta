@@ -26,18 +26,18 @@ export default function CardPlantStore({
     const isDisable = plant.quantity === 1
 
     const iconeMinusDisable = isDisable ? "var(--dark2)" : "var(--dark)"
-    const hoverMinusDisable = isDisable ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"
+    const hoverMinusDisable = isDisable ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-lg duration-300 transition pointer"
 
     const iconePlusDisable = isPlantOutOfStock ? "var(--dark2)" : "var(--dark)"
-    const hoverPlusDisable = isPlantOutOfStock ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-sm duration-300 transition pointer"
+    const hoverPlusDisable = isPlantOutOfStock ? "p-1 cursor-default" : "hover:bg-slate-100 p-1 rounded-lg duration-300 transition pointer"
 
     return (
-        <div className="flex justify-between gap-2 items-center">
-            <div className="flex gap-4">
+        <div className="flex justify-between gap-2">
+            <div className="flex gap-4 items-center">
                 <Image
                     src={url}
                     alt={alt}
-                    className="rounded-md"
+                    className="rounded-2xl h-fit"
                     width={63}
                     height={63}
                 />
@@ -46,7 +46,7 @@ export default function CardPlantStore({
                     <p className="font-">{plant.price}€</p>
                 </div>
                 <div className="relative">
-                    <div className="ring-1 ring-slate-200 p-1 h-[63px] rounded-lg flex gap-3 items-center w-fit">
+                    <div className="ring-1 ring-slate-200 p-1 h-[63px] rounded-2xl flex gap-3 items-center w-fit">
                         <button
                             className={hoverMinusDisable}
                             onClick={() => {
@@ -70,10 +70,10 @@ export default function CardPlantStore({
                 </div>
             </div>
             <button
-                className="hover:bg-slate-100 p-1 rounded-sm duration-300 transition"
+                className=" p-1 rounded-sm duration-300 transition group"
                 onClick={() => removeAllPlants(plant.id)}
             >
-                <TrashIcon width={18} color="var(--red)" />
+                <TrashIcon width={26} color="var(--red)" className="transition-all duration-300 p-1 group-hover:bg-slate-100 rounded-lg" />
             </button>
         </div>
     )

@@ -157,7 +157,7 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
                     <h2 className="font-jaldiBold font-bold">Mon panier</h2>
                     <button
                         name="Fermer le menu"
-                        className="cursor-pointer hover:bg-slate-200 rounded-md transition duration-300"
+                        className="cursor-pointer hover:bg-slate-100 rounded-md transition duration-300"
                         onClick={closePanel}
                     >
                         <XMarkIcon
@@ -177,7 +177,7 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
                                     <div className="flex gap-2 flex-wrap">
                                         <input
                                             name="reduction"
-                                            className="ring-1 ring-green rounded-md py-2 px-3 flex-1 focus-visible:outline-green"
+                                            className="ring-1 ring-green rounded-2xl py-2 px-3 flex-1 focus-visible:outline-green"
                                             placeholder="Entrez votre bon de réduction"
                                             value={discount}
                                             onChange={e => setDiscount(e.target.value)}

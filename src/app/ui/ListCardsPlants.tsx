@@ -7,6 +7,7 @@ import { fetchPlants } from "@/app/lib/data"
 import { PlantsContext } from "@/app/context/PlantsContext"
 import { isNotInStock, isPlantOutOfStock, notMuchPlant } from "../functions/functions"
 import { PopUpAddedToCard } from "./PopUp"
+import { GridCardSkeleton } from "./Skeleton"
 
 export function ListCardsPlants() {
     const { storePlants, setStorePlants } = useContext(StoreContext)
@@ -14,9 +15,9 @@ export function ListCardsPlants() {
     const [isPopUpAddToCard, setIsPopupAddToCard] = useState(false)
     const [plantsClicked, setPlantsClicked] = useState<string[]>([])
 
-    useEffect(()=> {
+    useEffect(() => {
         const savedCart = localStorage.getItem("storePlants")
-        if(savedCart) {
+        if (savedCart) {
             setStorePlants(JSON.parse(savedCart))
         }
     }, [])
@@ -94,8 +95,8 @@ export function ListCardsPlants() {
     return (
         <div className="flex items-center justify-center">
             {isPopUpAddToCard && <PopUpAddedToCard plantsClicked={plantsClicked} />}
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3">
-                {listPlants}
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
+                {plants.length > 0 ? (listPlants) : <GridCardSkeleton />}
             </ul>
         </div>
     )
