@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from "react"
 import { IsShopContext } from "@/app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
 import { storeScrollPosition } from "../functions/functions"
+import Link from "next/link"
 
 export default function Nav() {
     const { setIsShop } = useContext(IsShopContext)
@@ -36,7 +37,7 @@ export default function Nav() {
     }
 
     const countStoreProduct = () => {
-        const productNumberStore = storePlants.reduce((prev, curr) => prev+ curr.quantity, 0)
+        const productNumberStore = storePlants.reduce((prev, curr) => prev + curr.quantity, 0)
         return productNumberStore
     }
 
@@ -47,8 +48,11 @@ export default function Nav() {
     )
 
     return (
-        <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10" }`}>
-            <a href="#" className="w-fit flex">
+        <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
+            <Link 
+                key="Home"
+                href="/" 
+                className="w-fit flex">
                 <Image
                     src="/logo.svg"
                     alt="Logo du site : une petite plante mignone "
@@ -56,12 +60,14 @@ export default function Nav() {
                     width={48}
                     height={56}
                 />
-            </a>
+            </Link>
             <ul className="flex gap-3">
-                <li onClick={handleUserClick}>
-                    <a href="#">
+                <li>
+                    <Link
+                        key={"Login"}
+                        href="/login">
                         <UserIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
-                    </a>
+                    </Link>
                 </li>
                 <li onClick={handleSearchClick}>
                     <a href="#">

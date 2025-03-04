@@ -1,8 +1,9 @@
-import { connectionPool as cp } from '@/app/db';
-import { plants, users } from '@/app/lib/placeholder-data';
+import bcrypt from 'bcrypt'
+import { connectionPool as cp } from '@/app/db'
+import { plants, users } from '@/app/lib/placeholder-data'
 
 async function seedPlants() {
-    await cp.query(`DROP TABLE IF EXISTS plants`);
+    await cp.query(`DROP TABLE IF EXISTS plants`)
     await cp.query(`
             CREATE TABLE IF NOT EXISTS plants (
                 id SERIAL PRIMARY KEY,
@@ -14,7 +15,7 @@ async function seedPlants() {
     const insertPlants = await Promise.all(
         plants.map((plant) => {
             cp.query(`
-                INSERT INTO plants (title, price, quantity) VALUES ('${plant.title}', '${plant.price}', '${plant.quantity}')`)
+                INSERT INTO plants (title, price, quantity) VALUES ($1, $2, $3)`, [plant.title, plant.price, plant.quantity])
         })
     );
 
@@ -27,15 +28,16 @@ async function seedUsers() {
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             name TEXT NOT NULL,
-            email TEXT NOT NULL
+            email TEXT NOT NULL,
+            password TEXT NOT NULL
         )
         `);
 
     const insertUsers = await Promise.all(
-        users.map((user) => {
-            cp.query(`
-                INSERT INTO users (name, email) VALUES ('${user.name}', '${user.email}'
-                `)
+        users.map(async (user) => {
+            const hashedPassword = await bcrypt.hash(user.password, 10)
+            return cp.query(`
+                INSERT INTO users (name, email, password) VALUES ($1, $2, $3)`, [user.name, user.email, hashedPassword])
         })
     );
     return insertUsers;
