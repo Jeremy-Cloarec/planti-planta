@@ -2,7 +2,6 @@
 
 import { useActionState } from "react"
 import { authenticate } from "../actions"
-import { useSearchParams } from "next/navigation"
 import {
     AtSymbolIcon,
     KeyIcon,
@@ -11,8 +10,8 @@ import {
 import Button from "./Button";
 
 export function LoginForm() {
-    const searchParams = useSearchParams()
-    const callbackUrl = searchParams.get('callbackUrl') || '/user-account'
+    // const searchParams = useSearchParams()
+    // const callbackUrl = searchParams.get('callbackUrl') || '/user-account'
     const [errorMessage, formAction, isPending] = useActionState(
         authenticate,
         undefined
@@ -62,7 +61,7 @@ export function LoginForm() {
                         </div>
                     </div>
                 </div>
-                <input type="hidden" name="redirectTo" value={callbackUrl} />
+                {/* <input type="hidden" name="redirectTo" value={callbackUrl} /> */}
                 <Button
                     text="Se connecter"
                     isPending={isPending}
