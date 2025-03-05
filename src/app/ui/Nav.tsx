@@ -32,9 +32,9 @@ export default function Nav() {
         alert('La recherche est en cours de construction')
     }
 
-    const handleUserClick = () => {
-        alert('La connexion/inscription est en cours de construction')
-    }
+    // const handleUserClick = () => {
+    //     alert('La connexion/inscription est en cours de construction')
+    // }
 
     const countStoreProduct = () => {
         const productNumberStore = storePlants.reduce((prev, curr) => prev + curr.quantity, 0)
