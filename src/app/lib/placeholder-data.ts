@@ -1,4 +1,4 @@
-import { Plant, Users } from "./definitions"
+import { Plant, User } from "./definitions"
 
 const getRandomQuantity = () => Math.floor((Math.random() * 21) + 1);
 
@@ -41,7 +41,7 @@ const plants: Plant[] = [
     }
 ]
 
-const users: Users[] = [
+const users: User[] = [
     {
         id: 1,
         name: 'John Doe',
