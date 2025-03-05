@@ -64,8 +64,8 @@ export default function Nav() {
             <ul className="flex gap-3">
                 <li>
                     <Link
-                        key={"Login"}
-                        href="/login">
+                        key={"Sin In"}
+                        href="/sign-in">
                         <UserIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
                     </Link>
                 </li>

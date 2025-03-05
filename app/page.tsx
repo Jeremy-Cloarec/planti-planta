@@ -6,10 +6,12 @@ import { useContext, useEffect, useState } from "react"
 import { IsShopContext } from "./context/IsShopContext"
 import { getScrollPosition } from "./functions/functions"
 import { PopUpOrder } from "./ui/PopUp"
+import Nav from "./ui/Nav"
 
 export default function Home() {
   const { isShop } = useContext(IsShopContext)
   const [isOrder, setIsOrder] = useState(false)
+  const dateYear = new Date()
 
   useEffect(() => {
     getScrollPosition()
@@ -23,7 +25,7 @@ export default function Home() {
 
   return (
     <>
-
+      <Nav />
       {isShop && <PanelCard setIsOrder={setIsOrder} />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
 
@@ -34,7 +36,12 @@ export default function Home() {
           {isOrder && <PopUpOrder />}
         </main>
       </div>
-
+      <footer className="w-full mt-10">
+        <p>
+          {dateYear.getFullYear()} -
+          <a href="https://github.com/Jeremy-Cloarec" target="_blank"> Jérémy</a>
+        </p>
+      </footer>
     </>
   );
 }
