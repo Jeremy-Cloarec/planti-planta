@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import CardPlant from '../app/ui/CardPlant'
+import CardPlant from '../ui/CardPlant'
 
 describe('Card Plant', () => {
     const defaultProps = {

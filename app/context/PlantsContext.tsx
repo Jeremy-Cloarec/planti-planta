@@ -1,6 +1,6 @@
 "use client"
 import { createContext } from "react"
-import { Plant } from "@/app/lib/definitions"
+import { Plant } from "app/lib/definitions"
 
 interface PlantContextTypes {
     plants: Plant[]
@@ -9,7 +9,7 @@ interface PlantContextTypes {
 
 export const PlantsContext = createContext<PlantContextTypes>({
     plants: [],
-    setPlants: () => {}
+    setPlants: () => { }
 })
 
 

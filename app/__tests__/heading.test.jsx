@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Heading from '../app/ui/Heading'
+import Heading from '../ui/Heading'
 
 test('it givent the given name in the H1', () => {
     const title = "Planti Planta"

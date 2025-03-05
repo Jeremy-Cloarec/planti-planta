@@ -1,9 +1,9 @@
 'use server'
-import { Plant } from "@/app/lib/definitions"
-import { connectionPool as cp } from "@/app/db"
+import { Plant } from "app/lib/definitions"
+import { connectionPool as cp } from "app/db"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { signIn } from '../../auth'
+// import { signIn } from '../../auth'
 import { AuthError } from "next-auth"
 
 const PlantShema = z.object({
@@ -38,21 +38,21 @@ export async function updateStockStore(storePlants: Plant[]) {
     }
 }
 
-export async function authenticate(
-    prevState: string | undefined,
-    formData: FormData,
-) {
-    try {
-        await signIn('credentials', formData)
-    } catch (error) {
-        if (error instanceof AuthError) {
-            switch (error.type) {
-                case 'CredentialsSignin':
-                    return 'Invalid credentials'
-                default:
-                    return 'Something went wrong'
-            }
-        }
-        throw error
-    }
-}
+// export async function authenticate(
+//     prevState: string | undefined,
+//     formData: FormData,
+// ) {
+//     try {
+//         await signIn('credentials', formData)
+//     } catch (error) {
+//         if (error instanceof AuthError) {
+//             switch (error.type) {
+//                 case 'CredentialsSignin':
+//                     return 'Invalid credentials'
+//                 default:
+//                     return 'Something went wrong'
+//             }
+//         }
+//         throw error
+//     }
+// }

@@ -1,6 +1,6 @@
 "use client"
 import { useContext, useEffect, useState } from "react"
-import { IsShopContext } from "@/app/context/IsShopContext"
+import { IsShopContext } from "app/context/IsShopContext"
 import { XMarkIcon } from "@heroicons/react/24/solid"
 import { StoreContext } from "../context/StoreContext"
 import CardPlantStore from "./CardPlantStore"

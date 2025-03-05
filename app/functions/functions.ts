@@ -28,7 +28,7 @@ export const getScrollPosition = () => {
     const scroll_y = JSON.parse(storedScroll)
 
     setTimeout(() => {
-        window.scrollTo(0,  scroll_y.position);
+        window.scrollTo(0, scroll_y.position);
     }, 10)
 }
 

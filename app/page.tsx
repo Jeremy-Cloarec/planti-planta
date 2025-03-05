@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <>
-   
+
       {isShop && <PanelCard setIsOrder={setIsOrder} />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
 
@@ -31,10 +31,10 @@ export default function Home() {
         <main className="flex-1
       ">
           <ListCardsPlants />
-          { isOrder && <PopUpOrder />}
+          {isOrder && <PopUpOrder />}
         </main>
       </div>
-    
+
     </>
   );
 }

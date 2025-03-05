@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { ListCardsPlants } from "../app/ui/ListCardsPlants"
+import { ListCardsPlants } from "../ui/ListCardsPlants"
 
 const plants = [
     { id: 1, title: 'Iridaceae', price: '16', shop: false },
@@ -10,7 +10,7 @@ const plants = [
 describe('ListCardsPlants', () => {
     it('render correctlt', async () => {
         render(
-            <ListCardsPlants/>
+            <ListCardsPlants />
         )
         const listPlants = await screen.findByRole('list')
         expect(listPlants).toBeInTheDocument()

@@ -1,23 +1,14 @@
 'use client'
-
-import { useActionState } from "react"
-import { authenticate } from "../actions"
 import {
     AtSymbolIcon,
     KeyIcon,
-    ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import Button from "./Button";
 
-export function LoginForm() {
-    // const searchParams = useSearchParams()
-    // const callbackUrl = searchParams.get('callbackUrl') || '/user-account'
-    const [errorMessage, formAction, isPending] = useActionState(
-        authenticate,
-        undefined
-    )
+export function SignUp() {
+    
     return (
-        <form action={formAction} className="space-y-3">
+        <form  className="space-y-3">
             <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
                 <h1>Connectez-vous pour continuer</h1>
                 <div className="w-full mb-5">
@@ -64,7 +55,7 @@ export function LoginForm() {
                 {/* <input type="hidden" name="redirectTo" value={callbackUrl} /> */}
                 <Button
                     text="Se connecter"
-                    isPending={isPending}
+                    // isPending={isPending}
                     classAdded="w-full"
                 />
                 <div
@@ -73,12 +64,12 @@ export function LoginForm() {
                     aria-atomic="true"
                 >
                     {/* Add form errors here */}
-                    {errorMessage && (
+                    {/* {errorMessage && (
                         <>
                             <ExclamationCircleIcon className='h-5 w-5 text-red-500' />
                             <p className='text-sm text-red-500'>{errorMessage}</p>
                         </>
-                    )}
+                    )} */}
                 </div>
             </div>
         </form>

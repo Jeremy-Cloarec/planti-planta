@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
-import { connectionPool as cp } from '@/app/db'
-import { plants, users } from '@/app/lib/placeholder-data'
+import { connectionPool as cp } from 'app/db'
+import { plants, users } from 'app/lib/placeholder-data'
 
 async function seedPlants() {
     await cp.query(`DROP TABLE IF EXISTS plants`)

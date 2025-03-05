@@ -1,6 +1,6 @@
 "use server";
 import { NextResponse } from "next/server"
-import { connectionPool as cp } from "@/app/db"
+import { connectionPool as cp } from "app/db"
 
 export async function GET() {
     try {

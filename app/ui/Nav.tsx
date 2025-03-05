@@ -2,7 +2,7 @@
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Image from "next/image"
 import { useContext, useState, useEffect } from "react"
-import { IsShopContext } from "@/app/context/IsShopContext"
+import { IsShopContext } from "app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
 import { storeScrollPosition } from "../functions/functions"
 import Link from "next/link"
@@ -49,9 +49,9 @@ export default function Nav() {
 
     return (
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
-            <Link 
+            <Link
                 key="Home"
-                href="/" 
+                href="/"
                 className="w-fit flex">
                 <Image
                     src="/logo.svg"
