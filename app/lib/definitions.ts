@@ -47,7 +47,7 @@ export type User = {
     email: string
     password: string
 }
-export type UserInfo = {
+export type UserInfoType = {
     name: string
     email: string
 }

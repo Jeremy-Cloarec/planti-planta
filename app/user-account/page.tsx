@@ -1,15 +1,34 @@
 "use client"
+import { useEffect, useState } from "react"
 import { logout } from "../actions"
 import Button from "../ui/Button"
+import { fetchUserInfos } from "../lib/data"
+import { UserInfoType } from "../lib/definitions"
+import Nav from "../ui/Nav"
+import { Footer } from "../ui/Footer"
 
 export default function UserAccount() {
+    const [user, setUser] = useState<UserInfoType | null>(null)
+
+    useEffect(() => {
+        async function getUser() {
+            const fetchedUser = await fetchUserInfos()
+            setUser(fetchedUser)
+        }
+        getUser()
+    }, [])
     return (
-        <main className="flex-1 pt-[72px]">
-            <h1>Compte utilisateur</h1>
-            <Button
-                text="Se déconnecter"
-                handleClick={logout}
-            />
-        </main>
+        <>
+            <Nav />
+            <main className="w-full flex-1 pt-[72px]">
+                <h1>Bonjour {user?.name}</h1>
+                <Button
+                    text="Se déconnecter"
+                    handleClick={logout}
+                />
+            </main>
+            <Footer />
+        </>
+
     )
 }
