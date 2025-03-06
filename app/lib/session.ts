@@ -61,7 +61,7 @@ export async function getSession() {
     return payload
 }
 
-async function encrypt(payload: SessionPayload) {
+export async function encrypt(payload: SessionPayload) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
@@ -69,7 +69,7 @@ async function encrypt(payload: SessionPayload) {
         .sign(encodedKey)
 }
 
-async function decrypt(session: string | undefined = '') {
+export async function decrypt(session: string | undefined = '') {
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ['HS256'],

@@ -1,14 +1,18 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { logout } from "../actions"
 import Button from "../ui/Button"
 import { fetchUserInfos } from "../lib/data"
 import { UserInfoType } from "../lib/definitions"
 import Nav from "../ui/Nav"
 import { Footer } from "../ui/Footer"
+import { PanelCard } from "../ui/PanelCard"
+import { IsShopContext } from "../context/IsShopContext"
 
 export default function UserAccount() {
     const [user, setUser] = useState<UserInfoType | null>(null)
+    const { isShop } = useContext(IsShopContext)
+    const [isOrder, setIsOrder] = useState(false)
 
     useEffect(() => {
         async function getUser() {
@@ -20,6 +24,7 @@ export default function UserAccount() {
     return (
         <>
             <Nav />
+            {isShop && <PanelCard setIsOrder={setIsOrder} />}
             <main className="w-full flex-1 pt-[72px]">
                 <h1>Bonjour {user?.name}</h1>
                 <Button
