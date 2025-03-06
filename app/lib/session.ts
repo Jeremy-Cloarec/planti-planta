@@ -57,7 +57,7 @@ export async function getSession() {
     if (!payload) {
         return null
     }
-    
+
     return payload
 }
 
@@ -77,7 +77,7 @@ async function decrypt(session: string | undefined = '') {
         console.log(payload);
         return payload
     } catch (error) {
-        console.log('Failed to verify session');
+        console.log(`Failed to verify session. Error: ${error}`);
     }
 }
 
