@@ -8,6 +8,9 @@ import { connectionPool as cp } from "app/db"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import bcrypt from 'bcrypt'
+import { createSession, deleteSession, getSession } from "./lib/session"
+import { redirect } from "next/navigation"
+import { decrypt } from "dotenv"
 
 const PlantShema = z.object({
     id: z.number(),
@@ -36,9 +39,15 @@ export async function updateStockStore(storePlants: Plant[]) {
         revalidatePath('/')
         return { success: true, message: 'Stock mis à jour avec succès' }
 
+        
     } catch (error) {
         return { message: 'Database Error: Failed to Update Invoice.' + error }
     }
+}
+
+export async function logout() {
+    deleteSession()
+    redirect('/')
 }
 
 export async function signUp(state: FormState, formData: FormData) {
@@ -64,11 +73,15 @@ export async function signUp(state: FormState, formData: FormData) {
 
     // 3. Insert user into the database or call an Auth librairy
     const data = await cp.query(`
-        INSERT INTO users (name, email, password) VALUES($1, $2, $3)
+        INSERT INTO users (name, email, password) VALUES($1, $2, $3) RETURNING *
         `, [name, email, hashedPassword])
 
     const user = data.rows[0]
+    console.log(user);
+    
 
+    console.log("l'utilisateur a bien été créé");
+    
     if (!user) {
         return {
             message: "Une erreur est survenue lors de la création de votre compte"
@@ -76,5 +89,20 @@ export async function signUp(state: FormState, formData: FormData) {
     }
 
     // 4. Create a user session
+    console.log("await create session");
+    
+    await createSession(user.id)
     // 5. Redirect user
+    redirect('/user-account')
 }
+
+// export async function getUser () {
+//     const userSession = await getSession()
+
+//     if (!userSession) return null
+    
+//     const result = await cp.query(`SELECT * FROM users WHERE id = (${userSession.userId})`)
+//     const user = result.rows[0]
+
+//     return user
+// }

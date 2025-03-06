@@ -15,7 +15,6 @@ export const SignupFormShema = z.object({
             message: 'Doit contenir au moins un caractère spécial',
         })
         .trim(),
-
 })
 
 export type FormState =
@@ -29,6 +28,12 @@ export type FormState =
     }
     | undefined
 
+export type SessionPayload = {
+    userId: string
+    expiresAt: Date 
+    role?: 'user' | 'admin' 
+}
+
 export type Plant = {
     id: number
     title: string
@@ -41,6 +46,10 @@ export type User = {
     name: string
     email: string
     password: string
+}
+export type UserInfo = {
+    name: string
+    email: string
 }
 
 export type Discount = {
