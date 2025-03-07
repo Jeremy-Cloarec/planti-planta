@@ -16,6 +16,7 @@ export default function UserAccount() {
 
     console.log(isOrder);
     
+    
     useEffect(() => {
         async function getUser() {
             const fetchedUser = await fetchUserInfos()

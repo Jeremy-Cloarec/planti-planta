@@ -7,8 +7,6 @@ const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
 export async function createSession(userId: string) {
-    console.log("Create session function")
-
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     const session = await encrypt({ userId, expiresAt })
     const cookieStore = await cookies()
@@ -47,19 +45,6 @@ export async function deleteSession() {
     cookieStore.delete('session')
 }
 
-export async function getSession() {
-    const session = (await cookies()).get("session")?.value
-
-    if (!session) return null
-
-    const payload = await decrypt(session)
-
-    if (!payload) {
-        return null
-    }
-
-    return payload
-}
 
 export async function encrypt(payload: SessionPayload) {
     return new SignJWT(payload)
@@ -74,7 +59,6 @@ export async function decrypt(session: string | undefined = '') {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ['HS256'],
         })
-        console.log(payload);
         return payload
     } catch (error) {
         console.log(`Failed to verify session. Error: ${error}`);
