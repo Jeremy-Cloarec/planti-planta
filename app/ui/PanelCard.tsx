@@ -34,7 +34,6 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     useEffect(() => {
         const savedDiscount = localStorage.getItem("discount")
         if (savedDiscount) {
-            console.log(savedDiscount);
             const discount: Discount = JSON.parse(savedDiscount)
             setDiscount(discount.discountInput)
             setIsDiscount(discount.isDiscount)
