@@ -14,6 +14,8 @@ export default function UserAccount() {
     const { isShop } = useContext(IsShopContext)
     const [isOrder, setIsOrder] = useState(false)
 
+    console.log(isOrder);
+    
     useEffect(() => {
         async function getUser() {
             const fetchedUser = await fetchUserInfos()
