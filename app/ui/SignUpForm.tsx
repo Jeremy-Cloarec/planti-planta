@@ -2,10 +2,14 @@
 import Button from "./Button"
 import Link from 'next/link'
 import { signUp } from '@/app/actions'
-import { useActionState } from "react"
+import { useActionState, useState } from "react"
 
 export function SignUpForm() {
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const [state, action, isPending] = useActionState(signUp, undefined)
+
     return (
         <>
             <form
@@ -30,6 +34,8 @@ export function SignUpForm() {
                                     name="name"
                                     placeholder="Entrez votre nom"
                                     required
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             {state?.errors?.name && <p>{state.errors.name}</p>}
@@ -49,6 +55,8 @@ export function SignUpForm() {
                                     name="email"
                                     placeholder="Entrez votre email"
                                     required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             {state?.errors?.email && <p>{state.errors.email}</p>}
@@ -69,6 +77,8 @@ export function SignUpForm() {
                                     placeholder="Entrez votre mot de passe"
                                     required
                                     minLength={6}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             {state?.errors?.password && (
@@ -84,6 +94,7 @@ export function SignUpForm() {
 
                         </div>
                     </div>
+                    {state?.message && <p className="text-red text-sm">{state.message}</p>}
                     <Button
                         text="S'inscrire"
                         isPending={isPending}

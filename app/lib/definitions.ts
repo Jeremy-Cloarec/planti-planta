@@ -6,6 +6,21 @@ export const PlantShema = z.object({
     quantity: z.number()
 })
 
+
+
+export const SigninFormShema = z.object({
+    email: z.string().email({ message: "Entrz un email valide svp" }),
+    password: z
+        .string()
+        .min(8, { message: 'Doit avoir au moins 6 caractère de long' })
+        .regex(/[a-zA-Z]/, { message: 'Doit contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'Doit contenir au moins un nombre' })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'Doit contenir au moins un caractère spécial',
+        })
+        .trim(),
+})
+
 export const SignupFormShema = z.object({
     isAdmin: z
         .boolean(),

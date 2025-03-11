@@ -3,7 +3,8 @@ import {
     Plant,
     PlantShema,
     SignupFormShema,
-    FormState
+    FormState,
+    SigninFormShema
 } from "app/lib/definitions"
 import { connectionPool as cp } from "app/db"
 import { revalidatePath } from "next/cache"
@@ -85,11 +86,42 @@ export async function signUp(state: FormState, formData: FormData) {
     await createSession(user.id, user.is_admin)
 
     // 5. Redirect user
-    if (user.is_admin === true) {
-        redirect('/admin')
-    } else {
-        redirect('/user-account')
-    }
+    user.is_admin === true ? redirect('/admin') : redirect('/user-account')
 }
 
-export async function signIn() { /* to do */ }
+export async function signIn(state: FormState, formData: FormData) {
+    // 1. Validate form fields
+    const validateFields = SigninFormShema.safeParse({
+        email: formData.get('email'),
+        password: formData.get('password')
+    })
+
+    // If any form invalid, return early
+    if (!validateFields.success) {
+        return {
+            errors: validateFields.error.flatten().fieldErrors
+        }
+    }
+
+    // 2. Prepare date to compare in db
+    const { email, password } = validateFields.data
+
+    // 3. If no mail in db, return early
+    const data = await cp.query(`
+        SELECT * FROM users WHERE email=$1
+        `, [email])
+    const user = data.rows[0]
+
+    if (!user) return { message: "Le mail n'esiste pas" }
+
+    // 4. Compare password
+    const isPasswordOk = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordOk) return { message: "Le mot de passe n'est pas correct" }
+
+    // 5. Create a user session
+    await createSession(user.id, user.is_admin)
+
+    //6. Redirect user
+    user.is_admin === true ? redirect('/admin') : redirect('/user-account')
+}

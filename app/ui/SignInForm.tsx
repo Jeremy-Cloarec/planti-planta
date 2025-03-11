@@ -1,14 +1,31 @@
 'use client'
-import { useActionState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import Button from "./Button";
 import Link from 'next/link';
 import { signIn } from "../actions";
 
 export function SignInForm() {
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const [state, action, isPending] = useActionState(signIn, undefined)
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        const formData = new FormData()
+        formData.append("email", email)
+        formData.append("password", password)
+
+        startTransition(() => {
+            action(formData);
+        })
+    }
+
     return (
         <>
-            <form className="space-y-3">
+            <form
+                className="space-y-3"
+                onSubmit={handleSubmit}
+            >
                 <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
                     <h1>Connectez-vous pour continuer</h1>
                     <div className="w-full mb-5">
@@ -27,8 +44,12 @@ export function SignInForm() {
                                     name="email"
                                     placeholder="Entrez votre email"
                                     required
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
+                            {state?.errors?.email && <p>{state.errors.email}</p>}
+
                         </div>
                         <div className="mt-4">
                             <label
@@ -46,14 +67,26 @@ export function SignInForm() {
                                     placeholder="Entrez votre mot de passe"
                                     required
                                     minLength={6}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
+                            {state?.errors?.password && (
+                                <div>
+                                    <p>Le mot de passe doit : </p>
+                                    <ul>
+                                        {state.errors.password.map((error) => (
+                                            <li key={error}>- {error}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     </div>
-                    {/* <input type="hidden" name="redirectTo" value={callbackUrl} /> */}
+                    {state?.message && <p className="text-red text-sm">{state.message}</p>}
                     <Button
                         text="Se connecter"
-                        // isPending={isPending}
+                        isPending={isPending}
                         classAdded="w-full"
                     />
                     <div
@@ -61,13 +94,6 @@ export function SignInForm() {
                         aria-live='polite'
                         aria-atomic="true"
                     >
-                        {/* Add form errors here */}
-                        {/* {errorMessage && (
-                        <>
-                            <ExclamationCircleIcon className='h-5 w-5 text-red-500' />
-                            <p className='text-sm text-red-500'>{errorMessage}</p>
-                        </>
-                    )} */}
                     </div>
                 </div>
             </form>
