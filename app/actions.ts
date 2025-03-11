@@ -46,7 +46,7 @@ export async function signUp(state: FormState, formData: FormData) {
 
     //1. Validate form fields
     const validateFields = SignupFormShema.safeParse({
-        isAdmin : false,
+        isAdmin: false,
         name: formData.get('name'),
         email: formData.get('email'),
         password: formData.get('password'),
@@ -60,7 +60,8 @@ export async function signUp(state: FormState, formData: FormData) {
     }
 
     // 2.Prepare data for insertion into database
-    const {  isAdmin, name, email, password } = validateFields.data
+    const { isAdmin, name, email, password } = validateFields.data
+
     // Hashing passord before store it
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -81,9 +82,14 @@ export async function signUp(state: FormState, formData: FormData) {
     }
 
     // 4. Create a user session
-    console.log("await create session");
+    await createSession(user.id, user.is_admin)
 
-    await createSession(user.id)
     // 5. Redirect user
-    redirect('/user-account')
+    if (user.is_admin === true) {
+        redirect('/admin')
+    } else {
+        redirect('/user-account')
+    }
 }
+
+export async function signIn() { /* to do */ }

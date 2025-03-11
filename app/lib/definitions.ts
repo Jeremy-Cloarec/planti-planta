@@ -39,7 +39,7 @@ export type FormState =
 export type SessionPayload = {
     userId: string
     expiresAt: Date
-    role?: 'user' | 'admin'
+    isAdmin?: boolean
 }
 
 export type Plant = {

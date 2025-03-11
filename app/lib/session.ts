@@ -6,9 +6,10 @@ import { cookies } from 'next/headers'
 const secretKey = process.env.SESSION_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
-export async function createSession(userId: string) {
+export async function createSession(userId: string, isAdmin: boolean) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    const session = await encrypt({ userId, expiresAt })
+    const session = await encrypt({ userId, isAdmin, expiresAt })
+    
     const cookieStore = await cookies()
 
     cookieStore.set('session', session, {
@@ -44,7 +45,6 @@ export async function deleteSession() {
     const cookieStore = await cookies()
     cookieStore.delete('session')
 }
-
 
 export async function encrypt(payload: SessionPayload) {
     return new SignJWT(payload)
