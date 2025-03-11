@@ -95,7 +95,11 @@ export async function signUp(state: FormState, formData: FormData) {
     await createSession(user.id, user.is_admin)
 
     // 5. Redirect user
-    user.is_admin === true ? redirect('/admin') : redirect('/user-account')
+    if (user.is_admin === true) {
+        redirect('/admin')
+    } else {
+        redirect('/user-account')
+    }
 }
 
 export async function signIn(state: FormState, formData: FormData) {
@@ -132,5 +136,9 @@ export async function signIn(state: FormState, formData: FormData) {
     await createSession(user.id, user.is_admin)
 
     //6. Redirect user
-    user.is_admin === true ? redirect('/admin') : redirect('/user-account')
+    if (user.is_admin === true) {
+        redirect('/admin')
+    } else {
+        redirect('/user-account')
+    }
 }
