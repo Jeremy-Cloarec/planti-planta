@@ -1,6 +1,14 @@
 import { z } from 'zod'
+export const PlantShema = z.object({
+    id: z.number(),
+    title: z.string(),
+    price: z.number(),
+    quantity: z.number()
+})
 
 export const SignupFormShema = z.object({
+    isAdmin: z
+        .boolean(),
     name: z
         .string()
         .min(1, { message: "Le nom doit avoir au moins un caractère de long" })
@@ -30,8 +38,8 @@ export type FormState =
 
 export type SessionPayload = {
     userId: string
-    expiresAt: Date 
-    role?: 'user' | 'admin' 
+    expiresAt: Date
+    role?: 'user' | 'admin'
 }
 
 export type Plant = {
@@ -43,13 +51,16 @@ export type Plant = {
 
 export type User = {
     id: number
+    isAdmin: boolean
     name: string
     email: string
     password: string
 }
+
 export type UserInfoType = {
     name: string
     email: string
+    isAdmin: boolean
 }
 
 export type Discount = {

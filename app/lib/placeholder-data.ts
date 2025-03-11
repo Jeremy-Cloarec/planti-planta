@@ -45,9 +45,24 @@ const users: User[] = [
     {
         id: 1,
         name: 'John Doe',
+        isAdmin: false,
         email: 'johndoe@gmail.com',
         password: '12345678'
-    }
+    },
+    {
+        id: 2,
+        name: 'John Doe',
+        isAdmin: false,
+        email: 'johndoe@gmail.com',
+        password: '12345678'
+    },
+    {
+        id: 3,
+        name: 'John Doe',
+        isAdmin: false,
+        email: 'johndoe@gmail.com',
+        password: '12345678'
+    },
 ]
 
 export { plants, users }

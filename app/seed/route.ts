@@ -27,6 +27,7 @@ async function seedUsers() {
     await cp.query(`
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
+            is_admin BOOLEAN NOT NULL,
             name TEXT NOT NULL,
             email TEXT NOT NULL,
             password TEXT NOT NULL
@@ -37,7 +38,7 @@ async function seedUsers() {
         users.map(async (user) => {
             const hashedPassword = await bcrypt.hash(user.password, 10)
             return cp.query(`
-                INSERT INTO users (name, email, password) VALUES ($1, $2, $3)`, [user.name, user.email, hashedPassword])
+                INSERT INTO users (is_admin, name, email, password) VALUES ($1, $2, $3, $4)`, [user.isAdmin, user.name, user.email, hashedPassword])
         })
     );
     return insertUsers;

@@ -1,22 +1,15 @@
 'use server'
 import {
     Plant,
+    PlantShema,
     SignupFormShema,
     FormState
 } from "app/lib/definitions"
 import { connectionPool as cp } from "app/db"
-import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import bcrypt from 'bcrypt'
 import { createSession, deleteSession } from "./lib/session"
 import { redirect } from "next/navigation"
-
-const PlantShema = z.object({
-    id: z.number(),
-    title: z.string(),
-    price: z.number(),
-    quantity: z.number()
-})
 
 export async function updateStockStore(storePlants: Plant[]) {
     try {
@@ -53,6 +46,7 @@ export async function signUp(state: FormState, formData: FormData) {
 
     //1. Validate form fields
     const validateFields = SignupFormShema.safeParse({
+        isAdmin : false,
         name: formData.get('name'),
         email: formData.get('email'),
         password: formData.get('password'),
@@ -66,17 +60,17 @@ export async function signUp(state: FormState, formData: FormData) {
     }
 
     // 2.Prepare data for insertion into database
-    const { name, email, password } = validateFields.data
+    const {  isAdmin, name, email, password } = validateFields.data
     // Hashing passord before store it
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // 3. Insert user into the database or call an Auth librairy
     const data = await cp.query(`
-        INSERT INTO users (name, email, password) VALUES($1, $2, $3) RETURNING *
-        `, [name, email, hashedPassword])
+        INSERT INTO users (is_admin, name, email, password) VALUES($1, $2, $3, $4) RETURNING *
+        `, [isAdmin, name, email, hashedPassword])
 
     const user = data.rows[0]
-    console.log(user);
+    console.log(user)
 
     console.log(`L'utilisateur ${user.name} a bien été créé`);
 

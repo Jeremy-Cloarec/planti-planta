@@ -18,3 +18,8 @@ export const verifySession = cache(async () => {
 
     return { isAuth: true, userId: session.userId }
 })
+
+
+export const verifyAdminSession = cache( async () => {
+
+})
