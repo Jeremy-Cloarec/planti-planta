@@ -29,7 +29,7 @@ async function seedUsers() {
             id SERIAL PRIMARY KEY,
             is_admin BOOLEAN NOT NULL,
             name TEXT NOT NULL,
-            email TEXT NOT NULL,
+            email TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL
         )
         `);

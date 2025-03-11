@@ -51,18 +51,18 @@ const users: User[] = [
     },
     {
         id: 2,
-        name: 'John Doe',
+        name: 'Jane Smith',
         isAdmin: false,
-        email: 'johndoe@gmail.com',
-        password: '12345678'
+        email: 'janesmith@gmail.com',
+        password: '87654321'
     },
     {
         id: 3,
-        name: 'John Doe',
-        isAdmin: false,
-        email: 'johndoe@gmail.com',
-        password: '12345678'
-    },
+        name: 'Alex Johnson',
+        isAdmin: true,
+        email: 'alexjohnson@gmail.com',
+        password: 'abcdef12'
+    }
 ]
 
 export { plants, users }

@@ -44,7 +44,6 @@ export async function logout() {
 }
 
 export async function signUp(state: FormState, formData: FormData) {
-
     //1. Validate form fields
     const validateFields = SignupFormShema.safeParse({
         isAdmin: false,
@@ -62,6 +61,16 @@ export async function signUp(state: FormState, formData: FormData) {
 
     // 2.Prepare data for insertion into database
     const { isAdmin, name, email, password } = validateFields.data
+
+    // Check if user already exist
+    const existingUser = await cp.query(
+        `SELECT 1 FROM users WHERE email = $1`,
+        [email]
+    )
+
+    if (existingUser.rows.length > 0) {
+        return { message: "Cet email est déjà utilisé. Veuillez en choisir un autre." };
+    }
 
     // Hashing passord before store it
     const hashedPassword = await bcrypt.hash(password, 10)
