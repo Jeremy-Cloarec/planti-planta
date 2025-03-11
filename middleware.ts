@@ -20,7 +20,6 @@ export default async function middleware(req: NextRequest) {
 
     console.log(session);
     
-
     //4. Redirect to login if user is not authentificated
     if (isProtectedRoute && !session?.userId) {
         return NextResponse.redirect(new URL('/sign-in', req.nextUrl))
@@ -31,26 +30,12 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/sign-in', req.nextUrl))
     }
 
-    //5. Redirect to user account if user is authentificated
-    if (
-        isPublicRoute &&
-        session?.userId &&
-        req.nextUrl.pathname !== '/' &&
-        req.nextUrl.pathname !== '/user-account'
-
-    ) {
-        return NextResponse.redirect(new URL('/user-account', req.nextUrl))
-    }
-
-    if (
-        isPublicRoute &&
-        session?.userId &&
-        session?.isAdmin === true &&
-        req.nextUrl.pathname !== '/' &&
-        req.nextUrl.pathname !== '/admin'
-
-    ) {
-        return NextResponse.redirect(new URL('/admin', req.nextUrl))
+    //5. Redirect to user or account if user is authentificated
+    if (isPublicRoute && session?.userId ) {
+        const targetPath = session.isAdmin ? "/admin" : "/user-account";
+        if (path !== targetPath && path !== "/") {
+            return NextResponse.redirect(new URL(targetPath, req.nextUrl));
+        }
     }
 
     return NextResponse.next()
