@@ -61,7 +61,7 @@ const users: User[] = [
         name: 'Alex Johnson',
         isAdmin: true,
         email: 'alexjohnson@gmail.com',
-        password: 'abcdef12'
+        password: 'abcdef12&é'
     }
 ]
 

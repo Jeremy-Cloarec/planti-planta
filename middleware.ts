@@ -30,9 +30,9 @@ export default async function middleware(req: NextRequest) {
         return NextResponse.redirect(new URL('/sign-in', req.nextUrl))
     }
 
-    //5. Redirect to user or account if user is authentificated
+    //5. Redirect to user account if user is authentificated
     if (isPublicRoute && session?.userId ) {
-        const targetPath = session.isAdmin ? "/admin" : "/user-account";
+        const targetPath = "/user-account";
         if (path !== targetPath && path !== "/") {
             return NextResponse.redirect(new URL(targetPath, req.nextUrl));
         }
