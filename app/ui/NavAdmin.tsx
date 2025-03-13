@@ -67,7 +67,7 @@ export default function NavAdmin() {
                 sm:static sm:flex-row sm:w-fit sm:pt-0 sm:shadow-none sm:pb-0 sm:gap-6`
             }>
                 {links.map(link =>
-                    <li className="text-xl">
+                    <li className="text-xl" key={link.key}>
                         <Link
                             className="h-[44px] block leading-[44px] border-b-4 border-transparent duration-300 transition-all hover:border-greenLight"
                             key={link.key}
