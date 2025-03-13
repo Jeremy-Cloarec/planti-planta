@@ -1,12 +1,10 @@
 "use client"
-import Link from "next/link"
-import { Footer } from "../ui/Footer"
 import { useEffect, useState } from "react"
 import { fetchUserInfos } from "../lib/data"
 import { UserInfoType } from "../lib/definitions"
-import NavAdmin from "../ui/NavAdmin"
+import { H1Layout } from "../ui/admin/H1Layout"
 
-export default function AdminPage() {
+export default function Page() {
     const [user, setUser] = useState<UserInfoType | null>(null)
 
     useEffect(() => {
@@ -19,12 +17,7 @@ export default function AdminPage() {
 
     return (
         <>
-            <NavAdmin />
-            <main className=" w-full flex-1 flex flex-col mt-[72px] pt-8">
-                <Link href='./'>Accueil</Link>
-                <h1>Hello {user?.name} </h1>
-            </main>
-            <Footer />
+            <H1Layout title={`Bonjour ${user?.name} `} />
         </>
 
     )

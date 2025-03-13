@@ -1,6 +1,5 @@
 "use client"
 import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
-import Image from "next/image"
 import { useContext, useState, useEffect } from "react"
 import { IsShopContext } from "app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
@@ -9,6 +8,7 @@ import Link from "next/link"
 import { fetchUserInfos } from "../lib/data"
 import { UserInfoType } from "../lib/definitions"
 import Button from "./Button"
+import { LogoLink } from "./LogoLink"
 
 export default function Nav() {
     const { setIsShop } = useContext(IsShopContext)
@@ -62,18 +62,7 @@ export default function Nav() {
 
     return (
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
-            <Link
-                key="Home"
-                href="/"
-                className="w-fit flex">
-                <Image
-                    src="/logo.svg"
-                    alt="Logo du site : une petite plante mignone "
-                    className={`transition-all duration-500 ${isScrolled ? "w-9 md:w-13" : "w-12 md:w-16"}`}
-                    width={48}
-                    height={56}
-                />
-            </Link>
+            <LogoLink isScrolled={isScrolled} />
             <ul className="flex gap-3">
                 <li className="flex items-center">
                     <Link

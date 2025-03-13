@@ -1,14 +1,18 @@
 "use client"
-import Image from "next/image"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { logout } from "@/app/actions"
-import Button from "./Button"
+import Button from "../Button"
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
+import { usePathname } from "next/navigation"
+import { LogoLink } from "../LogoLink"
 
 export default function NavAdmin() {
     const [isScrolled, setIsScrolled] = useState(false)
     const [isNav, setIsNav] = useState(false)
+    const pathname = usePathname()
+    console.log(pathname);
+
 
     const handleIsNav = () => setIsNav(!isNav)
 
@@ -28,15 +32,15 @@ export default function NavAdmin() {
     const links = [
         {
             key: "Plantes",
-            href: "/plantes"
+            href: "/admin/plantes"
         },
         {
             key: "Utilisateurs",
-            href: "/utilisateurs"
+            href: "/admin/utilisateurs"
         },
         {
             key: "Commandes",
-            href: "/commandes"
+            href: "/admin/commandes"
         },
     ]
 
@@ -44,18 +48,7 @@ export default function NavAdmin() {
 
     return (
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
-            <Link
-                key="Home"
-                href="/"
-                className="w-fit flex z-40">
-                <Image
-                    src="/logo.svg"
-                    alt="Logo du site : une petite plante mignone "
-                    className={`transition-all duration-500 min-w-9 mr-3 ${isScrolled ? "w-9 md:w-13" : "w-12 md:w-16"}`}
-                    width={48}
-                    height={56}
-                />
-            </Link>
+            <LogoLink isScrolled={isScrolled} />
             <div
                 className="z-40 sm:hidden cursor-pointer"
                 onClick={handleIsNav}
@@ -69,10 +62,13 @@ export default function NavAdmin() {
                 {links.map(link =>
                     <li className="text-xl" key={link.key}>
                         <Link
-                            className="h-[44px] block leading-[44px] border-b-4 border-transparent duration-300 transition-all hover:border-greenLight"
+                            className={`h-[44px] block leading-[44px] border-b-4   ${pathname === link.href ? "border-green hover:border-green" : "border-transparent hover:border-greenLight"} duration-300 transition-all hover:border-greenLight`}
                             key={link.key}
-                            href={link.href}>
+                            href={link.href}
+                            onClick={handleIsNav}
+                        >
                             {link.key}
+
                         </Link>
                     </li>
                 )}
