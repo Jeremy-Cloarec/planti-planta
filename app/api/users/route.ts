@@ -15,9 +15,10 @@ export async function GET() {
         );
     }
     console.log("Session validate by DAL");
+    console.log(session);
     
     try {
-        const data = await cp.query(`SELECT name, email FROM users WHERE id = (${session.userId})`)
+        const data = await cp.query(`SELECT is_admin, name, email FROM users WHERE id = (${session.userId})`)
         const user = data.rows[0]
         return NextResponse.json(user, { status: 200 })
     } catch (error) {

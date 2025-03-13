@@ -75,7 +75,7 @@ export type User = {
 export type UserInfoType = {
     name: string
     email: string
-    isAdmin: boolean
+    is_admin: boolean
 }
 
 export type Discount = {
