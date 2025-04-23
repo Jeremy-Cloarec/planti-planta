@@ -6,12 +6,13 @@ interface CardPlantProps {
     title: string
     price: number
     quantity: number
-    handleClick: () => void
-    isPlantOutOfStock: boolean
-    notMuchPlant: boolean
+    handleClick?: () => void
+    isPlantOutOfStock?: boolean
+    notMuchPlant?: boolean
+    id:number
 }
 
-export default function CardPlant({ title, price, quantity, handleClick, isPlantOutOfStock, notMuchPlant }: CardPlantProps) {
+export default function CardPlant({ title, price, quantity, handleClick, isPlantOutOfStock, notMuchPlant, id }: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
 
@@ -35,10 +36,9 @@ export default function CardPlant({ title, price, quantity, handleClick, isPlant
                 {notMuchPlant && <p className="text-green text-xs">Plus que {quantity} en stock</p>}
             </div>
             {!isPlantOutOfStock ?
-                (<Button text="Ajouter au panier" handleClick={handleClick} />)
+                (<Button text="Ajouter au panier" id={id}/>)
                 :
                 (<ButtonNoStock text="Bientôt de retour !" />)}
-
         </div>
     )
 }

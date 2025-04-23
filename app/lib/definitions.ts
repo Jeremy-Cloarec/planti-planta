@@ -6,8 +6,6 @@ export const PlantShema = z.object({
     quantity: z.number()
 })
 
-
-
 export const SigninFormShema = z.object({
     email: z.string().email({ message: "Entrz un email valide svp" }),
     password: z

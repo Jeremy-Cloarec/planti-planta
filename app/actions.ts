@@ -12,6 +12,16 @@ import bcrypt from 'bcrypt'
 import { createSession, deleteSession } from "./lib/session"
 import { redirect } from "next/navigation"
 
+export async function fetchPlants() {
+    const data = await cp.query(`SELECT * FROM plants`)
+    const plants: Plant[] = data.rows
+    return plants
+}
+
+export async function deletePlant(id:number) {
+    await cp.query(`DELETE FROM plants WHERE id='${id}' `)
+}
+
 export async function updateStockStore(storePlants: Plant[]) {
     try {
         for (const plant of storePlants) {
@@ -26,7 +36,7 @@ export async function updateStockStore(storePlants: Plant[]) {
 
             const { id, quantity, title } = validatePlantData.data
 
-            await cp.query(`UPDATE plants SET quantity = quantity - '${quantity}' WHERE id = '${id}'`)
+            await cp.query(`UPDATE plants SET quantity = quantity - '${quantity}' WHERE id = $1`, [id])
             console.log(`${title} a bien été modifiée`)
         }
         revalidatePath('/')
