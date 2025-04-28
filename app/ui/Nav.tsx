@@ -5,15 +5,12 @@ import { IsShopContext } from "app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
 import { storeScrollPosition } from "../functions/functions"
 import Link from "next/link"
-import { UserInfoType } from "../lib/definitions"
-import Button from "./Button"
 import { LogoLink } from "./LogoLink"
 
 export default function Nav() {
     const { setIsShop } = useContext(IsShopContext)
     const { storePlants } = useContext(StoreContext)
     const [isScrolled, setIsScrolled] = useState(false)
-    const [user, setUser] = useState<UserInfoType | null>(null)
 
     useEffect(() => {
         const handleScroll = () => {
@@ -25,10 +22,6 @@ export default function Nav() {
             window.removeEventListener("scroll", handleScroll)
         };
     }, [])
-
-    useEffect(() => {
-        console.log(user)
-    }, [user])
 
     const handleShopClick = () => {
         storeScrollPosition()
@@ -73,12 +66,12 @@ export default function Nav() {
                         <ShoppingCartIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
                     </a>
                 </li>
-                {user?.is_admin === true &&
+                {/* {user?.is_admin === true &&
                     <li className="ml-3">
                         <Link href="/admin">
                             <Button text="Admin"/>
                         </Link>
-                    </li>}
+                    </li>} */}
             </ul>
         </nav>
     )
