@@ -1,35 +1,33 @@
-const getRandomQuantity = () => Math.floor((Math.random() * 21) + 1);
-
 const plants = [
     {
         title: 'Iridaceae',
         price: 16,
-        quantity: getRandomQuantity()
+        quantity: 1
     },
     {
         title: 'Ericaceae',
         price: 24,
-        quantity: getRandomQuantity()
+        quantity: 1
     },
     {
         title: 'Geraniaceae',
         price: 8,
-        quantity: getRandomQuantity()
+        quantity: 1
     },
     {
         title: 'Aizoaceae',
         price: 12,
-        quantity: getRandomQuantity()
+        quantity: 1
     },
     {
         title: 'Liliaceae',
         price: 31,
-        quantity: getRandomQuantity()
+        quantity: 1
     },
     {
         title: 'Campanulaceae',
         price: 24,
-        quantity: getRandomQuantity()
+        quantity: 1
     }
 ]
 

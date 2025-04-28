@@ -6,7 +6,6 @@ import { decrypt } from "../lib/session";
 
 export async function ListCardsPlants() {
     const plants = await fetchPlants()
-
     const cookie = (await cookies()).get('session')?.value
     const userId: unknown | number = cookie ? (await decrypt(cookie))?.userId ?? null : null;
 

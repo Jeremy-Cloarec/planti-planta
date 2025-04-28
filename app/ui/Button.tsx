@@ -10,7 +10,6 @@ interface ButtonProps {
 export default function Button({ text, plantId, userId }: ButtonProps) {
 
     const addPlant = (plantId: string) => {
-        updateQuantityPlant(plantId)
         addPlantToBasket(plantId, userId)
     }
 

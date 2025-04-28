@@ -1,46 +1,14 @@
-"use client"
-import { UserIcon, MagnifyingGlassIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
-import { useContext, useState, useEffect } from "react"
-import { IsShopContext } from "app/context/IsShopContext"
-import { StoreContext } from "../context/StoreContext"
-import { storeScrollPosition } from "../functions/functions"
+import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { LogoLink } from "./LogoLink"
+import { fetchUserInfos } from "../actions"
 
-export default function Nav() {
-    const { setIsShop } = useContext(IsShopContext)
-    const { storePlants } = useContext(StoreContext)
-    const [isScrolled, setIsScrolled] = useState(false)
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10)
-        };
-
-        window.addEventListener("scroll", handleScroll)
-        return () => {
-            window.removeEventListener("scroll", handleScroll)
-        };
-    }, [])
-
-    const handleShopClick = () => {
-        storeScrollPosition()
-        setIsShop(true)
-    }
-
-    const handleSearchClick = () => {
-        alert('La recherche est en cours de construction')
-    }
-
-
-    const countStoreProduct = () => {
-        const productNumberStore = storePlants.reduce((prev, curr) => prev + curr.quantity, 0)
-        return productNumberStore
-    }
+export default async function Nav() {
+    const isScrolled = false
 
     const notif = (
         <div className="absolute -right-2 -top-1 bg-greenLight text-sm h-5 w-5 text-center rounded-full">
-            {countStoreProduct()}
+            3
         </div>
     )
 
@@ -55,23 +23,15 @@ export default function Nav() {
                         <UserIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
                     </Link>
                 </li>
-                <li onClick={handleSearchClick} className="flex items-center">
-                    <a href="#">
-                        <MagnifyingGlassIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
-                    </a>
+                <li className="relative flex items-center">
+                    {notif}
+                    <Link
+                        key={"Panier"}
+                        href="/panier">
+                        <ShoppingCartIcon
+                            className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
+                    </Link>
                 </li>
-                <li className="relative flex items-center" onClick={handleShopClick}>
-                    {storePlants.length > 0 && notif}
-                    <a href="#">
-                        <ShoppingCartIcon className={`transition-all duration-500 ${isScrolled ? "size-7" : "size-9"}`} />
-                    </a>
-                </li>
-                {/* {user?.is_admin === true &&
-                    <li className="ml-3">
-                        <Link href="/admin">
-                            <Button text="Admin"/>
-                        </Link>
-                    </li>} */}
             </ul>
         </nav>
     )

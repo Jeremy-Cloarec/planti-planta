@@ -1,5 +1,4 @@
 'use server'
-
 import {
     Plant,
     SignupFormShema,
@@ -12,6 +11,20 @@ import { createSession, deleteSession } from "./lib/session"
 import { redirect } from "next/navigation"
 import { verifySession } from "./lib/dal"
 
+export async function fetchPlantInBasket(id: string) {
+    try {
+        const baskePlants = await cp.query(
+            `SELECT plants.id, plants.title, plants.price, plants.quantity FROM plants
+                JOIN basket ON(plants.id = basket.plant_id)
+                JOIN users ON(users.id = basket.user_id)
+                WHERE users.id = $1`, [id])
+        return baskePlants.rows
+
+    } catch (error) {
+        console.error("Failed to fetch plant in shop. ", error);
+    }
+}
+
 export async function fetchPlants() {
     try {
         const data = await cp.query(`SELECT * FROM plants`)
@@ -22,22 +35,11 @@ export async function fetchPlants() {
     }
 }
 
-export async function isIdUser() {
-    const userId = (await verifySession()).userId
-    const user = (await cp.query(`SELECT id FROM users WHERE id=$1`, [userId])).rows[0]
-
-    if (!user) {
-        deleteSession()
-        redirect('/')
-    }
-}
-
 export async function fetchUserInfos() {
     try {
         const userId = (await verifySession()).userId
-        const user = (await cp.query(`SELECT name, email FROM users WHERE id=$1`, [userId])).rows[0]
+        const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
 
-        console.log("user = ", user);
         if (!user) {
             throw new Error("User is not defined")
         }

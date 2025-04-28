@@ -10,9 +10,7 @@ export default async function UserAccount() {
     if (!user) {
         redirect("/api/logout")
     }
-
-    console.log(user);
-
+    
     return (
         <>
             <Nav />
