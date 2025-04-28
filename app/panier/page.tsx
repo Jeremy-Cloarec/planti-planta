@@ -6,10 +6,7 @@ import { Plant } from "../lib/definitions"
 
 export default async function Basket() {
     const user = await fetchUserInfos()
-    console.log("userId : ", user)
-
     const plantsInBasket: Plant[] | undefined = await fetchPlantInBasket(user.id)
-    console.log(plantsInBasket)
 
     return (
         <>
@@ -34,12 +31,11 @@ export default async function Basket() {
                                         <h2>{plant.title}</h2>
                                         <p>{plant.price} €</p>
                                     </div>
-
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <p>Vous n'avez pas encore de plantes dans votre panier</p>
+                        <p>Vous n&apos; avez pas encore de plantes dans votre panier</p>
                     )}
                 </div>
             </main>

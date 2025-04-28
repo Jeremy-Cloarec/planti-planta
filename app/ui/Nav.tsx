@@ -1,7 +1,6 @@
 import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { LogoLink } from "./LogoLink"
-import { fetchUserInfos } from "../actions"
 
 export default async function Nav() {
     const isScrolled = false

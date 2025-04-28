@@ -1,5 +1,5 @@
 "use client"
-import { updateQuantityPlant, addPlantToBasket } from "../actions"
+import { addPlantToBasket } from "../actions"
 
 interface ButtonProps {
     text: string
