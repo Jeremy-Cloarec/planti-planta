@@ -1,16 +1,23 @@
 "use client"
-import { deletePlant } from "../actions"
+import { updateQuantityPlant, addPlantToBasket } from "../actions"
 
 interface ButtonProps {
     text: string
-    id:number
+    plantId: string
+    userId: string|unknown
 }
 
-export default function Button({ text, id}: ButtonProps) {
+export default function Button({ text, plantId, userId }: ButtonProps) {
+
+    const addPlant = (plantId: string) => {
+        updateQuantityPlant(plantId)
+        addPlantToBasket(plantId, userId)
+    }
+
     return (
         <button
             className={`px-4 py-2 rounded-2xl transition delay-75 duration-300 ease-in-out bg-green hover:bg-greenHover text-white`}
-            onClick={() => deletePlant(id)}
+            onClick={() => addPlant(plantId)}
         >
             {text}
         </button>

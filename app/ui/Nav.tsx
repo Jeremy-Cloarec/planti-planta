@@ -5,7 +5,6 @@ import { IsShopContext } from "app/context/IsShopContext"
 import { StoreContext } from "../context/StoreContext"
 import { storeScrollPosition } from "../functions/functions"
 import Link from "next/link"
-import { fetchUserInfos } from "../lib/data"
 import { UserInfoType } from "../lib/definitions"
 import Button from "./Button"
 import { LogoLink } from "./LogoLink"
@@ -25,14 +24,6 @@ export default function Nav() {
         return () => {
             window.removeEventListener("scroll", handleScroll)
         };
-    }, [])
-
-    useEffect(() => {
-        async function getUser() {
-            const fetchedUser = await fetchUserInfos()
-            setUser(fetchedUser)
-        }
-        getUser()
     }, [])
 
     useEffect(() => {

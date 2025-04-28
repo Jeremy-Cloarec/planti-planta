@@ -1,50 +1,77 @@
 'use server'
+
 import {
     Plant,
-    PlantShema,
     SignupFormShema,
     FormState,
     SigninFormShema
 } from "app/lib/definitions"
 import { connectionPool as cp } from "app/db"
-import { revalidatePath } from "next/cache"
 import bcrypt from 'bcrypt'
 import { createSession, deleteSession } from "./lib/session"
 import { redirect } from "next/navigation"
+import { verifySession } from "./lib/dal"
 
 export async function fetchPlants() {
-    const data = await cp.query(`SELECT * FROM plants`)
-    const plants: Plant[] = data.rows
-    return plants
-}
-
-export async function deletePlant(id:number) {
-    await cp.query(`DELETE FROM plants WHERE id='${id}' `)
-}
-
-export async function updateStockStore(storePlants: Plant[]) {
     try {
-        for (const plant of storePlants) {
-            const validatePlantData = PlantShema.safeParse(plant)
+        const data = await cp.query(`SELECT * FROM plants`)
+        const plants: Plant[] = data.rows
+        return plants
+    } catch (error) {
+        console.error("Failed to fetch plants. " + error)
+    }
+}
 
-            if (!validatePlantData.success) {
-                return {
-                    errors: validatePlantData.error.flatten().fieldErrors,
-                    message: 'Fail to update plant'
-                }
-            }
+export async function isIdUser() {
+    const userId = (await verifySession()).userId
+    const user = (await cp.query(`SELECT id FROM users WHERE id=$1`, [userId])).rows[0]
 
-            const { id, quantity, title } = validatePlantData.data
+    if (!user) {
+        deleteSession()
+        redirect('/')
+    }
+}
 
-            await cp.query(`UPDATE plants SET quantity = quantity - '${quantity}' WHERE id = $1`, [id])
-            console.log(`${title} a bien été modifiée`)
+export async function fetchUserInfos() {
+    try {
+        const userId = (await verifySession()).userId
+        const user = (await cp.query(`SELECT name, email FROM users WHERE id=$1`, [userId])).rows[0]
+
+        console.log("user = ", user);
+        if (!user) {
+            throw new Error("User is not defined")
         }
-        revalidatePath('/')
-        return { success: true, message: 'Stock mis à jour avec succès' }
-
+        return user
 
     } catch (error) {
-        return { message: 'Database Error: Failed to Update Invoice.' + error }
+        console.error("Failed to fetch user infos. " + error);
+    }
+}
+
+export async function updateQuantityPlant(id: string) {
+    try {
+        await cp.query(`UPDATE plants SET quantity = 0 WHERE id=$1`, [id])
+    } catch (error) {
+        console.error("Fail to update quantity of plant" + error)
+    }
+}
+
+export async function addPlantToBasket(idPlant: string, idUser: string | unknown) {
+    try {
+        await cp.query(`INSERT INTO basket (plant_id, user_id) VALUES ($1, $2)`, [idPlant, idUser])
+    } catch (error) {
+        console.error("Fail to add plant to basket" + error)
+    }
+}
+
+export async function isPlantInStock(id: string) {
+    try {
+        const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [id])).rows[0]
+        const isStock: number = parseInt(plantQuantity.quantity)
+        if (isStock > 0) return true
+        return false
+    } catch (error) {
+        console.error("Fail to run isPlantInStock. Error: " + error)
     }
 }
 

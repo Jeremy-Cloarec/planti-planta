@@ -75,7 +75,7 @@ export default function NavAdmin() {
                 <li className="text-xl mt-4 sm:mt-0 sm:ml-4">
                     <Button
                         text="Se déconnecter"
-                        handleClick={logout}
+                        onClick={logout}
                     />
                 </li>
             </ul>

@@ -1,48 +1,28 @@
-"use client"
-import { useContext, useEffect, useState } from "react"
-import { logout } from "../actions"
-import Button from "../ui/Button"
-import { fetchUserInfos } from "../lib/data"
-import { UserInfoType } from "../lib/definitions"
+import { verifySession } from "../lib/dal"
+import { cookies } from "next/headers"
+import { connectionPool as cp } from "app/db"
+import { redirect } from "next/navigation"
 import Nav from "../ui/Nav"
+import Heading from "../ui/Heading"
+import { fetchUserInfos } from "../actions"
 import { Footer } from "../ui/Footer"
-import { PanelCard } from "../ui/PanelCard"
-import { IsShopContext } from "../context/IsShopContext"
-import { PopUpOrder } from "../ui/PopUp"
 
-export default function UserAccount() {
-    const [user, setUser] = useState<UserInfoType | null>(null)
-    const { isShop } = useContext(IsShopContext)
-    const [isOrder, setIsOrder] = useState(false)
+export default async function UserAccount() {
+    const user = await fetchUserInfos()
 
-    useEffect(() => {
-        async function getUser() {
-            const fetchedUser = await fetchUserInfos()
-            setUser(fetchedUser)
-        }
-        getUser()
-    }, [])
+    if (!user) {
+        redirect("/api/logout")
+    }
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsOrder(false)
-        }, 3000)
-    }, [isOrder])
+    console.log(user);
 
     return (
         <>
             <Nav />
-            {isShop && <PanelCard setIsOrder={setIsOrder} />}
             <main className="w-full flex-1 pt-[72px]">
-                <h1>Bonjour {user?.name}</h1>
-                <Button
-                    text="Se déconnecter"
-                    handleClick={logout}
-                />
-                {isOrder && <PopUpOrder />}
+                <h1>Bonjour {user.name}</h1>
             </main>
             <Footer />
         </>
-
     )
 }

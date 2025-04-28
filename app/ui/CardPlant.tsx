@@ -1,27 +1,25 @@
 import Button from "./Button"
 import Image from "next/image"
 import ButtonNoStock from "./ButtonNoStock"
+import { isPlantInStock } from "../actions"
 
 interface CardPlantProps {
     title: string
     price: number
-    quantity: number
-    handleClick?: () => void
-    isPlantOutOfStock?: boolean
-    notMuchPlant?: boolean
-    id:number
+    plantId: string
+    userId: number|unknown
 }
 
-export default function CardPlant({ title, price, quantity, handleClick, isPlantOutOfStock, notMuchPlant, id }: CardPlantProps) {
+export default async function CardPlant({ title, price, plantId, userId}: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
-
-    const imgIsStock = !isPlantOutOfStock ? "rounded-2xl w-full" : "rounded-2xl w-full opacity-50"
+    const isStock = await isPlantInStock(plantId)
+    const imgIsStock = isStock ? "rounded-2xl w-full" : "rounded-2xl w-full opacity-50"
 
     return (
         <div className="ring-1 ring-green p-3 bg-white rounded-3xl flex flex-col gap-4 h-full justify-between">
             <div className="relative bg-white flex items-center">
-                {isPlantOutOfStock && <p className="text-black z-10 absolute text-center w-full">Victime de son succès 🦋</p>}
+                {!isStock && <p className="text-black z-10 absolute text-center w-full">Victime de son succès 🦋</p>}
                 <Image
                     src={url}
                     alt={alt}
@@ -33,10 +31,9 @@ export default function CardPlant({ title, price, quantity, handleClick, isPlant
             <h2 className="text-ellipsis overflow-hidden">{title}</h2>
             <div className="flex items-center justify-between">
                 <p>{price}€</p>
-                {notMuchPlant && <p className="text-green text-xs">Plus que {quantity} en stock</p>}
             </div>
-            {!isPlantOutOfStock ?
-                (<Button text="Ajouter au panier" id={id}/>)
+            {isStock ?
+                (<Button text="Ajouter au panier" plantId={plantId} userId={userId} />)
                 :
                 (<ButtonNoStock text="Bientôt de retour !" />)}
         </div>

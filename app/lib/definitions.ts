@@ -56,14 +56,19 @@ export type SessionPayload = {
 }
 
 export type Plant = {
-    id: number
+    id: string
     title: string
     price: number
     quantity: number
 }
 
+export type Basket = {
+    plantId: number,
+    userId: number
+}
+
 export type User = {
-    id: number
+    id?: number
     isAdmin: boolean
     name: string
     email: string
