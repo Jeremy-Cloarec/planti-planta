@@ -1,6 +1,6 @@
 'use client'
 import { startTransition, useActionState, useState } from "react";
-import Button from "./Button";
+import Button from "./buttons/ButtonAddToBasket";
 import Link from 'next/link';
 import { signIn } from "../actions";
 

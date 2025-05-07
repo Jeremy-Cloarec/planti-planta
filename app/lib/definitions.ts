@@ -68,7 +68,7 @@ export type Basket = {
 }
 
 export type User = {
-    id?: number
+    id: string
     isAdmin: boolean
     name: string
     email: string

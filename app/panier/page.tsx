@@ -2,11 +2,12 @@ import Nav from "../ui/Nav"
 import { Footer } from "../ui/Footer"
 import { fetchPlantInBasket, fetchUserInfos } from "../actions"
 import Image from "next/image"
-import { Plant } from "../lib/definitions"
+import { Plant, User } from "../lib/definitions"
+import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 
 export default async function Basket() {
-    const user = await fetchUserInfos()
-    const plantsInBasket: Plant[] | undefined = await fetchPlantInBasket(user.id)
+    const user: User | undefined = await fetchUserInfos()
+    const plantsInBasket: Plant[] | undefined = user ? await fetchPlantInBasket(user.id) : undefined
 
     return (
         <>
@@ -27,10 +28,15 @@ export default async function Basket() {
                                         height={165}
                                         src={`/plants/${plant.title.toLowerCase()}.png`}
                                     />
-                                    <div>
+                                    <div className="flex-1">
                                         <h2>{plant.title}</h2>
                                         <p>{plant.price} €</p>
                                     </div>
+                                    <ButtonDeleteToBasket
+                                        text="Supprimer"
+                                        plantId={plant.id}
+                                        userId={user?.id}
+                                    />
                                 </li>
                             ))}
                         </ul>

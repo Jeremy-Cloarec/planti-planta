@@ -8,7 +8,7 @@ import { PlantsContext } from "../context/PlantsContext"
 import { isNotInStock } from "../functions/functions"
 import { isPlantOutOfStock } from "../functions/functions"
 import { Discount } from "../lib/definitions"
-import Button from "./Button"
+import Button from "./buttons/ButtonAddToBasket"
 //import { updateStockStore } from "../actions"
 import { z } from 'zod'
 
@@ -148,7 +148,7 @@ export function PanelCard({ setIsOrder }: { setIsOrder: (isOrder: boolean) => vo
     })
 
     const validateOrder = async () => {
-       // await updateStockStore(storePlants)
+        // await updateStockStore(storePlants)
         setStorePlants([])
         localStorage.clear()
         setIsOrder(true)

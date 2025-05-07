@@ -1,16 +1,16 @@
-import Button from "./Button"
+import Button from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
-import ButtonNoStock from "./ButtonNoStock"
+import ButtonNoStock from "./buttons/ButtonNoStock"
 import { isPlantInStock } from "../actions"
 
 interface CardPlantProps {
     title: string
     price: number
     plantId: string
-    userId: number|unknown
+    userId: number | unknown
 }
 
-export default async function CardPlant({ title, price, plantId, userId}: CardPlantProps) {
+export default async function CardPlant({ title, price, plantId, userId }: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
     const isStock = await isPlantInStock(plantId)

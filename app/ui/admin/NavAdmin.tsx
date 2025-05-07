@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { logout } from "@/app/actions"
-import Button from "../Button"
+import Button from "../buttons/ButtonAddToBasket"
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
 import { usePathname } from "next/navigation"
 import { LogoLink } from "../LogoLink"

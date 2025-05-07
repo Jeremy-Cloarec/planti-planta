@@ -1,5 +1,5 @@
 'use client'
-import Button from "./Button"
+import Button from "./buttons/ButtonAddToBasket"
 import Link from 'next/link'
 import { signUp } from '@/app/actions'
 import { useActionState, useState } from "react"

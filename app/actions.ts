@@ -10,6 +10,7 @@ import bcrypt from 'bcrypt'
 import { createSession, deleteSession } from "./lib/session"
 import { redirect } from "next/navigation"
 import { verifySession } from "./lib/dal"
+import { revalidatePath } from "next/cache"
 
 export async function fetchPlantInBasket(id: string) {
     try {
@@ -53,6 +54,7 @@ export async function fetchUserInfos() {
 export async function updateQuantityPlant(id: string) {
     try {
         await cp.query(`UPDATE plants SET quantity = 0 WHERE id=$1`, [id])
+        revalidatePath('/')
     } catch (error) {
         console.error("Fail to update quantity of plant" + error)
     }
@@ -60,9 +62,36 @@ export async function updateQuantityPlant(id: string) {
 
 export async function addPlantToBasket(idPlant: string, idUser: string | unknown) {
     try {
+        // Check if plant is already in basket
+        const existingPlant = await cp.query(`SELECT * FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
+
+        if (existingPlant.rows.length > 0) {
+            return { success: false, message: "La plante est déjà dans le panier" }
+        }
+
+        // Check if plant is in stock
+        const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [idPlant])).rows[0]
+        const isStock: number = parseInt(plantQuantity.quantity)
+        if (isStock <= 0) {
+            return { success: false, message: "La plante n'est plus en stock" }
+        }
+
+        // Add plant to basket
         await cp.query(`INSERT INTO basket (plant_id, user_id) VALUES ($1, $2)`, [idPlant, idUser])
+        revalidatePath('/')
+
+        return { success: true, message: "La plante a été ajoutée au panier" }
     } catch (error) {
         console.error("Fail to add plant to basket" + error)
+    }
+}
+
+export async function deletePlantFromBasket(idPlant: string, idUser: string | unknown) {
+    try {
+        await cp.query(`DELETE FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
+        revalidatePath('/panier')
+    } catch (error) {
+        console.error("Fail to delete plant to basket" + error)
     }
 }
 
