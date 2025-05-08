@@ -5,9 +5,10 @@ import {
     FormState,
     SigninFormShema
 } from "app/lib/definitions"
+import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
 import bcrypt from 'bcrypt'
-import { createSession, deleteSession } from "./lib/session"
+import { createSession } from "./lib/session"
 import { redirect } from "next/navigation"
 import { verifySession } from "./lib/dal"
 import { revalidatePath } from "next/cache"
@@ -45,7 +46,6 @@ export async function fetchUserInfos() {
             throw new Error("User is not defined")
         }
         return user
-
     } catch (error) {
         console.error("Failed to fetch user infos. " + error);
     }
@@ -107,8 +107,15 @@ export async function isPlantInStock(id: string) {
 }
 
 export async function logout() {
-    deleteSession()
-    redirect('/')
+    const cookieStore = await cookies()
+    console.log("cookieStore", cookieStore);
+    
+    cookieStore.delete('session')
+    console.log("cookieStoreDeleted", cookieStore);
+    if (cookieStore.get('session')?.value === "") {
+        return { message: "Vous êtes bien déconnecté" }
+    }
+    return { error: "Une erreur est survenue lors de la déconnexion, supprimer le cookie manuellement" }
 }
 
 export async function signUp(state: FormState, formData: FormData) {

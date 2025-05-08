@@ -17,7 +17,6 @@ export default function ButtonAddToBasket({ text, plantId, userId }: ButtonProps
     const handleAddToBasket = async () => {
         const res: {success:boolean, message:string} | undefined= await addPlantToBasket(plantId, userId)
         console.log(res);
-        
 
         // if (!res) {
         //     setError("Une erreur est survenue lors de l'ajout de la plante au panier.")

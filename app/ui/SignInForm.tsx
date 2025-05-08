@@ -1,8 +1,8 @@
 'use client'
 import { startTransition, useActionState, useState } from "react";
-import Button from "./buttons/ButtonAddToBasket";
 import Link from 'next/link';
 import { signIn } from "../actions";
+import ButtonAuth from "./buttons/ButtonAuth";
 
 export function SignInForm() {
     const [email, setEmail] = useState("")
@@ -84,10 +84,10 @@ export function SignInForm() {
                         </div>
                     </div>
                     {state?.message && <p className="text-red text-sm">{state.message}</p>}
-                    <Button
+                    <ButtonAuth
                         text="Se connecter"
-                        isPending={isPending}
-                        classAdded="w-full"
+                        pending={isPending}
+                        className="w-full"
                     />
                     <div
                         className="flex h-8 items-end space-x-1"
