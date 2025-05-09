@@ -4,15 +4,12 @@ import { fetchPlantInBasket, fetchUserInfos } from "../actions"
 import Image from "next/image"
 import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
+import { redirect } from "next/navigation"
 
 export default async function Basket() {
-    const userData = await fetchUserInfos()
-    const user: User = userData ? userData : {
-        id: 123,
-        name: "Jhon",
-        email: "john@doe.fr",
-        isAdmin: false
-    }
+    const user = await fetchUserInfos()
+    if (!user) redirect("/")
+        
     const plantsInBasketData = await fetchPlantInBasket(user.id)
     const plantsInBasket: Plant[] = plantsInBasketData ?  plantsInBasketData : []
 

@@ -9,16 +9,14 @@ export default async function Home() {
   const plantsData = await fetchPlants()
   const plants: Plant[] = plantsData ? plantsData : []
   const user: User = await fetchUserInfos()
-  const userId = user ? user.id : "123"
 
   return (
     <>
       <Nav userId={user.id} />
       <div className="max-w-4xl flex flex-col flex-1 w-full">
         <Heading title="Planti Planta" />
-        <main className="flex-1
-      ">
-          <ListCardsPlants plants={plants} userId={userId} />
+        <main className="flex-1">
+          <ListCardsPlants plants={plants} userId={user.id} />
         </main>
       </div>
       <Footer />
