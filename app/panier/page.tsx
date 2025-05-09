@@ -6,8 +6,15 @@ import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 
 export default async function Basket() {
-    const user: User = await fetchUserInfos()
-    const plantsInBasket: Plant[] | undefined = user ? await fetchPlantInBasket(user.id) : undefined
+    const userData = await fetchUserInfos()
+    const user: User = userData ? userData : {
+        id: 123,
+        name: "Jhon",
+        email: "john@doe.fr",
+        isAdmin: false
+    }
+    const plantsInBasketData = await fetchPlantInBasket(user.id)
+    const plantsInBasket: Plant[] = plantsInBasketData ?  plantsInBasketData : []
 
     return (
         <>
