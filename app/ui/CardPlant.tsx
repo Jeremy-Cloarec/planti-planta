@@ -1,19 +1,29 @@
-import Button from "./buttons/ButtonAddToBasket"
+"use client"
+import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import ButtonNoStock from "./buttons/ButtonNoStock"
-import { isPlantInStock } from "../actions"
+// import { isPlantInStock } from "../actions"
 
 interface CardPlantProps {
     title: string
     price: number
     plantId: string
-    userId: number | unknown
+    userId: string
+    setMessagesSuccess: (value: (prev: string[]) => string[]) => void
+    setMessagesError: (value: (prev: string[]) => string[]) => void
 }
 
-export default async function CardPlant({ title, price, plantId, userId }: CardPlantProps) {
+export default function CardPlant({
+    title,
+    price,
+    plantId,
+    userId,
+    setMessagesSuccess,
+    setMessagesError
+}: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
-    const isStock = await isPlantInStock(plantId)
+    const isStock = true /*  await isPlantInStock(plantId) */
     const imgIsStock = isStock ? "rounded-2xl w-full" : "rounded-2xl w-full opacity-50"
 
     return (
@@ -33,8 +43,13 @@ export default async function CardPlant({ title, price, plantId, userId }: CardP
                 <p>{price}€</p>
             </div>
             {isStock ?
-                (<Button text="Ajouter au panier" plantId={plantId} userId={userId} />)
-                :
+                (<ButtonAddToBasket
+                    text="Ajouter au panier"
+                    plantId={plantId} userId={userId}
+                    setMessagesSuccess={setMessagesSuccess}
+                    setMessagesError={setMessagesError}
+                />
+                ) :
                 (<ButtonNoStock text="Bientôt de retour !" />)}
         </div>
     )

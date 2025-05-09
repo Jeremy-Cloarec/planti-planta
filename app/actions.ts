@@ -60,7 +60,7 @@ export async function updateQuantityPlant(id: string) {
     }
 }
 
-export async function addPlantToBasket(idPlant: string, idUser: string | unknown) {
+export async function addPlantToBasket(idPlant: string, idUser: string) {
     try {
         // Check if plant is already in basket
         const existingPlant = await cp.query(`SELECT * FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])

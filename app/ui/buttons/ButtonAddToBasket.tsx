@@ -1,35 +1,32 @@
-"use client"
-// import { useState } from "react"
 import { addPlantToBasket } from "../../actions"
 import Button from "./Button"
 
 interface ButtonProps {
     text: string
     plantId: string
-    userId: string | unknown
+    userId: string
+    setMessagesSuccess: (value: (prev: string[]) => string[]) => void
+    setMessagesError: (value: (prev: string[]) => string[]) => void
 }
 
-export default function ButtonAddToBasket({ text, plantId, userId }: ButtonProps) {
-
-    // const [error, setError] = useState<string | null>(null)
-    // const [success, setSuccess] = useState<string | null>(null)
+export default function ButtonAddToBasket({ text, plantId, userId, setMessagesError, setMessagesSuccess }: ButtonProps) {
 
     const handleAddToBasket = async () => {
-        const res: {success:boolean, message:string} | undefined= await addPlantToBasket(plantId, userId)
-        console.log(res);
+        const res = await addPlantToBasket(plantId, userId)
+        console.log(res)
 
-        // if (!res) {
-        //     setError("Une erreur est survenue lors de l'ajout de la plante au panier.")
-        //     return
-        // }
+        if (!res) {
+            setMessagesError(prev => [...prev, "Un problème inconnu est survenu"])
+            return
+        }
 
-        // if (res.success) {
-        //     setSuccess(res.message)
-        //     setError(null)
-        // } else {
-        //     setError(res.message)
-        //     setSuccess(null)
-        // }
+        if (!res.success) {
+            setMessagesError(prev => [...prev, res.message])
+        }
+
+        if (res.success) {
+            setMessagesSuccess(prev => [...prev, res.message])
+        }
     }
 
     return (
@@ -41,4 +38,4 @@ export default function ButtonAddToBasket({ text, plantId, userId }: ButtonProps
             </Button>
         </>
     )
-    }
+}
