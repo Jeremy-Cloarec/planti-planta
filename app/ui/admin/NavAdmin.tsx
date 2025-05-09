@@ -47,7 +47,7 @@ export default function NavAdmin() {
 
     return (
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
-            <LogoLink isScrolled={isScrolled} />
+            <LogoLink />
             <div
                 className="z-40 sm:hidden cursor-pointer"
                 onClick={handleIsNav}

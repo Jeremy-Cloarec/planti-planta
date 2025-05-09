@@ -15,6 +15,7 @@
   --white: #ffffff;
 }
 
+
 body {
   color: var(--dark);
   background: white;

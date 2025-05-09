@@ -14,7 +14,7 @@ export default async function UserAccount() {
 
     return (
         <>
-            <Nav />
+            <Nav userId={user.id} />
             <main className="w-full flex-1 pt-[72px]">
                 <h1>Bonjour {user.name}</h1>
                 <h2>Informations personnelles</h2>
