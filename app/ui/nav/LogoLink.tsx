@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function LogoLink({ isScrolled }: { isScrolled: boolean }) {
+export function LogoLink() {
     return (
         <Link
             key="Home"
@@ -10,7 +10,7 @@ export function LogoLink({ isScrolled }: { isScrolled: boolean }) {
             <Image
                 src="/logo.svg"
                 alt="Logo du site : une petite plante mignone "
-                className={`transition-all duration-500 min-w-9 mr-3 ${isScrolled ? "w-9 md:w-13" : "w-12 md:w-16"}`}
+                className={`min-w-9 mr-3 w-13 h-auto md:w-16 md:h-auto`}
                 width={48}
                 height={56}
             />

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
 import { usePathname } from "next/navigation"
-import { LogoLink } from "../LogoLink"
+import { LogoLink } from "../nav/LogoLink"
 import ButtonLogout from "../buttons/ButtonLogout"
 
 export default function NavAdmin() {
@@ -72,7 +72,7 @@ export default function NavAdmin() {
                     </li>
                 )}
                 <li className="text-xl mt-4 sm:mt-0 sm:ml-4">
-                    <ButtonLogout/>
+                    <ButtonLogout />
                 </li>
             </ul>
         </nav>

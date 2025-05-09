@@ -1,4 +1,4 @@
-import Nav from "../ui/Nav"
+import Nav from "../ui/nav/Nav"
 import { Footer } from "../ui/Footer"
 import { fetchPlantInBasket, fetchUserInfos } from "../actions"
 import Image from "next/image"
@@ -6,12 +6,12 @@ import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 
 export default async function Basket() {
-    const user: User | undefined = await fetchUserInfos()
+    const user: User = await fetchUserInfos()
     const plantsInBasket: Plant[] | undefined = user ? await fetchPlantInBasket(user.id) : undefined
 
     return (
         <>
-            <Nav />
+            <Nav userId={user.id} />
             <main className="w-full flex-1 pt-[72px] flex flex-col gap-4">
                 <h1 className="text-center bg-greenLightOpacity rounded-lg py-6">Votre panier</h1>
                 <div>

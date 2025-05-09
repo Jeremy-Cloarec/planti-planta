@@ -1,14 +1,10 @@
-export function PopUpAddedToCard({ messages, color }: { messages: string[], color:string }) {
+
+export function PopUpAddedToCard({ message, isSucces }: { message: string, isSucces: boolean}) {
+    const colorStatus = isSucces ? "bg-greenLightOpacity" : "bg-redOpacity"
     return (
-        <ul className="z-20 fixed bottom-10 left-1/2 -translate-x-1/2 text-center flex flex-col gap-2">{
-            messages.map((message, i) =>
-                <li
-                    key={i}
-                    className={`${color} first-line:w-fit py-1 px-3 rounded-lg`}
-                >
-                    {message}
-                </li>)
-        }</ul>
+        <li className={`first-line:w-fit py-1 px-3 rounded-lg ${colorStatus}`}>
+            {message}
+        </li >
     )
 }
 

@@ -1,6 +1,6 @@
 
 import { redirect } from "next/navigation"
-import Nav from "../ui/Nav"
+import Nav from "../ui/nav/Nav"
 import { fetchUserInfos } from "../actions"
 import { Footer } from "../ui/Footer"
 import ButtonLogout from "../ui/buttons/ButtonLogout"
@@ -11,7 +11,7 @@ export default async function UserAccount() {
     if (!user) {
         redirect("/api/logout")
     }
-    
+
     return (
         <>
             <Nav />

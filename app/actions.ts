@@ -60,12 +60,31 @@ export async function updateQuantityPlant(id: string) {
     }
 }
 
+export async function numberOfPlantsInBasket(idUser: string) {
+    try {
+        const countPlantsInBaskey = await cp.query(`SELECT COUNT(*) FROM basket WHERE user_id = $1`, [idUser])
+        return countPlantsInBaskey.rows[0].count
+    } catch (error) {
+        console.error("Fail to count plant in the basket" + error)
+    }
+}
+
+export async function checkIfPlantIsInBasket(idPlant: string, idUser: string) {
+    try {
+        const existingPlant = await cp.query(`SELECT * FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
+        return existingPlant.rows
+    } catch (error) {
+        console.error("Fail to check if plant is in the basket" + error)
+        return []
+    }
+}
+
 export async function addPlantToBasket(idPlant: string, idUser: string) {
     try {
         // Check if plant is already in basket
-        const existingPlant = await cp.query(`SELECT * FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
+        const existingPlant = await checkIfPlantIsInBasket(idPlant, idUser)
 
-        if (existingPlant.rows.length > 0) {
+        if (existingPlant.length > 0) {
             return { success: false, message: "La plante est déjà dans le panier" }
         }
 
@@ -109,7 +128,7 @@ export async function isPlantInStock(id: string) {
 export async function logout() {
     const cookieStore = await cookies()
     console.log("cookieStore", cookieStore);
-    
+
     cookieStore.delete('session')
     console.log("cookieStoreDeleted", cookieStore);
     if (cookieStore.get('session')?.value === "") {
