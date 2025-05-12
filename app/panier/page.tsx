@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Nav from "../ui/nav/Nav"
 import { Footer } from "../ui/Footer"
 import { fetchPlantInBasket, fetchUserInfos } from "../actions"

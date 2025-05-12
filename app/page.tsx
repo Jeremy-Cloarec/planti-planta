@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Heading from "./ui/Heading"
 import { ListCardsPlants } from "./ui/ListCards"
 import Nav from "./ui/nav/Nav"

@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { addPlantToBasket, checkIfPlantIsInBasket } from "../../actions"
 import Button from "./Button"
 
@@ -35,15 +35,10 @@ export default function ButtonAddToBasket({ text, plantId, userId, setResponses 
             setIsDisable(true)
             setResponses(prev => [...prev, { message: res.message, success: true }])
         }
-    }
 
-    useEffect(() => {
-        const checkIsStock = async () => {
-            const basket = await checkIfPlantIsInBasket(plantId, userId)
-            if (basket.length > 0) setIsDisable(true)
-        }
-        checkIsStock()
-    }, [plantId, userId])
+        const basket = await checkIfPlantIsInBasket(plantId, userId)
+        if (basket.length > 0) setIsDisable(true)
+    }
 
     return (
         <>
