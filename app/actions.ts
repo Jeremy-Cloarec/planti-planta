@@ -3,7 +3,7 @@ import {
     Plant,
     SignupFormShema,
     FormState,
-    SigninFormShema
+    SigninFormShema,
 } from "app/lib/definitions"
 import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
@@ -21,7 +21,6 @@ export async function fetchPlantInBasket(id: string) {
                 JOIN users ON(users.id = basket.user_id)
                 WHERE users.id = $1`, [id])
         return baskePlants.rows
-
     } catch (error) {
         console.error("Failed to fetch plant in shop. ", error);
     }
@@ -39,15 +38,48 @@ export async function fetchPlants() {
 
 export async function fetchUserInfos() {
     try {
-        const userId = (await verifySession()).userId
-        const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
+        try {
+            const userId = (await verifySession())?.userId
+            console.log("userIdSeession", userId);
+            if (userId) {
+                const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
+                return user
+            }
 
-        if (!user) {
-            throw new Error("User is not defined")
+        } catch (error) {
+            console.log("User not connected. ", error);
         }
+
+        const cookieStore = await cookies()
+        const guestId = cookieStore.get('guestUserId')?.value
+
+        console.log("userID ", guestId);
+
+
+        if (guestId) {
+            const user = (await cp.query(
+                `SELECT id, name, email FROM users WHERE id = $1`,
+                [guestId]
+            )).rows[0]
+            return user
+        }
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api`, {
+            method: 'GET',
+            credentials: 'include',
+        })
+
+        console.log("res", res);
+
+
+        if (!res.ok) throw new Error('Failed to create guest user')
+
+        const user = await res.json()
         return user
+
     } catch (error) {
-        console.error("Failed to fetch user infos. " + error);
+        console.error("User can't be created. " + error)
+        return null
     }
 }
 

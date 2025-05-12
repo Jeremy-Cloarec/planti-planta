@@ -27,12 +27,12 @@ async function seedUsers() {
     await cp.query(`
         CREATE TABLE IF NOT EXISTS users (
             id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-            is_admin BOOLEAN NOT NULL,
+            is_admin BOOLEAN DEFAULT FALSE,
             name TEXT NOT NULL,
             email TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL
+            password TEXT
         )
-        `);
+    `);
 
     const insertUsers = await Promise.all(
         users.map(async (user) => {

@@ -33,6 +33,7 @@ export default function CardPlant({
                     alt={alt}
                     width={212}
                     height={209}
+                    className="w-full rounded-2xl"
                 />
             </div>
             <h2 className="text-ellipsis overflow-hidden">{title}</h2>

@@ -11,7 +11,8 @@ export default async function Home() {
   const plantsData = await fetchPlants()
   const plants: Plant[] = plantsData ? plantsData : []
   const user: User = await fetchUserInfos()
-
+  console.log(user);
+  
   return (
     <>
       <Nav userId={user.id} />
