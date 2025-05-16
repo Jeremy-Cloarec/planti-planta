@@ -1,4 +1,5 @@
 "use client"
+import { useQuery } from "@tanstack/react-query"
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 
@@ -12,7 +13,7 @@ interface CardPlantProps {
     price: number
     plantId: string
     userId: string
-    setResponses: (value: (prev: Response[]) => Response[]) => void
+    addReponse: (newResponse: Response) => void
 }
 
 export default function CardPlant({
@@ -20,11 +21,23 @@ export default function CardPlant({
     price,
     plantId,
     userId,
-    setResponses,
+    addReponse,
 }: CardPlantProps) {
     const alt: string = `Photographie de la plante ${title}`
     const url = `/plants/${title.toLowerCase()}.png`
 
+    const { data, isLoading } = useQuery({
+        queryKey: ["isInBasket", plantId, userId],
+        queryFn: async () => {
+            const res = await fetch(`/api/basket?plantId=${plantId}&userId=${userId}`)
+            if (!res.ok) throw new Error("Erreur API panier")
+            const json = await res.json()
+            return json.quantity > 0
+        },
+    })
+
+    const alreadyInBasket = data === true
+    
     return (
         <div className="ring-1 ring-green p-3 bg-white rounded-3xl flex flex-col gap-4 h-full justify-between">
             <div className="relative bg-white flex items-center">
@@ -43,7 +56,8 @@ export default function CardPlant({
             <ButtonAddToBasket
                 text="Ajouter au panier"
                 plantId={plantId} userId={userId}
-                setResponses={setResponses}
+                addReponse={addReponse}
+                disabled={alreadyInBasket}
             />
         </div>
     )

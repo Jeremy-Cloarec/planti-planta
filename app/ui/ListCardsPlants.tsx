@@ -1,12 +1,13 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import CardPlant from "./CardPlant"
 import { PopUpAddedToCard } from "./PopUp"
 import { v4 as uuidv4 } from 'uuid'
-
+import { Plant } from "../lib/definitions"
+import { useQuery } from "@tanstack/react-query"
+import LoadingPlants from "../loading"
 
 interface ListCardsClientProps {
-    plants: { id: string; title: string; price: number }[]
     userId: string
 }
 
@@ -15,14 +16,27 @@ interface Response {
     success: boolean
 }
 
-export default function ListCardsClient({ plants, userId }: ListCardsClientProps) {
+export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     const [responses, setResponses] = useState<Response[]>([])
 
-    useEffect(() => {
+    function addResponse(newResponse: Response) {
+        setResponses((prev) => [...prev, newResponse])
+
         setTimeout(() => {
-            setResponses(prev => prev.filter(res => res !== responses[0]))
-        }, 2000)
-    }, [responses])
+            setResponses((prev) => prev.filter(r => r !== newResponse))
+        }, 2000);
+    }
+
+    const { isPending, error, data } = useQuery({
+        queryKey: ['plants'],
+        queryFn: () =>
+            fetch('http://localhost:3000/api/plants').then((res) => res.json(),
+            )
+    })
+
+    if (isPending) return <LoadingPlants />
+
+    if (error) return 'An error occured: ' + error.message
 
     return (
         <div className="flex flex-col gap-4 items-center">
@@ -37,14 +51,14 @@ export default function ListCardsClient({ plants, userId }: ListCardsClientProps
             </ul>
 
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
-                {plants.map((plant) => (
+                {data.map((plant: Plant) => (
                     <li key={plant.id}>
                         <CardPlant
                             title={plant.title}
                             price={plant.price}
                             plantId={plant.id}
                             userId={userId}
-                            setResponses={setResponses}
+                            addReponse={addResponse}
                         />
                     </li>
                 ))}

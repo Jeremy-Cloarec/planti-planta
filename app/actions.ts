@@ -1,6 +1,5 @@
 'use server'
 import {
-    Plant,
     SignupFormShema,
     FormState,
     SigninFormShema,
@@ -26,61 +25,40 @@ export async function fetchPlantInBasket(id: string) {
     }
 }
 
-export async function fetchPlants() {
-    try {
-        const data = await cp.query(`SELECT * FROM plants`)
-        const plants: Plant[] = data.rows
-        return plants
-    } catch (error) {
-        console.error("Failed to fetch plants. " + error)
-    }
-}
-
 export async function fetchUserInfos() {
     try {
-        try {
-            const userId = (await verifySession())?.userId
-            console.log("userIdSeession", userId);
-            if (userId) {
-                const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
-                return user
-            }
-
-        } catch (error) {
-            console.log("User not connected. ", error);
-        }
-
-        const cookieStore = await cookies()
-        const guestId = cookieStore.get('guestUserId')?.value
-
-        console.log("userID ", guestId);
-
-
-        if (guestId) {
-            const user = (await cp.query(
-                `SELECT id, name, email FROM users WHERE id = $1`,
-                [guestId]
-            )).rows[0]
+        const userId = (await verifySession())?.userId
+        if (userId) {
+            const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
             return user
         }
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api`, {
-            method: 'GET',
-            credentials: 'include',
-        })
+        // Create guest user
+        const cookieStore = await cookies()
+        const cookieUserId = (cookieStore.get('userId'))?.value
 
-        console.log("res", res);
+        if (cookieUserId) {
+            const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
 
+            console.log(user)
 
-        if (!res.ok) throw new Error('Failed to create guest user')
+            if (user) return user
+        }
 
-        const user = await res.json()
-        return user
+        // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/`, {
+        //     cache: "no-store",
+        // })
+
+        // if (!res.ok) throw new Error("Failed to create guest user")
+        // const user = await res.json()
+        // return user
 
     } catch (error) {
-        console.error("User can't be created. " + error)
-        return null
+        console.log("User not connected. ", error);
     }
+
+
+
 }
 
 export async function updateQuantityPlant(id: string) {
@@ -98,42 +76,6 @@ export async function numberOfPlantsInBasket(idUser: string) {
         return countPlantsInBaskey.rows[0].count
     } catch (error) {
         console.error("Fail to count plant in the basket" + error)
-    }
-}
-
-export async function checkIfPlantIsInBasket(idPlant: string, idUser: string) {
-    try {
-        const existingPlant = await cp.query(`SELECT * FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
-        return existingPlant.rows
-    } catch (error) {
-        console.error("Fail to check if plant is in the basket" + error)
-        return []
-    }
-}
-
-export async function addPlantToBasket(idPlant: string, idUser: string) {
-    try {
-        // Check if plant is already in basket
-        const existingPlant = await checkIfPlantIsInBasket(idPlant, idUser)
-
-        if (existingPlant.length > 0) {
-            return { success: false, message: "La plante est déjà dans le panier" }
-        }
-
-        // Check if plant is in stock
-        const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [idPlant])).rows[0]
-        const isStock: number = parseInt(plantQuantity.quantity)
-        if (isStock <= 0) {
-            return { success: false, message: "La plante n'est plus en stock" }
-        }
-
-        // Add plant to basket
-        await cp.query(`INSERT INTO basket (plant_id, user_id) VALUES ($1, $2)`, [idPlant, idUser])
-        revalidatePath('/')
-
-        return { success: true, message: "La plante a été ajoutée au panier" }
-    } catch (error) {
-        console.error("Fail to add plant to basket" + error)
     }
 }
 

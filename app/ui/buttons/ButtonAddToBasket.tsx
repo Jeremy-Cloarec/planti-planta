@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
-import { addPlantToBasket, checkIfPlantIsInBasket } from "../../actions"
 import Button from "./Button"
+import { addPlantToBasket, checkIfPlantIsInBasket } from "@/app/actions/plants.actions"
 
 interface Response {
     message: string
@@ -12,38 +12,37 @@ interface ButtonProps {
     text: string
     plantId: string
     userId: string
-    setResponses: (value: (prev: Response[]) => Response[]) => void
+    disabled: boolean
+    addReponse: (res: Response) => void
 }
 
-export default function ButtonAddToBasket({ text, plantId, userId, setResponses }: ButtonProps) {
+export default function ButtonAddToBasket({ text, plantId, userId, disabled, addReponse }: ButtonProps) {
     const [isDisable, setIsDisable] = useState<boolean>(false)
-
     const handleAddToBasket = async () => {
         const res = await addPlantToBasket(plantId, userId)
-        console.log(res)
 
         if (!res) {
-            setResponses(prev => [...prev, { message: "Un problème inconnu est survenu", success: false }])
+            addReponse({ message: "Un problème inconnu est survenu", success: false })
             return
         }
 
         if (!res.success) {
-            setResponses(prev => [...prev, { message: res.message, success: false }])
+            addReponse({ message: res.message, success: false })
         }
 
         if (res.success) {
             setIsDisable(true)
-            setResponses(prev => [...prev, { message: res.message, success: true }])
+            addReponse({ message: res.message, success: true })
         }
 
         const basket = await checkIfPlantIsInBasket(plantId, userId)
-        if (basket.length > 0) setIsDisable(true)
+        if (basket) setIsDisable(true)
     }
 
     return (
         <>
-            <Button onClick={() => handleAddToBasket()} disabled={isDisable}>
-                {isDisable ? "Ajoutée au panier" : text}
+            <Button onClick={() => handleAddToBasket()} disabled={isDisable || disabled}>
+                {isDisable || disabled ? "Ajoutée au panier" : text}
             </Button>
         </>
     )
