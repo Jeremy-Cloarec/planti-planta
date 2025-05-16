@@ -1,30 +1,51 @@
-export const dynamic = 'force-dynamic'
-
+"use client"
 import Nav from "../ui/nav/Nav"
 import { Footer } from "../ui/Footer"
-import { fetchPlantInBasket } from "../actions"
 import Image from "next/image"
-import { Plant } from "../lib/definitions"
+import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
-import { redirect } from "next/navigation"
-import { fetchUserInfos } from "../actions/users.action"
+import { useQuery } from "@tanstack/react-query"
+import LoadingPlants from "../ui/skeleton/loading"
 
-export default async function Basket() {
-    const user = await fetchUserInfos()
-    if (!user) redirect("/")
+export default function Basket() {
+    const userQuery = useQuery<User>({
+        queryKey: ['user'],
+        queryFn: () =>
+            fetch("/api/user").then((res) => res.json()),
+        staleTime: 1000 * 60 * 5,
+    })
 
-    const plantsInBasketData = await fetchPlantInBasket(user.id)
-    const plantsInBasket: Plant[] = plantsInBasketData ?  plantsInBasketData : []
+    const userId = userQuery.data?.id
+
+    const plantsData = useQuery({
+        queryKey: ['plantsInBasket'],
+        queryFn: () =>
+            fetch(`/api/basket/all_plants_in_basket?userId=${userId}`).then((res) => res.json())
+    })
+
+    const countNav = useQuery({
+        queryKey: ['countBasket', userId],
+        queryFn: () =>
+            fetch(`/api/basket/count_basket?userId=${userId}`).then((res) => res.json()),
+        enabled: !!userId
+    })
+
+    if (plantsData.isPending) return <LoadingPlants />
+
+    if (plantsData.error) return 'An error occured: ' + plantsData.error.message
+
+    const plants: Plant[] = plantsData.data
 
     return (
         <>
-            <Nav userId={user.id} />
+            <h1>Test Panier</h1>
+            <Nav numberOfPlants={countNav.data } />
             <main className="w-full flex-1 pt-[72px] flex flex-col gap-4">
                 <h1 className="text-center bg-greenLightOpacity rounded-lg py-6">Votre panier</h1>
                 <div>
-                    {plantsInBasket !== undefined && plantsInBasket.length > 0 ? (
+                    {plants.length > 0 ? (
                         <ul className="flex flex-col gap-4">
-                            {plantsInBasket.map(plant => (
+                            {plants.map(plant => (
                                 <li
                                     key={plant.id}
                                     className="flex gap-4"
@@ -42,7 +63,7 @@ export default async function Basket() {
                                     <ButtonDeleteToBasket
                                         text="Supprimer"
                                         plantId={plant.id}
-                                        userId={user?.id}
+                                        userId={userId}
                                     />
                                 </li>
                             ))}

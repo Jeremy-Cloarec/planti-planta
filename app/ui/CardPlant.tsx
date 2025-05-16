@@ -26,7 +26,7 @@ export default function CardPlant({
     const { data } = useQuery({
         queryKey: ["isInBasket", plant.id, userId],
         queryFn: async () => {
-            const res = await fetch(`/api/basket?plantId=${plant.id}&userId=${userId}`)
+            const res = await fetch(`/api/basket/is_in_basket?plantId=${plant.id}&userId=${userId}`)
             if (!res.ok) throw new Error("Erreur API panier")
             const json = await res.json()
             return json.quantity > 0

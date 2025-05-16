@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { signUp } from '@/app/actions'
+import { signUp } from '@/app/actions/auth.action'
 import { useActionState, useState } from "react"
 import ButtonAuth from "./buttons/ButtonAuth"
 

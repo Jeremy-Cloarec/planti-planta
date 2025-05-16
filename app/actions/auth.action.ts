@@ -7,60 +7,8 @@ import {
 import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
 import bcrypt from 'bcrypt'
-import { createSession } from "./lib/session"
+import { createSession } from "../lib/session"
 import { redirect } from "next/navigation"
-import { revalidatePath } from "next/cache"
-
-export async function fetchPlantInBasket(id: string) {
-    try {
-        const baskePlants = await cp.query(
-            `SELECT plants.id, plants.title, plants.price, plants.quantity FROM plants
-                JOIN basket ON(plants.id = basket.plant_id)
-                JOIN users ON(users.id = basket.user_id)
-                WHERE users.id = $1`, [id])
-        return baskePlants.rows
-    } catch (error) {
-        console.error("Failed to fetch plant in shop. ", error);
-    }
-}
-
-export async function updateQuantityPlant(id: string) {
-    try {
-        await cp.query(`UPDATE plants SET quantity = 0 WHERE id=$1`, [id])
-        revalidatePath('/')
-    } catch (error) {
-        console.error("Fail to update quantity of plant" + error)
-    }
-}
-
-export async function numberOfPlantsInBasket(idUser: string) {
-    try {
-        const countPlantsInBaskey = await cp.query(`SELECT COUNT(*) FROM basket WHERE user_id = $1`, [idUser])
-        return countPlantsInBaskey.rows[0].count
-    } catch (error) {
-        console.error("Fail to count plant in the basket" + error)
-    }
-}
-
-export async function deletePlantFromBasket(idPlant: string, idUser: string | unknown) {
-    try {
-        await cp.query(`DELETE FROM basket WHERE plant_id = $1 AND user_id = $2`, [idPlant, idUser])
-        revalidatePath('/panier')
-    } catch (error) {
-        console.error("Fail to delete plant to basket" + error)
-    }
-}
-
-export async function isPlantInStock(id: string) {
-    try {
-        const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [id])).rows[0]
-        const isStock: number = parseInt(plantQuantity.quantity)
-        if (isStock > 0) return true
-        return false
-    } catch (error) {
-        console.error("Fail to run isPlantInStock. Error: " + error)
-    }
-}
 
 export async function logout() {
     const cookieStore = await cookies()

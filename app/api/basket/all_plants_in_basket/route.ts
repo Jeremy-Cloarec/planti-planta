@@ -1,11 +1,10 @@
-import { checkIfPlantIsInBasket } from "@/app/actions/plants.actions"
+import { fetchPlantInBasket } from "@/app/actions/basket.action"
 import { NextRequest } from "next/server"
 
 export async function GET(req: NextRequest) {
-    const plantId = req.nextUrl.searchParams.get("plantId")
     const userId = req.nextUrl.searchParams.get("userId")
 
-    if (!plantId || !userId) {
+    if (!userId) {
         return new Response(
             JSON.stringify({ success: false, message: "Missing plantId or userId" }),
             { status: 400 }
@@ -13,11 +12,15 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const quantity = await checkIfPlantIsInBasket(plantId, userId)
-        return new Response(JSON.stringify({ success: true, quantity }))
+        const plants = await fetchPlantInBasket(userId)
+        return new Response(JSON.stringify(plants), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        })
+
     } catch (error) {
         return new Response(
-            JSON.stringify({ success: false, message: "Erreur serveur" }),
+            JSON.stringify({ success: false, message: "Erreur serveur: ", error }),
             { status: 500 }
         )
     }

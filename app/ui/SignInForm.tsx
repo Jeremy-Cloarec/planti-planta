@@ -1,7 +1,7 @@
 'use client'
 import { startTransition, useActionState, useState } from "react";
 import Link from 'next/link';
-import { signIn } from "../actions";
+import { signIn } from "../actions/auth.action";
 import ButtonAuth from "./buttons/ButtonAuth";
 
 export function SignInForm() {

@@ -1,5 +1,5 @@
 "use client"
-import { logout } from "@/app/actions"
+import { logout } from "@/app/actions/auth.action"
 import Button from "./Button"
 
 export default function ButtonLogout() {

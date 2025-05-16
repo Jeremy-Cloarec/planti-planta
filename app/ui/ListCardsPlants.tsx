@@ -5,7 +5,7 @@ import { PopUpAddedToCard } from "./PopUp"
 import { v4 as uuidv4 } from 'uuid'
 import { Plant } from "../lib/definitions"
 import { useQuery } from "@tanstack/react-query"
-import LoadingPlants from "../loading"
+import LoadingPlants from "./skeleton/loading"
 
 interface ListCardsClientProps {
     userId: string
@@ -30,7 +30,7 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     const { isPending, error, data } = useQuery({
         queryKey: ['plants'],
         queryFn: () =>
-            fetch('http://localhost:3000/api/plants').then((res) => res.json())
+            fetch("/api/plants").then((res) => res.json())
     })
 
     if (isPending) return <LoadingPlants />

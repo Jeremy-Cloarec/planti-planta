@@ -1,24 +1,26 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { jaldiRegular, crimson, jaldiBold } from "@/app/ui/fonts"
 import { Analytics } from "@vercel/analytics/next"
+import Providers from "./provider";
 
 export const metadata: Metadata = {
   title: "Planti Planta",
   description: "Un site de vente de plantes",
 };
 
-export default function RootLayout({
-  children,  
-}: (Readonly<{
-  children: React.ReactNode;
+export  default async function RootLayout({children}: (Readonly<{
+  children: React.ReactNode,
 }>)) {
-  
+    
   return (
     <html lang="fr">
       <body className={`${jaldiRegular.className} ${crimson.variable} ${jaldiBold.variable} antialiased flex flex-col items-center min-h-dvh relative`}
       >
+        <Providers >
           {children}
+        </Providers>
         <Analytics />
       </body>
     </html>

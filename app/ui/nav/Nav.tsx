@@ -1,12 +1,8 @@
 import { UserIcon, ShoppingCartIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { LogoLink } from "./LogoLink"
-import { numberOfPlantsInBasket } from "@/app/actions"
 
-export default  function Nav({ userId }: { userId: string }) {
-    const numberOfPlants = "2"
-    // const numberOfPlants = await numberOfPlantsInBasket(userId)
-
+export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     const notif = (
         <div className="absolute -right-2 -top-1 bg-greenLight text-sm h-5 w-5 text-center rounded-full">
             {numberOfPlants}

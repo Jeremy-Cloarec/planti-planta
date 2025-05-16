@@ -30,7 +30,7 @@ export async function addPlantToBasket(idPlant: string, idUser: string) {
     try {
         // Check if plant is already in basket
         const existingPlant = await checkIfPlantIsInBasket(idPlant, idUser)
-        
+
         const title: string = (await cp.query(`SELECT title FROM plants WHERE id=$1`, [idPlant])).rows[0].title
         console.log(title);
 
@@ -53,5 +53,25 @@ export async function addPlantToBasket(idPlant: string, idUser: string) {
         return { success: true, message: `${title} a été ajoutée au panier` }
     } catch (error) {
         console.error("Fail to add plant to basket" + error)
+    }
+}
+
+export async function updateQuantityPlant(id: string) {
+    try {
+        await cp.query(`UPDATE plants SET quantity = 0 WHERE id=$1`, [id])
+        revalidatePath('/')
+    } catch (error) {
+        console.error("Fail to update quantity of plant" + error)
+    }
+}
+
+export async function isPlantInStock(id: string) {
+    try {
+        const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [id])).rows[0]
+        const isStock: number = parseInt(plantQuantity.quantity)
+        if (isStock > 0) return true
+        return false
+    } catch (error) {
+        console.error("Fail to run isPlantInStock. Error: " + error)
     }
 }
