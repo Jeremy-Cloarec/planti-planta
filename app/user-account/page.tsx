@@ -24,7 +24,7 @@ export default function UserAccount() {
     })
 
     if (isPending) return <LoadingPlants />
-    if (error) return <div>Erreur de chargement utilisateur</div>
+    if (error) return <div>Erreur de chargement utilisateur  pour count basket{error.message}</div>
 
     if (!user) {
         redirect("/api/logout")

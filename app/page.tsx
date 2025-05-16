@@ -22,7 +22,7 @@ export default function Home() {
   })
 
   if (isPending) return <LoadingPlants />
-  if (error) return <div>Erreur de chargement utilisateur</div>
+  if (error) return <div>Erreur de chargement utilisateur {error.message}</div>
 
   return (
     <>
