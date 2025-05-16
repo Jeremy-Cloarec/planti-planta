@@ -24,7 +24,7 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
 
         setTimeout(() => {
             setResponses((prev) => prev.filter(r => r !== newResponse))
-        }, 2000);
+        }, 2000)
     }
 
     const { isPending, error, data } = useQuery({
@@ -54,9 +54,7 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
                 {data.map((plant: Plant) => (
                     <li key={plant.id}>
                         <CardPlant
-                            title={plant.title}
-                            price={plant.price}
-                            plantId={plant.id}
+                            plant={plant}
                             userId={userId}
                             addReponse={addResponse}
                         />

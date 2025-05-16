@@ -30,23 +30,27 @@ export async function addPlantToBasket(idPlant: string, idUser: string) {
     try {
         // Check if plant is already in basket
         const existingPlant = await checkIfPlantIsInBasket(idPlant, idUser)
+        
+        const title: string = (await cp.query(`SELECT title FROM plants WHERE id=$1`, [idPlant])).rows[0].title
+        console.log(title);
+
 
         if (existingPlant) {
-            return { success: false, message: "La plante est déjà dans le panier" }
+            return { success: false, message: `${title} est déjà dans le panier` }
         }
 
         // Check if plant is in stock
         const plantQuantity: { quantity: string } = (await cp.query(`SELECT quantity FROM plants WHERE id = $1`, [idPlant])).rows[0]
         const isStock: number = parseInt(plantQuantity.quantity)
         if (isStock <= 0) {
-            return { success: false, message: "La plante n'est plus en stock" }
+            return { success: false, message: `${title} n'est plus en stock` }
         }
 
         // Add plant to basket
         await cp.query(`INSERT INTO basket (plant_id, user_id) VALUES ($1, $2)`, [idPlant, idUser])
         revalidatePath('/')
 
-        return { success: true, message: "La plante a été ajoutée au panier" }
+        return { success: true, message: `${title} a été ajoutée au panier` }
     } catch (error) {
         console.error("Fail to add plant to basket" + error)
     }
