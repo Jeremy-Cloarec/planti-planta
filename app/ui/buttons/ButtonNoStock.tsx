@@ -1,3 +1,5 @@
+import Button from "./Button"
+
 interface ButtonProps {
     text: string,
     handleClick?: () => void
@@ -5,11 +7,12 @@ interface ButtonProps {
 
 export default function ButtonNoStock({ text, handleClick }: ButtonProps) {
     return (
-        <button
-            className="cursor-default inline-block w-full px-2 py-2 rounded-2xl bg-greenHover text-white"
+        <Button
             onClick={handleClick}
+            disabled={true}
+            className="bg-green opacity-50 hover:bg-greenHover cursor-not-allowed"
         >
             {text}
-        </button>
+        </Button>
     )
 }

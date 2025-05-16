@@ -1,46 +1,25 @@
 'use server'
 import {
-    Plant,
-    PlantShema,
     SignupFormShema,
     FormState,
-    SigninFormShema
+    SigninFormShema,
 } from "app/lib/definitions"
+import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
-import { revalidatePath } from "next/cache"
 import bcrypt from 'bcrypt'
-import { createSession, deleteSession } from "./lib/session"
+import { createSession } from "../lib/session"
 import { redirect } from "next/navigation"
 
-export async function updateStockStore(storePlants: Plant[]) {
-    try {
-        for (const plant of storePlants) {
-            const validatePlantData = PlantShema.safeParse(plant)
-
-            if (!validatePlantData.success) {
-                return {
-                    errors: validatePlantData.error.flatten().fieldErrors,
-                    message: 'Fail to update plant'
-                }
-            }
-
-            const { id, quantity, title } = validatePlantData.data
-
-            await cp.query(`UPDATE plants SET quantity = quantity - '${quantity}' WHERE id = '${id}'`)
-            console.log(`${title} a bien été modifiée`)
-        }
-        revalidatePath('/')
-        return { success: true, message: 'Stock mis à jour avec succès' }
-
-
-    } catch (error) {
-        return { message: 'Database Error: Failed to Update Invoice.' + error }
-    }
-}
-
 export async function logout() {
-    deleteSession()
-    redirect('/')
+    const cookieStore = await cookies()
+    console.log("cookieStore", cookieStore);
+
+    cookieStore.delete('session')
+    console.log("cookieStoreDeleted", cookieStore);
+    if (cookieStore.get('session')?.value === "") {
+        return { message: "Vous êtes bien déconnecté" }
+    }
+    return { error: "Une erreur est survenue lors de la déconnexion, supprimer le cookie manuellement" }
 }
 
 export async function signUp(state: FormState, formData: FormData) {

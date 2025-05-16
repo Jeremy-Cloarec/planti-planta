@@ -9,7 +9,7 @@ const encodedKey = new TextEncoder().encode(secretKey)
 export async function createSession(userId: string, isAdmin: boolean) {
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     const session = await encrypt({ userId, isAdmin, expiresAt })
-    
+
     const cookieStore = await cookies()
 
     cookieStore.set('session', session, {
@@ -55,13 +55,17 @@ export async function encrypt(payload: SessionPayload) {
 }
 
 export async function decrypt(session: string | undefined = '') {
+    if (!session || session.split('.').length !== 3) {
+        return null
+    }
+    
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
             algorithms: ['HS256'],
         })
         return payload
     } catch (error) {
-        console.log(`Failed to verify session. Error: ${error}`);
+        console.log(`Failed to verify session. Error: ${error}`)
     }
 }
 

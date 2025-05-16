@@ -1,11 +1,10 @@
 "use client"
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { logout } from "@/app/actions"
-import Button from "../Button"
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/solid"
 import { usePathname } from "next/navigation"
-import { LogoLink } from "../LogoLink"
+import { LogoLink } from "../nav/LogoLink"
+import ButtonLogout from "../buttons/ButtonLogout"
 
 export default function NavAdmin() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -48,7 +47,7 @@ export default function NavAdmin() {
 
     return (
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
-            <LogoLink isScrolled={isScrolled} />
+            <LogoLink />
             <div
                 className="z-40 sm:hidden cursor-pointer"
                 onClick={handleIsNav}
@@ -73,10 +72,7 @@ export default function NavAdmin() {
                     </li>
                 )}
                 <li className="text-xl mt-4 sm:mt-0 sm:ml-4">
-                    <Button
-                        text="Se déconnecter"
-                        handleClick={logout}
-                    />
+                    <ButtonLogout />
                 </li>
             </ul>
         </nav>

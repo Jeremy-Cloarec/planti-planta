@@ -11,8 +11,10 @@
   --green-light: #B5FF5A;
   --green-light-opacity: #b5ff5ac4;
   --red: #FF5252;
+  --red-opacity: #ff5252d6;
   --white: #ffffff;
 }
+
 
 body {
   color: var(--dark);
