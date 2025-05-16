@@ -7,26 +7,29 @@ import { Footer } from "./ui/Footer"
 import LoadingPlants from "./ui/skeleton/loading"
 
 export default function Home() {
-  const { data, isPending, error } = useQuery({
+  const { data: user, isPending: isUserLoading, error: userError } = useQuery({
     queryKey: ['user'],
     queryFn: () => fetch("/api/user").then((res) => res.json()),
   })
 
-  const user = data
-
-  const countNav = useQuery({
+  const {
+    data: countBasket,
+    isPending: isCountLoading,
+    error: countError,
+  } = useQuery({
     queryKey: ['countBasket', user?.id],
     queryFn: () =>
       fetch(`/api/basket/count_basket?userId=${user.id}`).then((res) => res.json()),
-    enabled: !!user?.id
+    enabled: !!user?.id,
   })
 
-  if (isPending) return <LoadingPlants />
-  if (error) return <div>Erreur de chargement utilisateur {error.message}</div>
+  if (isUserLoading || isCountLoading) return <LoadingPlants />
+  if (userError || countError) return <div>Erreur de chargement utilisateur (Home) : {userError?.message}</div>
+  if (!user) return <div>Utilisateur non connecté</div>
 
   return (
     <>
-      {user && < Nav numberOfPlants={countNav.data} />}
+      {user && < Nav numberOfPlants={countBasket ?? "0"} />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
         <Heading title="Planti Planta" />
         <main className="flex-1">

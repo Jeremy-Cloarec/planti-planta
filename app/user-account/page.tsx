@@ -9,22 +9,25 @@ import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "../ui/skeleton/loading"
 
 export default function UserAccount() {
-    const { data, isPending, error } = useQuery({
+    const { data: user, isPending: isUserLoading, error: userError } = useQuery({
         queryKey: ['user'],
         queryFn: () => fetch("/api/user").then((res) => res.json()),
     })
 
-    const user = data
-
-    const countNav = useQuery({
+    const {
+        data: countBasket,
+        isPending: isCountLoading,
+        error: countError,
+    } = useQuery({
         queryKey: ['countBasket', user?.id],
         queryFn: () =>
             fetch(`/api/basket/count_basket?userId=${user.id}`).then((res) => res.json()),
-        enabled: !!user?.id
+        enabled: !!user?.id,
     })
 
-    if (isPending) return <LoadingPlants />
-    if (error) return <div>Erreur de chargement utilisateur  pour count basket{error.message}</div>
+    if (isUserLoading || isCountLoading) return <LoadingPlants />
+    if (userError || countError) return <div>Erreur de chargement utilisateur (Basket) : {userError?.message}</div>
+    if (!user) return <div>Utilisateur non connecté</div>
 
     if (!user) {
         redirect("/api/logout")
@@ -32,7 +35,7 @@ export default function UserAccount() {
 
     return (
         <>
-            <Nav numberOfPlants={countNav.data} />
+            <Nav numberOfPlants={countBasket ?? "0"} />
             <main className="w-full flex-1 pt-[72px]">
                 <h1>Bonjour {user.name}</h1>
                 <h2>Informations personnelles</h2>
