@@ -1,8 +1,8 @@
 'use client'
-import Button from "./Button"
 import Link from 'next/link'
-import { signUp } from '@/app/actions'
+import { signUp } from '@/app/actions/auth.action'
 import { useActionState, useState } from "react"
+import ButtonAuth from "./buttons/ButtonAuth"
 
 export function SignUpForm() {
     const [name, setName] = useState("")
@@ -95,10 +95,10 @@ export function SignUpForm() {
                         </div>
                     </div>
                     {state?.message && <p className="text-red text-sm">{state.message}</p>}
-                    <Button
+                    <ButtonAuth
                         text="S'inscrire"
-                        isPending={isPending}
-                        classAdded="w-full"
+                        pending={isPending}
+                        className="w-full"
                     />
                 </div>
             </form>

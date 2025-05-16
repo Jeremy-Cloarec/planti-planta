@@ -6,8 +6,6 @@ export const PlantShema = z.object({
     quantity: z.number()
 })
 
-
-
 export const SigninFormShema = z.object({
     email: z.string().email({ message: "Entrz un email valide svp" }),
     password: z
@@ -58,14 +56,19 @@ export type SessionPayload = {
 }
 
 export type Plant = {
-    id: number
+    id: string
     title: string
     price: number
     quantity: number
 }
 
+export type Basket = {
+    plantId: number,
+    userId: number
+}
+
 export type User = {
-    id: number
+    id: string
     isAdmin: boolean
     name: string
     email: string

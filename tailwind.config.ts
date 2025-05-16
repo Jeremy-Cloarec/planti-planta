@@ -16,6 +16,7 @@ export default {
         greenLight:"var(--green-light)",
         greenLightOpacity: "var(--green-light-opacity)",
         red: "var(--red)",
+        redOpacity:"var(--red-opacity)",
         white: "var(--white)",
       },
       fontFamily: {

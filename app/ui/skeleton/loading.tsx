@@ -1,13 +1,13 @@
-export function GridCardSkeleton() {
+export default function LoadingPlants() {
     return (
-        <>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
             <CardSkeleton />
             <CardSkeleton />
             <CardSkeleton />
             <CardSkeleton />
             <CardSkeleton />
             <CardSkeleton />
-        </>
+        </div>
     )
 }
 

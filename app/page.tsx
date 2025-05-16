@@ -1,42 +1,42 @@
 "use client"
+import { useQuery } from "@tanstack/react-query"
+import Nav from "./ui/nav/Nav"
 import Heading from "./ui/Heading"
-import { ListCardsPlants } from "./ui/ListCardsPlants"
-import { PanelCard } from "./ui/PanelCard"
-import { useContext, useEffect, useState } from "react"
-import { IsShopContext } from "./context/IsShopContext"
-import { getScrollPosition } from "./functions/functions"
-import { PopUpOrder } from "./ui/PopUp"
-import Nav from "./ui/Nav"
+import ListCardsPlants from "./ui/ListCardsPlants"
 import { Footer } from "./ui/Footer"
+import LoadingPlants from "./ui/skeleton/loading"
 
 export default function Home() {
-  const { isShop } = useContext(IsShopContext)
-  const [isOrder, setIsOrder] = useState(false)
+  const { data: user, isPending: isUserLoading, error: userError } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => fetch("/api/user").then((res) => res.json()),
+  })
 
-  useEffect(() => {
-    getScrollPosition()
-  }, [isShop])
+  const {
+    data: countBasket,
+    isPending: isCountLoading,
+    error: countError,
+  } = useQuery({
+    queryKey: ['countBasket', user?.id],
+    queryFn: () =>
+      fetch(`/api/basket/count_basket?userId=${user.id}`).then((res) => res.json()),
+    enabled: !!user?.id,
+  })
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsOrder(false)
-    }, 3000)
-  }, [isOrder])
+  if (isUserLoading || isCountLoading) return <LoadingPlants />
+  if (userError || countError) return <div>Erreur de chargement utilisateur (Home) : {userError?.message}</div>
+  if (!user) return <div>Utilisateur non connecté</div>
 
   return (
     <>
-      <Nav />
-      {isShop && <PanelCard setIsOrder={setIsOrder} />}
+      {user && < Nav numberOfPlants={countBasket ?? "0"} />}
       <div className="max-w-4xl flex flex-col flex-1 w-full">
-
         <Heading title="Planti Planta" />
-        <main className="flex-1
-      ">
-          <ListCardsPlants />
-          {isOrder && <PopUpOrder />}
+        <main className="flex-1">
+          <ListCardsPlants userId={user.id} />
         </main>
       </div>
       <Footer />
     </>
-  );
+  )
 }

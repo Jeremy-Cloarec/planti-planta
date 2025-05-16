@@ -1,48 +1,48 @@
 "use client"
-import { useContext, useEffect, useState } from "react"
-import { logout } from "../actions"
-import Button from "../ui/Button"
-import { fetchUserInfos } from "../lib/data"
-import { UserInfoType } from "../lib/definitions"
-import Nav from "../ui/Nav"
+export const dynamic = 'force-dynamic'
+
+import { redirect } from "next/navigation"
+import Nav from "../ui/nav/Nav"
 import { Footer } from "../ui/Footer"
-import { PanelCard } from "../ui/PanelCard"
-import { IsShopContext } from "../context/IsShopContext"
-import { PopUpOrder } from "../ui/PopUp"
+import ButtonLogout from "../ui/buttons/ButtonLogout"
+import { useQuery } from "@tanstack/react-query"
+import LoadingPlants from "../ui/skeleton/loading"
 
 export default function UserAccount() {
-    const [user, setUser] = useState<UserInfoType | null>(null)
-    const { isShop } = useContext(IsShopContext)
-    const [isOrder, setIsOrder] = useState(false)
+    const { data: user, isPending: isUserLoading, error: userError } = useQuery({
+        queryKey: ['user'],
+        queryFn: () => fetch("/api/user").then((res) => res.json()),
+    })
 
-    useEffect(() => {
-        async function getUser() {
-            const fetchedUser = await fetchUserInfos()
-            setUser(fetchedUser)
-        }
-        getUser()
-    }, [])
+    const {
+        data: countBasket,
+        isPending: isCountLoading,
+        error: countError,
+    } = useQuery({
+        queryKey: ['countBasket', user?.id],
+        queryFn: () =>
+            fetch(`/api/basket/count_basket?userId=${user.id}`).then((res) => res.json()),
+        enabled: !!user?.id,
+    })
 
-    useEffect(() => {
-        setTimeout(() => {
-            setIsOrder(false)
-        }, 3000)
-    }, [isOrder])
+    if (isUserLoading || isCountLoading) return <LoadingPlants />
+    if (userError || countError) return <div>Erreur de chargement utilisateur (Basket) : {userError?.message}</div>
+    if (!user) return <div>Utilisateur non connecté</div>
+
+    if (!user) {
+        redirect("/api/logout")
+    }
 
     return (
         <>
-            <Nav />
-            {isShop && <PanelCard setIsOrder={setIsOrder} />}
+            <Nav numberOfPlants={countBasket ?? "0"} />
             <main className="w-full flex-1 pt-[72px]">
-                <h1>Bonjour {user?.name}</h1>
-                <Button
-                    text="Se déconnecter"
-                    handleClick={logout}
-                />
-                {isOrder && <PopUpOrder />}
+                <h1>Bonjour {user.name}</h1>
+                <h2>Informations personnelles</h2>
+                <h2>Commandes</h2>
+                <ButtonLogout />
             </main>
             <Footer />
         </>
-
     )
 }
