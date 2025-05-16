@@ -9,7 +9,6 @@ import { connectionPool as cp } from "app/db"
 import bcrypt from 'bcrypt'
 import { createSession } from "./lib/session"
 import { redirect } from "next/navigation"
-import { verifySession } from "./lib/dal"
 import { revalidatePath } from "next/cache"
 
 export async function fetchPlantInBasket(id: string) {
@@ -23,42 +22,6 @@ export async function fetchPlantInBasket(id: string) {
     } catch (error) {
         console.error("Failed to fetch plant in shop. ", error);
     }
-}
-
-export async function fetchUserInfos() {
-    try {
-        const userId = (await verifySession())?.userId
-        if (userId) {
-            const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
-            return user
-        }
-
-        // Create guest user
-        const cookieStore = await cookies()
-        const cookieUserId = (cookieStore.get('userId'))?.value
-
-        if (cookieUserId) {
-            const user = (await cp.query(`SELECT id, name, email FROM users WHERE id=$1`, [userId])).rows[0]
-
-            console.log(user)
-
-            if (user) return user
-        }
-
-        // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/`, {
-        //     cache: "no-store",
-        // })
-
-        // if (!res.ok) throw new Error("Failed to create guest user")
-        // const user = await res.json()
-        // return user
-
-    } catch (error) {
-        console.log("User not connected. ", error);
-    }
-
-
-
 }
 
 export async function updateQuantityPlant(id: string) {

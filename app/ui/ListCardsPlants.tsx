@@ -30,8 +30,7 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     const { isPending, error, data } = useQuery({
         queryKey: ['plants'],
         queryFn: () =>
-            fetch('http://localhost:3000/api/plants').then((res) => res.json(),
-            )
+            fetch('http://localhost:3000/api/plants').then((res) => res.json())
     })
 
     if (isPending) return <LoadingPlants />

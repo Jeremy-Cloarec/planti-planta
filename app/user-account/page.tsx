@@ -2,9 +2,9 @@ export const dynamic = 'force-dynamic'
 
 import { redirect } from "next/navigation"
 import Nav from "../ui/nav/Nav"
-import { fetchUserInfos } from "../actions"
 import { Footer } from "../ui/Footer"
 import ButtonLogout from "../ui/buttons/ButtonLogout"
+import { fetchUserInfos } from "../actions/users.action"
 
 export default async function UserAccount() {
     const user = await fetchUserInfos()

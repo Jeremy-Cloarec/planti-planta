@@ -2,11 +2,12 @@ export const dynamic = 'force-dynamic'
 
 import Nav from "../ui/nav/Nav"
 import { Footer } from "../ui/Footer"
-import { fetchPlantInBasket, fetchUserInfos } from "../actions"
+import { fetchPlantInBasket } from "../actions"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 import { redirect } from "next/navigation"
+import { fetchUserInfos } from "../actions/users.action"
 
 export default async function Basket() {
     const user = await fetchUserInfos()
