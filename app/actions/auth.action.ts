@@ -3,7 +3,6 @@ import {
     SignupFormShema,
     FormState,
     SigninFormShema,
-    SessionPayload,
 } from "app/lib/definitions"
 import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
@@ -11,7 +10,6 @@ import bcrypt from 'bcrypt'
 import { createSession, decrypt } from "../lib/session"
 import { redirect } from "next/navigation"
 import { fetchPlantInBasket } from "./basket.action"
-import { JWTPayload } from "jose"
 
 export async function logout() {
     const cookieStore = await cookies()
