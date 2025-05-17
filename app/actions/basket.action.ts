@@ -1,15 +1,16 @@
 'use server'
 import { connectionPool as cp } from "app/db"
 import { revalidatePath } from "next/cache"
+import { Plant } from "../lib/definitions"
 
 export async function fetchPlantInBasket(id: string) {
     try {
-        const baskePlants = await cp.query(
+        const baskePlants:Plant[] = (await cp.query(
             `SELECT plants.id, plants.title, plants.price, plants.quantity FROM plants
                 JOIN basket ON(plants.id = basket.plant_id)
                 JOIN users ON(users.id = basket.user_id)
-                WHERE users.id = $1`, [id])
-        return baskePlants.rows
+                WHERE users.id = $1`, [id])).rows
+        return baskePlants 
     } catch (error) {
         console.error("Failed to fetch plant in shop. ", error);
     }

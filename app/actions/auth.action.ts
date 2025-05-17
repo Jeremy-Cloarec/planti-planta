@@ -3,12 +3,15 @@ import {
     SignupFormShema,
     FormState,
     SigninFormShema,
+    SessionPayload,
 } from "app/lib/definitions"
 import { cookies } from 'next/headers'
 import { connectionPool as cp } from "app/db"
 import bcrypt from 'bcrypt'
-import { createSession } from "../lib/session"
+import { createSession, decrypt } from "../lib/session"
 import { redirect } from "next/navigation"
+import { fetchPlantInBasket } from "./basket.action"
+import { JWTPayload } from "jose"
 
 export async function logout() {
     const cookieStore = await cookies()
@@ -23,7 +26,7 @@ export async function logout() {
 }
 
 export async function signUp(state: FormState, formData: FormData) {
-    //1. Validate form fields
+    // Validate form fields
     const validateFields = SignupFormShema.safeParse({
         isAdmin: false,
         name: formData.get('name'),
@@ -38,7 +41,7 @@ export async function signUp(state: FormState, formData: FormData) {
         }
     }
 
-    // 2.Prepare data for insertion into database
+    // Prepare data for insertion into database
     const { isAdmin, name, email, password } = validateFields.data
 
     // Check if user already exist
@@ -54,7 +57,7 @@ export async function signUp(state: FormState, formData: FormData) {
     // Hashing passord before store it
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // 3. Insert user into the database or call an Auth librairy
+    // Insert user into the database or call an Auth librairy
     const data = await cp.query(`
         INSERT INTO users (is_admin, name, email, password) VALUES($1, $2, $3, $4) RETURNING *
         `, [isAdmin, name, email, hashedPassword])
@@ -70,10 +73,10 @@ export async function signUp(state: FormState, formData: FormData) {
         }
     }
 
-    // 4. Create a user session
+    // Create a user session
     await createSession(user.id, user.is_admin)
 
-    // 5. Redirect user
+    // Redirect user
     if (user.is_admin === true) {
         redirect('/admin')
     } else {
@@ -82,7 +85,7 @@ export async function signUp(state: FormState, formData: FormData) {
 }
 
 export async function signIn(state: FormState, formData: FormData) {
-    // 1. Validate form fields
+    // Validate form fields
     const validateFields = SigninFormShema.safeParse({
         email: formData.get('email'),
         password: formData.get('password')
@@ -95,29 +98,78 @@ export async function signIn(state: FormState, formData: FormData) {
         }
     }
 
-    // 2. Prepare date to compare in db
+    // Prepare date to compare in db
     const { email, password } = validateFields.data
 
-    // 3. If no mail in db, return early
+    // If no mail in db, return early
     const data = await cp.query(`
         SELECT * FROM users WHERE email=$1
         `, [email])
     const user = data.rows[0]
 
-    if (!user) return { message: "Le mail n'esiste pas" }
+    if (!user) return { message: "Le mail n'existe pas" }
 
-    // 4. Compare password
+    // Compare password
     const isPasswordOk = await bcrypt.compare(password, user.password)
 
     if (!isPasswordOk) return { message: "Le mot de passe n'est pas correct" }
 
-    // 5. Create a user session
+    // Create a user session
     await createSession(user.id, user.is_admin)
 
-    //6. Redirect user
+    // Synchronize user guest basket and user connected basket
+    const cookieStore = await cookies()
+    const userGuestId = cookieStore.get('userId')?.value
+
+    if (userGuestId) {
+        synchronizeBaskets(userGuestId)
+
+        cookieStore.delete('userId')
+        await cp.query(`DELETE FROM users WHERE id = $1`, [userGuestId])
+    }
+
+    // Redirect user
     if (user.is_admin === true) {
         redirect('/admin')
     } else {
         redirect('/user-account')
     }
 }
+
+async function synchronizeBaskets(userGuestId: string) {
+    const guestBasket = await fetchPlantInBasket(userGuestId)
+    if (!guestBasket || guestBasket.length === 0) return
+
+    const cookieStore = await cookies()
+    const cookiesConnected = cookieStore.get('session')?.value
+
+    if (!cookiesConnected) return
+
+    const userConnected = await decrypt(cookiesConnected)
+
+    if (!userConnected) return
+
+    const userId = typeof userConnected.userId === 'string' ? userConnected.userId : ''
+
+    if (userId === '') return
+
+    const userConnectedBasket = await fetchPlantInBasket(userId)
+
+    if (!userConnectedBasket) return
+
+    const userBasketPlantIds = new Set(userConnectedBasket.map(user => user.id))
+
+    await Promise.all(
+        guestBasket
+            .filter(item => !userBasketPlantIds.has(item.id))
+            .map(item =>
+                cp.query(`INSERT INTO basket (plant_id, user_id) VALUES ($1, $2)`, [item.id, userId])
+            )
+    )
+}
+
+
+
+
+
+
