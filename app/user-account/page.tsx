@@ -1,5 +1,4 @@
 "use client"
-export const dynamic = 'force-dynamic'
 
 import { redirect } from "next/navigation"
 import Nav from "../ui/nav/Nav"

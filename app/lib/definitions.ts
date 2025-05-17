@@ -7,16 +7,8 @@ export const PlantShema = z.object({
 })
 
 export const SigninFormShema = z.object({
-    email: z.string().email({ message: "Entrz un email valide svp" }),
-    password: z
-        .string()
-        .min(8, { message: 'Doit avoir au moins 6 caractère de long' })
-        .regex(/[a-zA-Z]/, { message: 'Doit contenir au moins une lettre' })
-        .regex(/[0-9]/, { message: 'Doit contenir au moins un nombre' })
-        .regex(/[^a-zA-Z0-9]/, {
-            message: 'Doit contenir au moins un caractère spécial',
-        })
-        .trim(),
+    email: z.string().email({ message: "Entrez un email valide svp" }).trim(),
+    password: z.string().trim(),
 })
 
 export const SignupFormShema = z.object({
@@ -52,7 +44,7 @@ export type FormState =
 export type SessionPayload = {
     userId: string
     expiresAt: Date
-    isAdmin?: boolean
+    isAdmin: boolean
 }
 
 export type Plant = {
@@ -81,9 +73,4 @@ export type UserInfoType = {
     is_admin: boolean
 }
 
-export type Discount = {
-    isDiscount: boolean,
-    discountInput: string,
-    message: string
-}
 
