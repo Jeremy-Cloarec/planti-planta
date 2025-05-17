@@ -45,8 +45,6 @@ export type SessionPayload = {
     userId: string
     expiresAt: Date
     isAdmin: boolean
-    iat: number,
-    exp: number
 }
 
 export type Plant = {
