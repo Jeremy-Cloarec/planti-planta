@@ -10,26 +10,28 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     )
 
     return (
-        <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white`}>
-            <LogoLink />
-            <ul className="flex gap-3">
-                <li className="flex items-center">
-                    <Link
-                        key={"Sin In"}
-                        href="/sign-in">
-                        <UserIcon className="size-9" />
-                    </Link>
-                </li>
-                <li className="relative flex items-center">
-                    {numberOfPlants != "0" && notif}
-                    <Link
-                        key={"Panier"}
-                        href="/panier">
-                        <ShoppingCartIcon
-                            className="size-9" />
-                    </Link>
-                </li>
-            </ul>
+        <nav className='w-full max-w-80 fixed top-0 py-2 z-30 px-3'>
+            <div className="flex items-center justify-between bg-[rgba(255,255,255)] shadow-lg px-4 py-2 rounded-full">
+                <LogoLink />
+                <ul className="flex gap-3">
+                    <li className="flex items-center">
+                        <Link
+                            key={"Sin In"}
+                            href="/sign-in">
+                            <UserIcon className="size-7" />
+                        </Link>
+                    </li>
+                    <li className="relative flex items-center">
+                        {numberOfPlants != "0" && notif}
+                        <Link
+                            key={"Panier"}
+                            href="/panier">
+                            <ShoppingCartIcon
+                                className="size-7" />
+                        </Link>
+                    </li>
+                </ul>
+            </div>
         </nav>
     )
 }

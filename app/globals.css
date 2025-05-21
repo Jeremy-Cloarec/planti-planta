@@ -10,6 +10,7 @@
   --green-hover: #12754dd7;
   --green-light: #B5FF5A;
   --green-light-opacity: #b5ff5ac4;
+  --green-gradient: '#B5E888';
   --red: #FF5252;
   --red-opacity: #ff5252d6;
   --white: #ffffff;
@@ -19,12 +20,6 @@
 body {
   color: var(--dark);
   background: white;
-  padding: 0 18px;
-}
-
-body:has(.panel-card) {
-  overflow: hidden;
-  width: 100%;
 }
 
 h1,
@@ -53,10 +48,6 @@ p {
 }
 
 @media (min-width: 768px) {
-  body {
-    padding: 25px;
-  }
-
   h1 {
     font-size: 3rem;
   }
