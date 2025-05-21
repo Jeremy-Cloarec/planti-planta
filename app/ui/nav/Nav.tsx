@@ -11,7 +11,7 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
 
     return (
         <nav className='w-full max-w-80 fixed top-0 py-2 z-30 px-3'>
-            <div className="flex items-center justify-between bg-white shadow-lg px-4 py-2 rounded-full">
+            <div className="flex items-center justify-between bg-[rgba(255,255,255)] shadow-lg px-4 py-2 rounded-full">
                 <LogoLink />
                 <ul className="flex gap-3">
                     <li className="flex items-center">
