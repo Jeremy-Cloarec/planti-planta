@@ -1,7 +1,7 @@
 "use client"
 import { useQuery } from "@tanstack/react-query"
 import Nav from "./ui/nav/Nav"
-import Heading from "./ui/Heading"
+import Heading from "./ui/Hero"
 import ListCardsPlants from "./ui/ListCardsPlants"
 import { Footer } from "./ui/Footer"
 import LoadingPlants from "./ui/skeleton/loading"
@@ -30,8 +30,8 @@ export default function Home() {
   return (
     <>
       {user && < Nav numberOfPlants={countBasket ?? "0"} />}
-      <div className="max-w-4xl flex flex-col flex-1 w-full">
-        <Heading title="Planti Planta" />
+      <div className="flex flex-col flex-1 w-full">
+        <Heading title="Dancing Plants" />
         <main className="flex-1">
           <ListCardsPlants userId={user.id} />
         </main>

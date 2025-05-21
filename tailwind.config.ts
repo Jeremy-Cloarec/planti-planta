@@ -15,6 +15,7 @@ export default {
         greenHover: "var(--green-hover)",
         greenLight:"var(--green-light)",
         greenLightOpacity: "var(--green-light-opacity)",
+        greenGradient:"var(--green-gradient)",
         red: "var(--red)",
         redOpacity:"var(--red-opacity)",
         white: "var(--white)",
