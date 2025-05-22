@@ -32,7 +32,7 @@ export default function Home() {
       {user && < Nav numberOfPlants={countBasket ?? "0"} />}
       <div className="flex flex-col flex-1 w-full">
         <Heading title="Dancing Plants" />
-        <main className="flex-1">
+        <main className="flex-1 p-4">
           <ListCardsPlants userId={user.id} />
         </main>
       </div>

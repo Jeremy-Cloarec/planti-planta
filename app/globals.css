@@ -6,8 +6,8 @@
   --background: #faefe3;
   --dark: #1D1E1B;
   --dark2: #777775;
-  --green: #12754d;
-  --green-hover: #12754dd7;
+  --green: #B5E888;
+  --green-hover: #a3d07c;
   --green-light: #B5FF5A;
   --green-light-opacity: #b5ff5ac4;
   --green-gradient: '#B5E888';
@@ -28,7 +28,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--crimson);
+  font-family: var(--cormorant);
 }
 
 h1 {

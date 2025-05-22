@@ -1,33 +1,39 @@
 const plants = [
     {
-        title: 'Iridaceae',
-        price: 16,
-        quantity: 1
+        title: 'Dancing Plant 1',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     },
     {
-        title: 'Ericaceae',
-        price: 24,
-        quantity: 1
+        title: 'Dancing Plant 2',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     },
     {
-        title: 'Geraniaceae',
-        price: 8,
-        quantity: 1
+        title: 'Dancing Plant 3',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     },
     {
-        title: 'Aizoaceae',
-        price: 12,
-        quantity: 1
+        title: 'Dancing Plant 4',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     },
     {
-        title: 'Liliaceae',
-        price: 31,
-        quantity: 1
+        title: 'Dancing Plant 5',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     },
     {
-        title: 'Campanulaceae',
-        price: 24,
-        quantity: 1
+        title: 'Dancing Plant 6',
+        price: 60,
+        quantity: 1,
+        legend: '21 X 29, 7, Feutre, encre et stylo sur papier, 2025'
     }
 ]
 

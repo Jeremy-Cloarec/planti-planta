@@ -9,13 +9,14 @@ async function seedPlants() {
                 id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
                 title TEXT NOT NULL,
                 price NUMERIC NOT NULL,
-                quantity NUMERIC NOT NULL
+                quantity NUMERIC NOT NULL,
+                legend TEXT NOT NULL
             )
         `);
     const insertPlants = await Promise.all(
         plants.map((plant) => {
             cp.query(`
-                INSERT INTO plants (title, price, quantity) VALUES ($1, $2, $3)`, [plant.title, plant.price, plant.quantity])
+                INSERT INTO plants (title, price, quantity, legend) VALUES ($1, $2, $3, $4)`, [plant.title, plant.price, plant.quantity, plant.legend])
         })
     );
 

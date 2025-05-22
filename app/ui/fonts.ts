@@ -1,19 +1,26 @@
-import { Crimson_Text, Jaldi } from 'next/font/google'
+import { Cabin, Cabin_Condensed, Cormorant } from 'next/font/google'
 
 
-export const crimson = Crimson_Text({
-    subsets: ['latin'],
-    weight: '600',
-    variable: '--crimson'
-})
-
-export const jaldiRegular = Jaldi({
-    subsets: ['latin'],
-    weight: '400'
-})
-
-export const jaldiBold = Jaldi({
+export const cormorant = Cormorant({
     subsets: ['latin'],
     weight: '700',
-    variable: '--jaldiBold'
+    variable: '--cormorant'
+})
+
+export const cabinRegular = Cabin({
+    subsets: ['latin'],
+    weight: '400',
+
+})
+
+export const cabinBold = Cabin({
+    subsets: ['latin'],
+    weight: '700',
+    variable: '--cabinBold'
+})
+
+export const cabinCondensed = Cabin_Condensed({
+    subsets: ['latin'],
+    weight: '400',
+    variable: '--cabinCondensed'
 })

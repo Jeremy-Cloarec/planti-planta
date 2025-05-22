@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
+import { cabinBold, cabinCondensed } from "./fonts"
 
 interface Response {
     message: string
@@ -20,8 +21,11 @@ export default function CardPlant({
     userId,
     addReponse,
 }: CardPlantProps) {
-    const alt: string = `Photographie de la plante ${plant.title}`
-    const url = `/plants/${plant.title.toLowerCase()}.png`
+    const alt: string = `Photographie du desin ${plant.title}`
+    const formatedUrl = plant.title.toLowerCase().split(" ").join("_")
+    console.log(formatedUrl);
+
+    const url = `/plants/${formatedUrl}.png`
 
     const { data } = useQuery({
         queryKey: ["isInBasket", plant.id, userId],
@@ -34,25 +38,24 @@ export default function CardPlant({
     })
 
     const alreadyInBasket = data === true
-    
+
     return (
-        <div className="ring-1 ring-green p-3 bg-white rounded-3xl flex flex-col gap-4 h-full justify-between">
+        <div className=" bg-white flex flex-col gap-4 justify-between">
             <div className="relative bg-white flex items-center">
                 <Image
                     src={url}
                     alt={alt}
                     width={212}
                     height={209}
-                    className="w-full rounded-2xl"
+                    className="w-full"
                 />
             </div>
-            <h2 className="text-ellipsis overflow-hidden">{plant.title}</h2>
-            <div className="flex items-center justify-between">
-                <p>{plant.price}€</p>
-            </div>
+            <h2 className="text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl">{plant.title}</h2>
+            <p className={`text-3xl ${cabinBold.className}`}>{plant.price}€</p>
+            <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
             <ButtonAddToBasket
                 text="Ajouter au panier"
-                plantId={plant.id} 
+                plantId={plant.id}
                 userId={userId}
                 addReponse={addReponse}
                 disabled={alreadyInBasket}

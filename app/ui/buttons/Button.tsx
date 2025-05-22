@@ -14,7 +14,7 @@ export default function Button({
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-2 rounded-2xl transition delay-75 duration-300 ease-in-out bg-green hover:bg-greenHover text-white ${disabled && "opacity-70 cursor-not-allowed"} ${className}`} 
+            className={`px-4 py-2 transition delay-75 duration-300 ease-in-out bg-green hover:bg-greenHover text-dark ${disabled && "opacity-70 cursor-not-allowed"} ${className}`} 
             disabled={disabled}
         >
             {children}
