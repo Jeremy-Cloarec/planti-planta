@@ -4,6 +4,7 @@ import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
 import { cabinBold, cabinCondensed } from "./fonts"
+import { formatedUrl } from "../utils/utils"
 
 interface Response {
     message: string
@@ -22,10 +23,7 @@ export default function CardPlant({
     addReponse,
 }: CardPlantProps) {
     const alt: string = `Photographie du desin ${plant.title}`
-    const formatedUrl = plant.title.toLowerCase().split(" ").join("_")
-    console.log(formatedUrl);
-
-    const url = `/plants/${formatedUrl}.png`
+    const url = `/plants/${formatedUrl(plant.title)}.png`
 
     const { data } = useQuery({
         queryKey: ["isInBasket", plant.id, userId],

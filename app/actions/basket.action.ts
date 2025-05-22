@@ -6,7 +6,7 @@ import { Plant } from "../lib/definitions"
 export async function fetchPlantInBasket(id: string) {
     try {
         const baskePlants:Plant[] = (await cp.query(
-            `SELECT * FROM plants
+            `SELECT plants.id, plants.title, plants.price, plants.quantity, plants.legend FROM plants
                 JOIN basket ON(plants.id = basket.plant_id)
                 JOIN users ON(users.id = basket.user_id)
                 WHERE users.id = $1`, [id])).rows
