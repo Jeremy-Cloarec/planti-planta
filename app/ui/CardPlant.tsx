@@ -40,13 +40,15 @@ export default function CardPlant({
     return (
         <div className=" bg-white flex flex-col gap-4 justify-between">
             <div className="relative bg-white flex items-center">
-                <Image
-                    src={url}
-                    alt={alt}
-                    width={212}
-                    height={209}
-                    className="w-full"
-                />
+                <button popoverTarget="popover_plant" popoverTargetAction="show" className="w-full">
+                    <Image
+                        src={url}
+                        alt={alt}
+                        width={212}
+                        height={209}
+                        className="w-full"
+                    />
+                </button>
             </div>
             <h2 className="text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl">{plant.title}</h2>
             <p className={`text-3xl ${cabinBold.className}`}>{plant.price}€</p>
