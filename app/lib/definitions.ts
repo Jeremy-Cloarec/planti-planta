@@ -3,7 +3,8 @@ export const PlantShema = z.object({
     id: z.number(),
     title: z.string(),
     price: z.number(),
-    quantity: z.number()
+    quantity: z.number(),
+    legend: z.string()
 })
 
 export const SigninFormShema = z.object({
@@ -52,6 +53,7 @@ export type Plant = {
     title: string
     price: number
     quantity: number
+    legend:string
 }
 
 export type Basket = {

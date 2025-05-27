@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query"
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
+import { cabinBold, cabinCondensed } from "./fonts"
+import { formatedUrl } from "../utils/utils"
 
 interface Response {
     message: string
@@ -13,15 +15,17 @@ interface CardPlantProps {
     plant: Plant
     userId: string
     addReponse: (newResponse: Response) => void
+    findIndex: (plant: Plant) => void
 }
 
 export default function CardPlant({
     plant,
     userId,
     addReponse,
+    findIndex,
 }: CardPlantProps) {
-    const alt: string = `Photographie de la plante ${plant.title}`
-    const url = `/plants/${plant.title.toLowerCase()}.png`
+    const alt: string = `Photographie du desin ${plant.title}`
+    const url = `/plants/${formatedUrl(plant.title)}.png`
 
     const { data } = useQuery({
         queryKey: ["isInBasket", plant.id, userId],
@@ -31,32 +35,41 @@ export default function CardPlant({
             const json = await res.json()
             return json.quantity > 0
         },
-    })
+    }) 
 
     const alreadyInBasket = data === true
-    
+
     return (
-        <div className="ring-1 ring-green p-3 bg-white rounded-3xl flex flex-col gap-4 h-full justify-between">
-            <div className="relative bg-white flex items-center">
-                <Image
-                    src={url}
-                    alt={alt}
-                    width={212}
-                    height={209}
-                    className="w-full rounded-2xl"
+        <>
+            <div className=" bg-white flex flex-col gap-4 justify-between">
+                <div className="relative bg-white flex items-center">
+                    <button
+                        popoverTarget="popover_plant"
+                        popoverTargetAction="show"
+                        className="w-full"
+                        onClick={() => findIndex(plant)}
+                    >
+                        <Image
+                            src={url}
+                            alt={alt}
+                            width={212}
+                            height={209}
+                            className="w-full"
+                        />
+                    </button>
+                </div>
+                <h2 className="text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl">{plant.title}</h2>
+                <p className={`text-3xl ${cabinBold.className}`}>{plant.price}€</p>
+                <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
+                <ButtonAddToBasket
+                    text="Ajouter au panier"
+                    plantId={plant.id}
+                    userId={userId}
+                    addReponse={addReponse}
+                    disabled={alreadyInBasket}
                 />
             </div>
-            <h2 className="text-ellipsis overflow-hidden">{plant.title}</h2>
-            <div className="flex items-center justify-between">
-                <p>{plant.price}€</p>
-            </div>
-            <ButtonAddToBasket
-                text="Ajouter au panier"
-                plantId={plant.id} 
-                userId={userId}
-                addReponse={addReponse}
-                disabled={alreadyInBasket}
-            />
-        </div>
+        </>
+
     )
 }

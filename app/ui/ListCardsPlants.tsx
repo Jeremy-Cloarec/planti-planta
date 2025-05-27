@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { Plant } from "../lib/definitions"
 import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "./skeleton/loading"
+import PlantPopover from "./PlantPopover"
 
 interface ListCardsClientProps {
     userId: string
@@ -18,6 +19,7 @@ interface Response {
 
 export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     const [responses, setResponses] = useState<Response[]>([])
+    const [index, setIndex] = useState<number>(0)
 
     function addResponse(newResponse: Response) {
         setResponses((prev) => [...prev, newResponse])
@@ -37,29 +39,42 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
 
     if (error) return 'An error occured: ' + error.message
 
-    return (
-        <div className="flex flex-col gap-4 items-center">
-            <ul className="z-20 fixed bottom-10 left-1/2 -translate-x-1/2 text-center flex flex-col gap-2">
-                {responses.map((response) =>
-                    <PopUpAddedToCard
-                        key={uuidv4()}
-                        message={response.message}
-                        isSucces={response.success}
-                    />
-                )}
-            </ul>
+    const findIndex = (plant: Plant) => {
+        const nameIndex: number = data.indexOf(plant)
+        setIndex(nameIndex)
+    }
 
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
-                {data.map((plant: Plant) => (
-                    <li key={plant.id}>
-                        <CardPlant
-                            plant={plant}
-                            userId={userId}
-                            addReponse={addResponse}
+    return (
+        <>
+            <div className="flex flex-col gap-4 items-center">
+                <ul className="z-20 fixed bottom-10 left-1/2 -translate-x-1/2 text-center flex flex-col gap-2">
+                    {responses.map((response) =>
+                        <PopUpAddedToCard
+                            key={uuidv4()}
+                            message={response.message}
+                            isSucces={response.success}
                         />
-                    </li>
-                ))}
-            </ul>
-        </div>
+                    )}
+                </ul>
+
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
+                    {data.map((plant: Plant) => (
+                        <li key={plant.id}>
+                            <CardPlant
+                                plant={plant}
+                                userId={userId}
+                                addReponse={addResponse}
+                                findIndex={findIndex}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <PlantPopover
+                index={index}
+                setIndex={setIndex}
+                plants={data}
+            />
+        </>
     )
 }

@@ -6,6 +6,7 @@ import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "../ui/skeleton/loading"
+import { formatedUrl } from "../utils/utils"
 
 export default function Basket() {
     const userQuery = useQuery<User>({
@@ -54,7 +55,7 @@ export default function Basket() {
                                         alt="Miniature"
                                         width={130}
                                         height={165}
-                                        src={`/plants/${plant.title.toLowerCase()}.png`}
+                                        src={`/plants/${formatedUrl(plant.title)}.png`}
                                     />
                                     <div className="flex-1">
                                         <h2>{plant.title}</h2>
