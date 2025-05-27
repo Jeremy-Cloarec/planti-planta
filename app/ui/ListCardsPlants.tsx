@@ -19,6 +19,7 @@ interface Response {
 
 export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     const [responses, setResponses] = useState<Response[]>([])
+    const [index, setIndex] = useState<number>(0)
 
     function addResponse(newResponse: Response) {
         setResponses((prev) => [...prev, newResponse])
@@ -37,6 +38,11 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
     if (isPending) return <LoadingPlants />
 
     if (error) return 'An error occured: ' + error.message
+
+    const findIndex = (plant: Plant) => {
+        const nameIndex: number = data.indexOf(plant)
+        setIndex(nameIndex)
+    }
 
     return (
         <>
@@ -58,12 +64,17 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
                                 plant={plant}
                                 userId={userId}
                                 addReponse={addResponse}
+                                findIndex={findIndex}
                             />
                         </li>
                     ))}
                 </ul>
             </div>
-            <PlantPopover title="hello" />
+            <PlantPopover
+                index={index}
+                setIndex={setIndex}
+                plants={data}
+            />
         </>
     )
 }
