@@ -11,6 +11,7 @@ export default {
       colors: {
         background: "var(--background)",
         dark: "var(--dark)",
+        dark2: "var(--dark2)",
         green: "var(--green)",
         greenHover: "var(--green-hover)",
         greenLight: "var(--green-light)",
