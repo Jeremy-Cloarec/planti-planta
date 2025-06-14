@@ -1,14 +1,11 @@
 import { fetchPlantInBasket } from "@/app/actions/basket.action"
-import { NextRequest } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(req: NextRequest) {
     const userId = req.nextUrl.searchParams.get("userId")
 
     if (!userId) {
-        return new Response(
-            JSON.stringify({ success: false, message: "Missing plantId or userId" }),
-            { status: 400 }
-        )
+        return NextResponse.json({ error: "User not authenticated" }, { status: 401 });
     }
 
     try {
