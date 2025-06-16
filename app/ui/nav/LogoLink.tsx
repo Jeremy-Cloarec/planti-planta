@@ -11,9 +11,7 @@ export function LogoLink() {
                 alt="Logo du site, lien vers la page d'accueil"
                 width={44}
                 height={48.13}
-                className="md:w-[60px]"
             />
         </Link>
-
     )
 }

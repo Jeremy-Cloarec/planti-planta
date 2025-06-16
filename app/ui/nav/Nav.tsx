@@ -55,7 +55,7 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
                     <LogoLink />
                 </div>
                 <ul className={`
-                        flex flex-col h-32 absolute justify-between top-16 text-center bg-white w-full left-0 py-3 border-b border-violetLight 
+                        flex flex-col h-32 absolute justify-between top-16 text-center bg-white w-full left-0 py-3 border-b border-slate-200 
                         overflow-hidden transition-all duration-700 ease-in-out
                         ${showMenu ? 'text-lg max-h-32 opacity-100' : 'max-h-0 opacity-0 text-[0px]'}
 
