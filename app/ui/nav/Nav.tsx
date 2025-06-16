@@ -2,6 +2,7 @@ import { UserIcon, ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/rea
 import Link from "next/link"
 import { LogoLink } from "./LogoLink"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -10,7 +11,7 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     }
 
     const notif = (
-        <div className="absolute -right-2 -top-1 bg-[#c1aeda] text-sm text-dark h-5 w-5 text-center rounded-full">
+        <div className="absolute -right-2 -top-1 bg-[#c1aeda] text-sm text-dark h-5 w-5 text-center rounded-full z-20">
             {numberOfPlants}
         </div>
     )
@@ -20,6 +21,26 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     ) : (
         <Bars3Icon className="size-8 md:hidden cursor-pointer" />
     )
+
+    const pathname = usePathname()
+
+    const links = [
+        {
+            key: "Plantes",
+            href: "/",
+            text: "Plantes",
+        },
+        {
+            key: "Qui suis-je ?",
+            href: "/qui-suis-je",
+            text: "Qui suis-je ?",
+        },
+        {
+            key: "Contact",
+            href: "/contact",
+            text: "Contact",
+        },
+    ]
 
     return (
         <nav className='w-full fixed top-0 z-30'>
@@ -40,47 +61,36 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
 
                         md:relative  md:top-0 md:justify-center md:items-center md:gap-5 md:flex-row md:bg-transparent md:border-none md:opacity-100 md:text-lg  
                     `}>
-                    <li className="hover:text-violet transition duration-300 uppercase">
-                        <Link
-                            key={"Plantes"}
-                            href="/"
-                        >
-                            Plantes
-                        </Link>
-                    </li>
-                    <li className="hover:text-violet transition duration-300 uppercase">
-                        <Link
-                            key={"Qui suis-je ?"}
-                            href="/qui-suis-je"
-                        >
-                            Qui suis-je ?
-                        </Link>
-                    </li>
-                    <li className="hover:text-violet transition duration-300 uppercase">
-                        <Link
-                            key={"Contact"}
-                            href="/contact"
-                        >
-                            Contact
-                        </Link>
-                    </li>
+                    {
+                        links.map(link =>
+                            <li key={link.key}>
+                                <Link
+                                    key={link.key}
+                                    href={link.href}
+                                    className={`hover:text-violet transition duration-300 uppercase ${pathname === link.href ? "text-violet" : "text-dark"}`}
+                                >
+                                    {link.text}
+                                </Link>
+                            </li>
+                        )
+                    }
                 </ul>
                 <ul className="flex gap-4">
-                    <li className="hover:text-violet transition duration-300">
+                    <li>
                         <Link
                             key={"Sign In"}
                             href="/sign-in"
-                            className="flex flex-col items-center">
+                            className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" ? "text-violet" : "text-dark"}`}>
                             <UserIcon className="size-8" />
                             <span className="text-xs">Connexion</span>
                         </Link>
                     </li>
-                    <li className="hover:text-violet transition duration-300 relative">
+                    <li className="relative">
                         {numberOfPlants != "0" && notif}
                         <Link
                             key={"Panier"}
                             href="/panier"
-                            className="flex flex-col items-center">
+                            className={`z-10 flex flex-col items-center hover:text-violet transition duration-300 relative ${pathname === "/panier" ? "text-violet" : "text-dark"}`}>
                             <ShoppingCartIcon
                                 className="size-8" />
                             <span className="text-xs">Panier</span>
