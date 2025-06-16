@@ -8,11 +8,10 @@ export function LogoLink() {
             href="/"
             className="w-fit flex z-40">
             <Image
-                src="/logo.svg"
+                src="/logo_violet.svg"
                 alt="Logo du site : une petite plante mignone"
-                className={`w-9 h-auto`}
-                width={36}
-                height={41.48}
+                width={44}
+                height={51}
             />
         </Link>
 

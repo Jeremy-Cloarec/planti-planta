@@ -20,6 +20,8 @@ export default {
         red: "var(--red)",
         redOpacity: "var(--red-opacity)",
         white: "var(--white)",
+        violet: "var(--violet)",
+        violetLight: "var(--violet-light)",
       },
       fontFamily: {
         cabinBold: ['var(--cabinBold)'],
