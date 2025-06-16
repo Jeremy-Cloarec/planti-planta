@@ -81,7 +81,7 @@ export default function Heading({ title }: { title: string }) {
       />
       <div className="w-full text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 flex flex-col gap-4 items-center">
         <h1 className="text-5xl sm:text-6xl md:text-8xl">{title}</h1>
-        <p className={`${cabinRegular.className} text-xl text-[#9F3D00]  w-fit py-2 px-5 rounded-2xl bg-white/30 backdrop-blur-sm 
+        <p className={`${cabinRegular.className} text-xl text-violet w-fit py-2 px-5 rounded-2xl bg-white/30 backdrop-blur-sm 
         md:text-3xl lg:text-5xl`}>
           Découvrez nos dessins de plantes dansantes
         </p>
