@@ -4,27 +4,7 @@ import { LogoLink } from "./LogoLink"
 import { useState } from "react"
 import { usePathname } from "next/navigation"
 
-export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
-    const [showMenu, setShowMenu] = useState(false)
-    const toggleMenu = () => {
-        setShowMenu(!showMenu)
-    }
-
-    const notif = (
-        <div className="absolute -right-2 -top-1 bg-[#c1aeda] text-sm text-dark h-5 w-5 text-center rounded-full z-20">
-            {numberOfPlants}
-        </div>
-    )
-
-    const menuIcon = showMenu ? (
-        <XMarkIcon className="size-8 md:hidden cursor-pointer" />
-    ) : (
-        <Bars3Icon className="size-8 md:hidden cursor-pointer" />
-    )
-
-    const pathname = usePathname()
-
-    const links = [
+const links = [
         {
             key: "Plantes",
             href: "/",
@@ -42,9 +22,29 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
         },
     ]
 
+export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
+    const [showMenu, setShowMenu] = useState(false)
+    const toggleMenu = () => {
+        setShowMenu(!showMenu)
+    }
+
+    const notif = (
+        <div className="absolute -right-2 -top-1 bg-violetLight text-sm text-dark h-5 w-5 text-center rounded-full z-20">
+            {numberOfPlants}
+        </div>
+    )
+
+    const menuIcon = showMenu ? (
+        <XMarkIcon className="size-8 md:hidden cursor-pointer" />
+    ) : (
+        <Bars3Icon className="size-8 md:hidden cursor-pointer" />
+    )
+
+    const pathname = usePathname()
+
     return (
         <nav className='w-full fixed top-0 z-30'>
-            <div className="flex items-center justify-between bg-[#ffffff97] border-b border-violetLight px-4 h-16 relative">
+            <div className="flex items-center justify-between bg-white border-b border-slate-200 px-4 h-16 relative">
                 <div className="flex items-center gap-1">
                     <button
                         role="Ouvrir ou fermer le menu"
@@ -55,11 +55,11 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
                     <LogoLink />
                 </div>
                 <ul className={`
-                        flex flex-col h-32 absolute justify-between top-16 text-center bg-white w-full left-0 py-3 border-b border-violetLight 
+                        flex flex-col h-32 absolute justify-between top-16 text-center bg-white w-full left-0 py-3 border-b border-slate-200 
                         overflow-hidden transition-all duration-700 ease-in-out
-                        ${showMenu ? 'text-lg max-h-32 opacity-100' : 'max-h-0 opacity-0 text-[0px]'}
+                        ${showMenu ? 'text-base max-h-32 opacity-100' : 'max-h-0 opacity-0 text-[0px]'}
 
-                        md:relative  md:top-0 md:justify-center md:items-center md:gap-5 md:flex-row md:bg-transparent md:border-none md:opacity-100 md:text-lg  
+                        md:relative  md:top-0 md:justify-center md:items-center md:gap-5 md:flex-row md:bg-transparent md:border-none md:opacity-100 md:text-base  
                     `}>
                     {
                         links.map(link =>

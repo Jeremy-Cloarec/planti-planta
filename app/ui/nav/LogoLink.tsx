@@ -5,15 +5,13 @@ export function LogoLink() {
     return (
         <Link
             key="Home"
-            href="/"
-            className="w-fit flex z-40">
+            href="/">
             <Image
-                src="/logo_violet.svg"
-                alt="Logo du site : une petite plante mignone"
+                src="/logo.svg"
+                alt="Logo du site, lien vers la page d'accueil"
                 width={44}
-                height={51}
+                height={48.13}
             />
         </Link>
-
     )
 }
