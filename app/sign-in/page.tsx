@@ -7,7 +7,7 @@ export default function SignInPage() {
     return (
         <>
             <NavForms />
-            <div className="flex-1 flex flex-col justify-center w-full p-4 max-w-2xl" >
+            <div className="flex-1 flex flex-col justify-center w-full p-3 md:p-4 max-w-2xl" >
                 <div className="ring-1 ring-slate-200 rounded-sm p-3">
                     <header className="flex items-center justify-between flex-wrap gap-3">
                         <h1 className={`${cabinBold.className} text-lg`}>Connexion</h1>
