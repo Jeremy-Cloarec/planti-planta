@@ -44,7 +44,7 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
 
     return (
         <nav className='w-full fixed top-0 z-30'>
-            <div className="flex items-center justify-between bg-white border-b border-slate-200 px-4 h-16 relative">
+            <div className="flex items-center justify-between bg-white border-b border-slate-200 p-3 md:p-4 h-16 relative">
                 <div className="flex items-center gap-1">
                     <button
                         role="Ouvrir ou fermer le menu"

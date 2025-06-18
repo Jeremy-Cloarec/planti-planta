@@ -51,7 +51,7 @@ export default function Basket() {
         <>
             <Nav numberOfPlants={countNav.data} />
             <main className="w-full flex-1 pt-[72px] flex flex-col gap-4 max-w-screen-lg">
-                <div className="flex items-center justify-between my-6 px-3">
+                <div className="flex items-center justify-between my-6 px-3 md:px-4">
                     <h1>Votre panier</h1>
                     {totalPrice.data > 0 && <p className={`${cabinBold.className} text-3xl`}>{totalPrice.data} €</p>}
                 </div>
@@ -59,7 +59,7 @@ export default function Basket() {
                     <div className="flex flex-col gap-6 flex-1 justify-between
                     md:flex-row md:items-start md:px-3
                     ">
-                        <ul className="flex flex-col gap-4 px-3 
+                        <ul className="flex flex-col gap-4 px-3 md:px4
                         md:flex-[3] md:px-0 md:gap-6">
                             {plants.map(plant => (
                                 <li
@@ -86,7 +86,7 @@ export default function Basket() {
                                 </li>
                             ))}
                         </ul>
-                        <div className="relative bg-slate-100 px-3 pt-3 pb-16 flex flex-col gap-3 
+                        <div className="relative bg-slate-100 px-3 md:px-4 pt-3 pb-16 flex flex-col gap-3 
                         md:flex-[2] md:sticky md:top-[72px] md:p-3">
                             <h2>Récapitulatif de la commande</h2>
                             <div className="flex items-center justify-between text-dark2">
