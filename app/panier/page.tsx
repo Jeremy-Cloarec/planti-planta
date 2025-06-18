@@ -5,7 +5,7 @@ import { Plant, User } from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
 import { useQuery } from "@tanstack/react-query"
 import { formatedUrl } from "../utils/utils"
-import { cabinBold } from "../ui/fonts"
+import { cabinBold, cormorant } from "../ui/fonts"
 import ButtonOrder from "../ui/buttons/ButtonOrder"
 import { Footer } from "../ui/Footer"
 
@@ -50,9 +50,9 @@ export default function Basket() {
     return (
         <>
             <Nav numberOfPlants={countNav.data} />
-            <main className="w-full flex-1 pt-[72px] flex flex-col gap-4 max-w-screen-lg">
+            <main className="w-full flex-1 pt-[72px] flex flex-col gap-4 max-w-(--breakpoint-lg)">
                 <div className="flex items-center justify-between my-6 px-3 md:px-4">
-                    <h1>Votre panier</h1>
+                    <h1 className={`${cormorant.className} text-3xl`}>Votre panier</h1>
                     {totalPrice.data > 0 && <p className={`${cabinBold.className} text-3xl`}>{totalPrice.data} €</p>}
                 </div>
                 {plants.length > 0 ? (
@@ -60,7 +60,7 @@ export default function Basket() {
                     md:flex-row md:items-start md:px-3
                     ">
                         <ul className="flex flex-col gap-4 px-3 md:px4
-                        md:flex-[3] md:px-0 md:gap-6">
+                        md:flex-3 md:px-0 md:gap-6">
                             {plants.map(plant => (
                                 <li
                                     key={plant.id}
@@ -71,10 +71,10 @@ export default function Basket() {
                                         width={130}
                                         height={165}
                                         src={`/plants/${formatedUrl(plant.title)}.png`}
-                                        className="flex-[2]"
+                                        className="flex-2"
                                     />
-                                    <div className="flex-[3] flex flex-col gap-2">
-                                        <h2>{plant.title}</h2>
+                                    <div className="flex-3 flex flex-col gap-2">
+                                        <h2 className={`${cormorant.className} text-xl`}>{plant.title}</h2>
                                         <p className={`${cabinBold.className}`}>{plant.price} €</p>
                                         <p className="text-sm">{plant.legend}</p>
                                         <ButtonDeleteToBasket
@@ -87,7 +87,7 @@ export default function Basket() {
                             ))}
                         </ul>
                         <div className="relative bg-slate-100 px-3 md:px-4 pt-3 pb-16 flex flex-col gap-3 
-                        md:flex-[2] md:sticky md:top-[72px] md:p-3">
+                        md:flex-2 md:sticky md:top-[72px] md:p-3">
                             <h2>Récapitulatif de la commande</h2>
                             <div className="flex items-center justify-between text-dark2">
                                 <p>Sous total</p>

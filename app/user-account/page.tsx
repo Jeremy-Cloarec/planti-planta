@@ -6,6 +6,7 @@ import { Footer } from "../ui/Footer"
 import ButtonLogout from "../ui/buttons/ButtonLogout"
 import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "../ui/skeleton/loading"
+import { cormorant } from "../ui/fonts"
 
 export default function UserAccount() {
     const { data: user, isPending: isUserLoading, error: userError } = useQuery({
@@ -36,7 +37,7 @@ export default function UserAccount() {
         <>
             <Nav numberOfPlants={countBasket ?? "0"} />
             <main className="w-full flex-1 pt-[72px]">
-                <h1>Bonjour {user.name}</h1>
+                <h1 className={`${cormorant.className} text-3xl`}>Bonjour {user.name}</h1>
                 <h2>Informations personnelles</h2>
                 <h2>Commandes</h2>
                 <ButtonLogout />

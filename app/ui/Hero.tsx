@@ -1,9 +1,9 @@
 import Image from "next/image"
-import { cabinRegular } from "./fonts"
+import { cabinRegular, cormorant } from "./fonts"
 
 export default function Heading({ title }: { title: string }) {
   return (
-    <header className="relative bg-gradient-to-t from-[#B5E888] to-[#F6FFEE] h-dvh grid grid-cols-2 gap-1 overflow-hidden">
+    <header className="relative bg-linear-to-t from-[#B5E888] to-[#F6FFEE] h-dvh grid grid-cols-2 gap-1 overflow-hidden">
       {/* 1 */}
       <Image
         src='/leaf.svg'
@@ -23,7 +23,7 @@ export default function Heading({ title }: { title: string }) {
         width={200}
         height={50}
         alt="Dessin d'une feuille en svg"
-        className="w-full scale-125 translate-x-8 translate-y-[160px] scale-y-[-1] -rotate-[230deg]
+        className="w-full scale-125 translate-x-8 translate-y-[160px] scale-y-[-1] -rotate-230
         
         sm:scale-90 sm:scale-y-[-1] sm:translate-x-20 sm:translate-y-0 sm:justify-self-end
 
@@ -51,7 +51,7 @@ export default function Heading({ title }: { title: string }) {
         alt="Dessin d'une feuille en svg"
         className="opacity-0
         md:justify-self-end 
-        md:scale-y-[-1] md:opacity-100 md:w-96 md:translate-x-[150px] md:translate-y-0 w-full rotate-[130deg]  
+        md:scale-y-[-1] md:opacity-100 md:w-96 md:translate-x-[150px] md:translate-y-0 w-full rotate-130  
         "
       />
       {/* 5 */}
@@ -80,8 +80,8 @@ export default function Heading({ title }: { title: string }) {
         "
       />
       <div className="w-full text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-3 flex flex-col gap-4 items-center">
-        <h1 className="text-5xl sm:text-6xl md:text-8xl">{title}</h1>
-        <p className={`${cabinRegular.className} text-xl text-violet w-fit py-2 px-5 rounded-2xl bg-white/30 backdrop-blur-sm 
+        <h1 className={`${cormorant.className} text-5xl sm:text-6xl md:text-8xl`}>{title}</h1>
+        <p className={`${cabinRegular.className} text-xl text-violet w-fit py-2 px-5 rounded-2xl bg-white/30 backdrop-blur-xs 
         md:text-3xl lg:text-5xl`}>
           Découvrez nos dessins de plantes dansantes
         </p>

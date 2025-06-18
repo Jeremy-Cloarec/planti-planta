@@ -34,7 +34,7 @@ export default function ButtonDeleteToBasket({ text, plantId, userId }: ButtonDe
     return (
         <button
             onClick={() => deleteMutation.mutate()}
-            className={`${deleteMutation.isPending ? "animate-pulse w-[96px]" : ""} flex gap-1 items-center text-dark2 hover:text-redOpacity transition delay-150 duration-300 mt-auto`} 
+            className={`${deleteMutation.isPending ? "animate-pulse w-[96px]" : ""} flex gap-1 items-center text-dark2 hover:text-red-opacity transition delay-150 duration-300 mt-auto`} 
         >
             <TrashIcon width={16}/>
             {buttonContent(deleteMutation.isPending, text)}
