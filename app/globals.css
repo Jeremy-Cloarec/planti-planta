@@ -1,6 +1,31 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-background: var(--background);
+  --color-dark: var(--dark);
+  --color-dark2: var(--dark2);
+  --color-green: var(--green);
+  --color-green-hover: var(--green-hover);
+  --color-green-light: var(--green-light);
+  --color-green-light-opacity: var(--green-light-opacity);
+  --color-green-gradient: var(--green-gradient);
+  --color-red: var(--red);
+  --color-red-opacity: var(--red-opacity);
+  --color-white: var(--white);
+  --color-violet: var(--violet);
+  --color-violet-light: var(--violet-light);
+}
+
+@layer base {
+
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 :root {
   --background: #faefe3;
@@ -18,50 +43,15 @@
   --violet-light: #8cdb63;
 }
 
-
 body {
   color: var(--dark);
   background: white;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--cormorant);
+button {
+  cursor: pointer;
 }
 
-h1 {
-  font-size: 2rem;
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-h3 {
-  font-size: 1.25rem;
-}
-
-p {
-  font-size: 1.2rem;
-}
-
-@media (min-width: 768px) {
-  h1 {
-    font-size: 3rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.75rem;
-  }
-}
 
 /* popover */
 :popover-open {
@@ -73,6 +63,6 @@ p {
 }
 
 ::backdrop {
-      backdrop-filter: blur(3px);
-      background: rgba(0, 0, 0, 0.250);
+  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.250);
 }

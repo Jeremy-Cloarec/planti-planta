@@ -5,22 +5,22 @@ import { useState } from "react"
 import { usePathname } from "next/navigation"
 
 const links = [
-        {
-            key: "Plantes",
-            href: "/",
-            text: "Plantes",
-        },
-        {
-            key: "Qui suis-je ?",
-            href: "/qui-suis-je",
-            text: "Qui suis-je ?",
-        },
-        {
-            key: "Contact",
-            href: "/contact",
-            text: "Contact",
-        },
-    ]
+    {
+        key: "Plantes",
+        href: "/",
+        text: "Plantes",
+    },
+    {
+        key: "Qui suis-je ?",
+        href: "/qui-suis-je",
+        text: "Qui suis-je ?",
+    },
+    {
+        key: "Contact",
+        href: "/contact",
+        text: "Contact",
+    },
+]
 
 export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     const [showMenu, setShowMenu] = useState(false)
@@ -29,15 +29,15 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
     }
 
     const notif = (
-        <div className="absolute -right-2 -top-1 bg-violetLight text-sm text-dark h-5 w-5 text-center rounded-full z-20">
+        <div className="absolute -right-2 -top-1 bg-violet-light text-sm text-dark h-5 w-5 text-center rounded-full z-20">
             {numberOfPlants}
         </div>
     )
 
     const menuIcon = showMenu ? (
-        <XMarkIcon className="size-8 md:hidden cursor-pointer" />
+        <XMarkIcon className="size-8 md:hidden " />
     ) : (
-        <Bars3Icon className="size-8 md:hidden cursor-pointer" />
+        <Bars3Icon className="size-8 md:hidden " />
     )
 
     const pathname = usePathname()

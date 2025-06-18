@@ -29,7 +29,7 @@ export function SignUpForm() {
                     </label>
                     <div>
                         <input
-                            className="peer block w-full border border-green px-3 py-2 text-sm outline-2 outline-green placeholder:text-gray-500"
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="name"
                             type="name"
                             name="name"
@@ -50,7 +50,7 @@ export function SignUpForm() {
                     </label>
                     <div className="relative">
                         <input
-                            className="peer block w-full  border border-green px-3 py-2 text-sm outline-2 outline-green placeholder:text-gray-500"
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="email"
                             type="email"
                             name="email"
@@ -71,7 +71,7 @@ export function SignUpForm() {
                     </label>
                     <div className="relative">
                         <input
-                            className="peer block w-full border border-green px-3 py-2 text-sm outline-2 outline-green placeholder:text-gray-500"
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="password"
                             type={`${!isPasswordVisible ? ("password") : ("text")}`}
                             name="password"
@@ -81,7 +81,7 @@ export function SignUpForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className='absolute text-dark2 top-2 right-1' onClick={(e) => showPassword(e)} >
+                        <button className='absolute text-dark2 top-2 right-1 ' onClick={(e) => showPassword(e)} >
                             {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
                         </button>
                     </div>

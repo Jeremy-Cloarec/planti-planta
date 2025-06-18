@@ -10,7 +10,7 @@ export default function ButtonNoStock({ text, handleClick }: ButtonProps) {
         <Button
             onClick={handleClick}
             disabled={true}
-            className="bg-green opacity-50 hover:bg-greenHover cursor-not-allowed"
+            className="bg-green opacity-50 hover:bg-green-hover cursor-not-allowed"
         >
             {text}
         </Button>

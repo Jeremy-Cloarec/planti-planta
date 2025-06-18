@@ -1,6 +1,5 @@
 import { Cabin, Cabin_Condensed, Cormorant } from 'next/font/google'
 
-
 export const cormorant = Cormorant({
     subsets: ['latin'],
     weight: '700',
@@ -15,12 +14,12 @@ export const cabinRegular = Cabin({
 
 export const cabinBold = Cabin({
     subsets: ['latin'],
-    weight: '700',
-    variable: '--cabinBold'
+    variable: '--cabin-bold',
+     weight: '700',
 })
 
 export const cabinCondensed = Cabin_Condensed({
     subsets: ['latin'],
     weight: '400',
-    variable: '--cabinCondensed'
+    variable: '--cabin-condensed'
 })

@@ -49,7 +49,7 @@ export default function NavAdmin() {
         <nav className={`transition duration-500 flex items-center justify-between w-full fixed top-0 px-[18px] md:px-[25px] py-2 z-30 bg-white ${isScrolled && "shadow-md shadow-dark/10"}`}>
             <LogoLink />
             <div
-                className="z-40 sm:hidden cursor-pointer"
+                className="z-40 sm:hidden "
                 onClick={handleIsNav}
             >
                 {iconMenu}
@@ -61,7 +61,7 @@ export default function NavAdmin() {
                 {links.map(link =>
                     <li className="text-xl" key={link.key}>
                         <Link
-                            className={`h-[44px] block leading-[44px] border-b-4   ${pathname === link.href ? "border-green hover:border-green" : "border-transparent hover:border-greenLight"} duration-300 transition-all hover:border-greenLight`}
+                            className={`h-[44px] block leading-[44px] border-b-4   ${pathname === link.href ? "border-green hover:border-green" : "border-transparent hover:border-green-light"} duration-300 transition-all hover:border-green-light`}
                             key={link.key}
                             href={link.href}
                             onClick={handleIsNav}

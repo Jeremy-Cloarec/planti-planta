@@ -43,7 +43,7 @@ export function SignInForm() {
                     </label>
                     <div>
                         <input
-                            className="peer block w-full border border-green px-3 py-2 text-sm outline-2 outline-green placeholder:text-gray-500"
+                            className="block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="email"
                             type="email"
                             name="email"
@@ -58,17 +58,17 @@ export function SignInForm() {
                 <div className="mt-4">
                     <div className="mb-3 mt-5 flex items-center justify-between">
                         <label
-                            className=" text-sm"
+                            className="text-sm"
                             htmlFor="password"
                         >
                             Mot de passe
                         </label>
-                        <button onClick={handleForgetPassword} className="text-sm hover:opacity-80 transition-none duration-300">Mot de passe oublié ?</button>
+                        <button onClick={handleForgetPassword} className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe oublié ?</button>
                     </div>
 
                     <div className="relative">
                         <input
-                            className="peer block w-full  border border-green px-3 py-2 text-sm outline-2 outline-green placeholder:text-gray-500"
+                            className="peer block w-full  border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="password"
                             type={`${!isPasswordVisible ? ("password") : ("text")}`}
                             name="password"
@@ -78,7 +78,7 @@ export function SignInForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className='absolute text-dark2 top-2 right-1' onClick={(e) => showPassword(e)} >
+                        <button className='absolute text-dark2 top-2 right-1 ' onClick={(e) => showPassword(e)} >
                             {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
                         </button>
                     </div>

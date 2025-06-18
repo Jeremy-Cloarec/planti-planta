@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
-import { cabinBold, cabinCondensed } from "./fonts"
+import { cabinBold, cabinCondensed, cormorant } from "./fonts"
 import { formatedUrl } from "../utils/utils"
 
 interface Response {
@@ -35,7 +35,7 @@ export default function CardPlant({
             const json = await res.json()
             return json.quantity > 0
         },
-    }) 
+    })
 
     const alreadyInBasket = data === true
 
@@ -58,7 +58,7 @@ export default function CardPlant({
                         />
                     </button>
                 </div>
-                <h2 className="text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl">{plant.title}</h2>
+                <h2 className={`${cormorant.className} text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl`}>{plant.title}</h2>
                 <p className={`text-3xl ${cabinBold.className} text-violet`}>{plant.price}€</p>
                 <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
                 <ButtonAddToBasket
