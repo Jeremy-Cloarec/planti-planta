@@ -9,7 +9,6 @@ import {
     Section,
     Text,
 } from '@react-email/components';
-import {urls} from "@/app/utils/utils";
 
 export const EmailInscription = ({userName} : {userName : string}) => (
     <Html>
@@ -20,7 +19,7 @@ export const EmailInscription = ({userName} : {userName : string}) => (
             </Preview>
             <Container style={container}>
                 <Img
-                    src={`${urls.baseUrl}/logo.png`}
+                    src={`${process.env.NEXT_PUBLIC_SITE_URL}/logo.png`}
                     width="40"
                     height="auto"
                     alt="Dancing Plants"
@@ -33,7 +32,7 @@ export const EmailInscription = ({userName} : {userName : string}) => (
                     Bienvenue dans votre espace Dancing Plant.
                 </Text>
                 <Section style={btnContainer}>
-                    <Button style={button} href={urls.baseUrl}
+                    <Button style={button} href={process.env.NEXT_PUBLIC_SITE_URL}
                         >
                         Aller sur le site !
                     </Button>
@@ -45,21 +44,21 @@ export const EmailInscription = ({userName} : {userName : string}) => (
                 </Text>
                 <Section style={sectionLogo}>
                     <Button style={buttonIcon}  href={"https://github.com/Jeremy-Cloarec"} target={"_blank"}  aria-label={"Lien vers mon compte Github"}>
-                        <Img aria-hidden={true} src={`${urls.baseUrl}/github.png`} width="20" height="auto" alt="Github" />
+                        <Img aria-hidden={true} src={`${process.env.NEXT_PUBLIC_SITE_URL}/github.png`} width="20" height="auto" alt="Github" />
                     </Button>
                     <Button style={buttonIcon} href={"https://linkedin.com/in/jy-cloarec"} target={"_blank"}  aria-label={"Lien vers mon compte LinkedIn"}>
-                        <Img aria-hidden={true} src={`${urls.baseUrl}/linkedin.png`} width="20" height="auto" alt="LinkedIn" />
+                        <Img aria-hidden={true} src={`${process.env.NEXT_PUBLIC_SITE_URL}/linkedin.png`} width="20" height="auto" alt="LinkedIn" />
                     </Button>
                     <Button style={buttonIcon} href={"https://instagram.com/Jeremy_Cloarec"} target={"_blank"}  aria-label={"Lien vers mon compte Instagram"}>
-                        <Img aria-hidden={true} src={`${urls.baseUrl}/instagram.png`} width="20" height="auto" alt="Instagram" />
+                        <Img aria-hidden={true} src={`${process.env.NEXT_PUBLIC_SITE_URL}/instagram.png`} width="20" height="auto" alt="Instagram" />
                     </Button>
                 </Section>
-                <Button href={`${urls.baseUrl}`} target={"_blank"}  aria-label={"Lien vers la page des dessins de plantes"}>
+                <Button href={`${process.env.NEXT_PUBLIC_SITE_URL}`} target={"_blank"}  aria-label={"Lien vers la page des dessins de plantes"}>
                     <Img
-                        src={`${urls.baseUrl}/plants/dancing_plant_4.png`}
+                        src={`${process.env.NEXT_PUBLIC_SITE_URL}/plants/dancing_plant_4.png`}
                         width="100%"
                         height="auto"
-                        alt="Dessin de dancing Plant 4"
+                        alt="Dessin de Dancing Plant 4"
                         style={imgFooter}
                     />
                 </Button>
