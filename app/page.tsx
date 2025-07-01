@@ -5,8 +5,11 @@ import Heading from "./ui/Hero"
 import ListCardsPlants from "./ui/ListCardsPlants"
 import { Footer } from "./ui/Footer"
 import LoadingPlants from "./ui/skeleton/loading"
+import {urls} from "@/app/utils/utils";
 
 export default function Home() {
+
+  console.log(urls.baseUrl)
   const { data: user, isPending: isUserLoading, error: userError } = useQuery({
     queryKey: ['user'],
     queryFn: () => fetch("/api/user").then((res) => res.json()),
