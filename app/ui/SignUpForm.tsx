@@ -12,6 +12,7 @@ export function SignUpForm() {
 
     const [isPasswordVisible, setIsPasswordVisible] = useState
         (false)
+
     function showPassword(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
         setIsPasswordVisible(!isPasswordVisible)

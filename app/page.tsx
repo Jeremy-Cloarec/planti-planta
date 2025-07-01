@@ -7,6 +7,8 @@ import { Footer } from "./ui/Footer"
 import LoadingPlants from "./ui/skeleton/loading"
 
 export default function Home() {
+  console.log("url:", process.env.NEXT_PUBLIC_SITE_URL)
+
   const { data: user, isPending: isUserLoading, error: userError } = useQuery({
     queryKey: ['user'],
     queryFn: () => fetch("/api/user").then((res) => res.json()),

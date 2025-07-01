@@ -10,6 +10,7 @@ import bcrypt from 'bcrypt'
 import { createSession, decrypt } from "../lib/session"
 import { redirect } from "next/navigation"
 import { fetchPlantInBasket } from "./basket.action"
+import {emailInscriptionAction} from "@/app/actions/email-inscription.action";
 
 export async function logout() {
     const cookieStore = await cookies()
@@ -74,8 +75,18 @@ export async function signUp(state: FormState, formData: FormData) {
     // Create a user session
     await createSession(user.id, user.is_admin)
 
+    //send email to user
+    const sendEmail = await emailInscriptionAction(user.name)
+
+    if(sendEmail.status === 200) {
+        console.log(`Le mail a bie été envoyé à ${user.email}`)
+    }  else {
+        console.log(`Un probleme est survenue dans l'envoie du mail ${user.email}}`)
+    }
+
+
     // Redirect user
-    if (user.is_admin === true) {
+    if (user.is_admin) {
         redirect('/admin')
     } else {
         redirect('/user-account')
