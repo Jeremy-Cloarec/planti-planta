@@ -6,8 +6,6 @@ export const SigninFormShema = z.object({
 })
 
 export const SignupFormShema = z.object({
-    isAdmin: z
-        .boolean(),
     name: z
         .string()
         .min(1, { message: "Le nom doit avoir au moins un caractère de long" })
@@ -22,6 +20,7 @@ export const SignupFormShema = z.object({
             message: 'contenir au moins un caractère spécial',
         })
         .trim(),
+    passwordConfirmation: z.string().trim(),
 })
 
 export type Plant = {
@@ -39,5 +38,13 @@ export type User = {
     email: string
     password: string
 }
+
+export type FormErrors = {
+    name?: string[];
+    email?: string[];
+    password?: string[];
+    passwordConfirmation?: string[];
+    general?: string[];
+};
 
 
