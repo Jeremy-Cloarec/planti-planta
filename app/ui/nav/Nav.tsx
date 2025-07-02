@@ -1,3 +1,4 @@
+"use client"
 import { UserIcon, ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid"
 import Link from "next/link"
 import { LogoLink } from "./LogoLink"

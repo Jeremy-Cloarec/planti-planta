@@ -51,7 +51,7 @@ export function SignUpForm() {
                 email: validatedData.data.email,
                 password: validatedData.data.password,
                 name: validatedData.data.name,
-                callbackURL: "/",
+                callbackURL: "/compte",
                 fetchOptions: {
                     onResponse: () => {
                         setLoading(false);
@@ -66,7 +66,7 @@ export function SignUpForm() {
                         setFormErrors({general: [msg]});
                     },
                     onSuccess: async () => {
-                        router.push("/");
+                        router.push("/compte");
                     },
                 },
             });
