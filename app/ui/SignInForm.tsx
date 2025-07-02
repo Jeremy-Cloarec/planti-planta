@@ -1,13 +1,12 @@
 'use client'
-import { startTransition, useActionState, useState } from "react";
-import { signIn } from "../actions/auth.action";
-import ButtonAuth from "./buttons/ButtonAuth";
+import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import {signIn} from "@/app/lib/auth-client";
 
 export function SignInForm() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [state, action, isPending] = useActionState(signIn, undefined)
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isPending, setIsPending] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState
         (false)
 
@@ -16,23 +15,12 @@ export function SignInForm() {
         setIsPasswordVisible(!isPasswordVisible)
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append("email", email)
-        formData.append("password", password)
-
-        startTransition(() => {
-            action(formData);
-        })
-    }
-
     const handleForgetPassword = () => {
         alert("la récupération de mot de passe est en cours de construction")
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <>
             <div className="w-full">
                 <div>
                     <label
@@ -53,7 +41,6 @@ export function SignInForm() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    {state?.errors?.email && <p>{state.errors.email}</p>}
                 </div>
                 <div className="mt-4">
                     <div className="mb-3 mt-5 flex items-center justify-between">
@@ -82,24 +69,33 @@ export function SignInForm() {
                             {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
                         </button>
                     </div>
-                    {state?.errors?.password && (
-                        <div className='text-red'>
-                            <p className='text-sm mt-3'>Le mot de passe doit : </p>
-                            <ul>
-                                {state.errors.password.map((error) => (
-                                    <li className='text-sm' key={error}>- {error}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
                 </div>
             </div>
-            {state?.message && <p className="text-red text-sm">{state.message}</p>}
-            <ButtonAuth
-                text="Se connecter"
-                pending={isPending}
-                className="w-full mt-5"
-            />
-        </form>
+
+            <button
+                onClick={async () => {
+                    await signIn.email(
+                        {
+                            email,
+                            password
+                        },
+                        {
+                            onRequest: () => {
+                                setIsPending(true);
+                            },
+                            onResponse: () => {
+                                setIsPending(false);
+                            },
+                        },
+                    );
+                }}
+            >
+                {isPending ? (
+                    <p>...connexion ...</p>
+                ) : (
+                    <p> Se connecter </p>
+                )}
+            </button>
+        </>
     )
 }

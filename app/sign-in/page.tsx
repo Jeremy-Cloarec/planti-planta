@@ -17,7 +17,6 @@ export default function SignInPage() {
                         <SignInForm />
                     </main>
                 </div>
-
             </div>
         </>
     )
