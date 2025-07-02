@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import {signIn} from "@/app/lib/auth-client";
+import {useRouter} from "next/navigation";
 
 export function SignInForm() {
     const [email, setEmail] = useState("");
@@ -9,6 +10,8 @@ export function SignInForm() {
     const [isPending, setIsPending] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState
         (false)
+    const [errors, setErrors] = useState("");
+    const router = useRouter();
 
     function showPassword(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault()
@@ -77,7 +80,8 @@ export function SignInForm() {
                     await signIn.email(
                         {
                             email,
-                            password
+                            password,
+                            callbackURL: "/",
                         },
                         {
                             onRequest: () => {
@@ -85,6 +89,12 @@ export function SignInForm() {
                             },
                             onResponse: () => {
                                 setIsPending(false);
+                            },
+                            onError: (ctx) => {
+                                setErrors(ctx.error.message);
+                            },
+                            onSuccess: async () => {
+                                router.push("/");
                             },
                         },
                     );
@@ -96,6 +106,7 @@ export function SignInForm() {
                     <p> Se connecter </p>
                 )}
             </button>
+            {errors && <p className="text-red-500">{errors}</p>}
         </>
     )
 }

@@ -1,25 +1,33 @@
 'use client'
-import { signUp } from '@/app/actions/auth.action'
-import { useActionState, useState } from "react"
-import ButtonAuth from "./buttons/ButtonAuth"
+import { signUp } from "@/app/lib/auth-client"
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
+import {useRouter} from "next/navigation";
+import {useState} from "react";
 
 export function SignUpForm() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [state, action, isPending] = useActionState(signUp, undefined)
-
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [errors, setErrors] = useState("");
     const [isPasswordVisible, setIsPasswordVisible] = useState
+    (false)
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
         (false)
+    const router = useRouter();
 
-    function showPassword(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
-        setIsPasswordVisible(!isPasswordVisible)
-    }
+    const handlePasswordVisibility = (
+        e: React.MouseEvent<HTMLButtonElement>,
+        setter: React.Dispatch<React.SetStateAction<boolean>>
+    ) => {
+        e.preventDefault();
+        setter(prev => !prev);
+    };
+
 
     return (
-        <form action={action}>
+        <>
             <div className="w-full">
                 <div>
                     <label
@@ -40,7 +48,6 @@ export function SignUpForm() {
                             onChange={(e) => setName(e.target.value)}
                         />
                     </div>
-                    {state?.errors?.name && <p>{state.errors.name}</p>}
                 </div>
                 <div>
                     <label
@@ -61,7 +68,6 @@ export function SignUpForm() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    {state?.errors?.email && <p>{state.errors.email}</p>}
                 </div>
                 <div className="mt-4">
                     <label
@@ -82,28 +88,72 @@ export function SignUpForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className='absolute text-dark2 top-2 right-1 ' onClick={(e) => showPassword(e)} >
+                        <button className='absolute text-dark2 top-2 right-1 '  onClick={(e) => handlePasswordVisibility(e, setIsPasswordVisible)}
+                        >
                             {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
                         </button>
                     </div>
-                    {state?.errors?.password && (
-                        <div className='text-red'>
-                            <p className='text-sm mt-3'>Le mot de passe doit : </p>
-                            <ul>
-                                {state.errors.password.map((error) => (
-                                    <li className='text-sm' key={error}>- {error}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                </div>
+                <div className="mt-4">
+                    <label
+                        className="mb-3 mt-5 block text-sm"
+                        htmlFor="password"
+                    >
+                        Confirmer le mot de passe
+                    </label>
+                    <div className="relative">
+                        <input
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
+                            id="password"
+                            type={`${!isConfirmPasswordVisible ? ("password") : ("text")}`}
+                            name="password"
+                            placeholder="Entrez votre mot de passe"
+                            required
+                            minLength={8}
+                            value={passwordConfirmation}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                        />
+                        <button className='absolute text-dark2 top-2 right-1 '  onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}
+                        >
+                            {!isConfirmPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
+                        </button>
+                    </div>
                 </div>
             </div>
-            {state?.message && <p className="text-red text-sm">{state.message}</p>}
-            <ButtonAuth
-                text="S'inscrire"
-                pending={isPending}
-                className="w-full mt-5"
-            />
-        </form>
+            <button
+                type="submit"
+                className="w-full"
+                disabled={loading}
+                onClick={async () => {
+                    await signUp.email({
+                        email,
+                        password,
+                        name: name,
+                        callbackURL: "/",
+                        fetchOptions: {
+                            onResponse: () => {
+                                setLoading(false);
+                            },
+                            onRequest: () => {
+                                setLoading(true);
+                            },
+                            onError: (ctx) => {
+                                setErrors(ctx.error.message);
+                            },
+                            onSuccess: async () => {
+                                router.push("/");
+                            },
+                        },
+                    });
+                }}
+            >
+                {loading ? (
+                    <p>..envoie...</p>
+                ) : (
+                    "Create an account"
+                )}
+            </button>
+            {errors && <p className="text-red-500">{errors}</p>}
+        </>
     )
 }

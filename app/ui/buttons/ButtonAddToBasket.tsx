@@ -1,26 +1,9 @@
 "use client"
-import { useState } from "react"
-import Button from "./Button"
-import { addPlantToBasket, checkIfPlantIsInBasket } from "@/app/actions/plants.actions"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-interface Response {
-    message: string
-    success: boolean
-}
 
-interface ButtonProps {
-    text: string
-    plantId: string
-    userId: string
-    disabled: boolean
-    addReponse: (res: Response) => void
-}
+export default function ButtonAddToBasket() {
 
-export default function ButtonAddToBasket({ text, plantId, userId, disabled, addReponse }: ButtonProps) {
-    const [isDisable, setIsDisable] = useState<boolean>(false)
-    const queryClient = useQueryClient()
-
+    /**
     const handleAddToBasket = async () => {
         const res = await addPlantToBasket(plantId, userId)
 
@@ -42,6 +25,7 @@ export default function ButtonAddToBasket({ text, plantId, userId, disabled, add
         if (basket) setIsDisable(true)
     }
 
+
     const deleteMutation = useMutation({
         mutationFn: () => addPlantToBasket(plantId, userId),
         onSuccess: () => {
@@ -59,12 +43,10 @@ export default function ButtonAddToBasket({ text, plantId, userId, disabled, add
         </div>
         return text
     }
-
+     */
     return (
         <>
-            <Button onClick={() => [handleAddToBasket(), deleteMutation.mutate()]} disabled={isDisable || disabled} className={deleteMutation.isPending ? "animate-pulse h-[40px]" : ""}>
-                {buttonContent(deleteMutation.isPending, text)}
-            </Button>
+           <button></button>
         </>
     )
 }

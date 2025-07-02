@@ -8,16 +8,17 @@ import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "./skeleton/loading"
 import PlantPopover from "./PlantPopover"
 
+/**
 interface ListCardsClientProps {
     userId: string
-}
+}*/
 
 interface Response {
     message: string
     success: boolean
 }
 
-export default function ListCardsPlants({ userId }: ListCardsClientProps) {
+export default function ListCardsPlants() {
     const [responses, setResponses] = useState<Response[]>([])
     const [index, setIndex] = useState<number>(0)
 
@@ -62,8 +63,6 @@ export default function ListCardsPlants({ userId }: ListCardsClientProps) {
                         <li key={plant.id}>
                             <CardPlant
                                 plant={plant}
-                                userId={userId}
-                                addReponse={addResponse}
                                 findIndex={findIndex}
                             />
                         </li>

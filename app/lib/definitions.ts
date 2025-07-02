@@ -1,11 +1,4 @@
 import { z } from 'zod'
-export const PlantShema = z.object({
-    id: z.number(),
-    title: z.string(),
-    price: z.number(),
-    quantity: z.number(),
-    legend: z.string()
-})
 
 export const SigninFormShema = z.object({
     email: z.string().email({ message: "Entrez un email valide svp" }).trim(),
@@ -31,23 +24,6 @@ export const SignupFormShema = z.object({
         .trim(),
 })
 
-export type FormState =
-    | {
-        error?: {
-            name?: string[],
-            email?: string[],
-            password?: string[]
-        }
-        message?: string
-    }
-    | undefined
-
-export type SessionPayload = {
-    userId: string
-    expiresAt: Date
-    isAdmin: boolean
-}
-
 export type Plant = {
     id: string
     title: string
@@ -56,23 +32,12 @@ export type Plant = {
     legend:string
 }
 
-export type Basket = {
-    plantId: number,
-    userId: number
-}
-
 export type User = {
     id: string
     isAdmin: boolean
     name: string
     email: string
     password: string
-}
-
-export type UserInfoType = {
-    name: string
-    email: string
-    is_admin: boolean
 }
 
 
