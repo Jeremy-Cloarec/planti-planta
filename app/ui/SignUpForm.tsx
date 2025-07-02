@@ -1,12 +1,11 @@
 'use client'
+import { useState } from "react";
 import { signUp } from "@/app/lib/auth-client"
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
 import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
-import {SignupFormShema} from "@/app/lib/definitions";
+import {SignupFormShema, FormErrors} from "@/app/lib/definitions";
 import {authErrorMessages} from "@/app/lib/auth-translation";
-import  {FormErrors} from  "@/app/lib/definitions"
-
+import {handlePasswordVisibility} from "@/app/utils/utils";
 
 export function SignUpForm() {
     const [name, setName] = useState("")
@@ -20,19 +19,6 @@ export function SignUpForm() {
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
         (false)
     const router = useRouter();
-
-    const handlePasswordVisibility = (
-        e: React.MouseEvent<HTMLButtonElement>,
-        setter: React.Dispatch<React.SetStateAction<boolean>>
-    ) => {
-        e.preventDefault();
-        setter(prev => !prev);
-    };
-
-    useEffect(() => {
-        console.log(formErrors);
-    }, [formErrors]);
-
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -148,7 +134,7 @@ export function SignUpForm() {
                     </div>
                     {formErrors.password &&
                         <ul className="text-sm text-red"> Le mot de passe doit :
-                            { formErrors.password.map(err => <li key={err}>- {err} </li>)}
+                            { formErrors.password.map((err:string) => <li key={err}>- {err} </li>)}
                         </ul>
                     }
                 </div>
