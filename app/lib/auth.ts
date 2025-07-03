@@ -7,7 +7,11 @@ export const auth = betterAuth({
         enabled: true,
         async sendResetPassword(data, request) {
             // Send an email to the user with a link to reset their password
-
         },
     },
+    user: {
+        deleteUser: {
+            enabled: true
+        }
+    }
 })

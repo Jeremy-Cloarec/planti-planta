@@ -6,6 +6,7 @@ import {useRouter} from "next/navigation";
 import {SignupFormShema, FormErrors} from "@/app/lib/definitions";
 import {authErrorMessages} from "@/app/lib/auth-translation";
 import {handlePasswordVisibility} from "@/app/utils/utils";
+import {emailInscriptionAction} from "@/app/actions/email-inscription.action";
 
 export function SignUpForm() {
     const [name, setName] = useState("")
@@ -61,18 +62,18 @@ export function SignUpForm() {
                     },
                     onError: (ctx) => {
                         const code = ctx.error.code
-                        console.log(code)
                         const msg = authErrorMessages[code] ?? ctx.error.message;
                         setFormErrors({general: [msg]});
                     },
                     onSuccess: async () => {
+                        await emailInscriptionAction(name)
                         router.push("/compte");
                     },
                 },
             });
         } catch (e) {
             console.log(e);
-            setFormErrors({ general: ["Une erreur inconnue est survenue."] });
+            setFormErrors({ general: ["Une erreur inconnue est survenue."]});
         } finally {
             setLoading(false);
         }

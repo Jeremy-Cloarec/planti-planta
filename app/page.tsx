@@ -6,7 +6,6 @@ import ListCardsPlants from "./ui/ListCardsPlants"
 import { Footer } from "./ui/Footer"
 
 export default function Home() {
-
   /**
   const { data: user, isPending: isUserLoading, error: userError } = useQuery({
     queryKey: ['user'],

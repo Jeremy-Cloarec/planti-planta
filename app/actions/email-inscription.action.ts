@@ -1,10 +1,12 @@
+"use server"
 import {Resend} from "resend"
 import {EmailInscription} from "@/emails/EmailInscription"
 
 export async function emailInscriptionAction(userName: string) {
+    console.log(process.env.RESEND_API_KEY);
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    if (!process.env.RESEND_API_KEY) {
+    if (!process.env.NEXT_PUBLIC_SITE_RESEND_API_KEY) {
         return Response.json(
             { error: "Clé API Resend non définie" },
             { status: 500 }
@@ -23,7 +25,8 @@ export async function emailInscriptionAction(userName: string) {
             return Response.json({ error }, { status: 500 });
         }
 
-        return Response.json(data);
+        console.log(`Email envoyer à ${userName}`)
+
     } catch (error) {
         return Response.json({ error }, { status: 500 });
     }

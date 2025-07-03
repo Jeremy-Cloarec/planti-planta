@@ -5,6 +5,7 @@ import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import {redirect} from "next/navigation";
 import ButtonLogout from "@/app/ui/buttons/ButtonLogout";
+import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 
 export default async function UserAccount() {
     const session = await auth.api.getSession({
@@ -24,6 +25,7 @@ export default async function UserAccount() {
                 <p>Mail : {session.user.email} </p>
                 <h2>Commandes</h2>
                 <ButtonLogout />
+                <ButtonDeleteUser />
             </main>
             <Footer />
         </>

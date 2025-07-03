@@ -79,8 +79,8 @@ export default function Nav({ numberOfPlants }: { numberOfPlants: string }) {
                 <ul className="flex gap-4">
                     <li>
                         <Link
-                            key={"Sign In"}
-                            href="/sign-in"
+                            key={"Compte"}
+                            href="/compte"
                             className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" ? "text-violet" : "text-dark"}`}>
                             <UserIcon className="size-8" />
                             <span className="text-xs">Connexion</span>
