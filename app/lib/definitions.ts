@@ -1,5 +1,18 @@
 import { z } from 'zod'
 
+export const ResetPasswordFormShema = z.object({
+    password: z
+        .string()
+        .min(6, { message: 'avoir au moins 6 caractère de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'contenir au moins un caractère spécial',
+        })
+        .trim(),
+    passwordConfirmation: z.string().trim(),
+})
+
 export const SigninFormShema = z.object({
     email: z.string().email({ message: "Entrez un email valide svp" }).trim(),
     password: z.string().trim(),
@@ -13,7 +26,7 @@ export const SignupFormShema = z.object({
     email: z.string().email({ message: "Entrez un email valide svp" }),
     password: z
         .string()
-        .min(8, { message: 'avoir au moins 8 caractère de long' })
+        .min(6, { message: 'avoir au moins 6 caractère de long' })
         .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
         .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
         .regex(/[^a-zA-Z0-9]/, {

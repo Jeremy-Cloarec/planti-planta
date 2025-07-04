@@ -1,26 +1,28 @@
 'use client'
 import {useState} from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/solid";
-import {authClient, signIn} from "@/app/lib/auth-client";
+import {authClient} from "@/app/lib/auth-client";
 import {useRouter} from "next/navigation";
-import {FormErrors, SigninFormShema} from "@/app/lib/definitions";
+import {FormErrors, ResetPasswordFormShema} from "@/app/lib/definitions";
 import {handlePasswordVisibility} from "@/app/utils/utils";
-import {authErrorMessages} from "@/app/lib/auth-translation";
 
-export function SignInForm() {
-    const [email, setEmail] = useState("");
+
+export function ResetPasswordForm() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState
     (false)
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
+    (false);
+
     const router = useRouter();
 
-    const handleForgetPassword = () => {
-        const {data, error} = authClient.requestPasswordReset({
-            email: "jeremycloarec@msn.com",
-            redirectTo: "/reset-password",
-        });
+    const token : string = new URLSearchParams(window.location.search).get("token");
+
+    if (!token) {
+        router.push("/");
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,8 +30,7 @@ export function SignInForm() {
         setLoading(true);
         setFormErrors({});
 
-        const validatedData = SigninFormShema.safeParse({
-            email,
+        const validatedData = ResetPasswordFormShema.safeParse({
             password,
         });
 
@@ -39,61 +40,29 @@ export function SignInForm() {
             return;
         }
 
+        if(password !== passwordConfirmation) {
+            setFormErrors({
+                passwordConfirmation: ["Les mots de passe ne correspondent pas"]
+            });
+            setLoading(false);
+            return
+        }
+
         try {
-            await signIn.email({
-                email: validatedData.data.email,
-                password: validatedData.data.password,
-                callbackURL: "/compte",
-                fetchOptions: {
-                    onResponse: () => {
-                        setLoading(false);
-                    },
-                    onRequest: () => {
-                        setLoading(true);
-                    },
-                    onError: (ctx) => {
-                        const code = ctx.error.code
-                        console.log(code)
-                        const msg = authErrorMessages[code] ?? ctx.error.message;
-                        setFormErrors({general: [msg]});
-                    },
-                    onSuccess: async () => {
-                        router.push("/compte");
-                    },
-                }
-            })
-        } catch (e) {
-            console.log(e);
-            setFormErrors({general: ["Une erreur inconnue est survenue."]});
+            const { data, error } = await authClient.resetPassword({
+                newPassword: validatedData.data.password,
+                token,
+            });
+            router.push("/compte");
+        } catch (e:unknown) {
+
+            setFormErrors({general: ["Une erreur inconnue est survenue.", String(e)]});
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className="w-full">
             <div className="w-full">
-
-                {/* email */}
-                <div>
-                    <label
-                        className="mb-3 mt-5 block text-sm"
-                        htmlFor="email"
-                    >
-                        Email
-                    </label>
-                    <div>
-                        <input
-                            className="block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
-                            id="email"
-                            type="email"
-                            name="email"
-                            placeholder="Entrez votre email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    {formErrors.email && <p className="text-red text-sm">{formErrors.email[0]}</p>}
-                </div>
 
                 {/* Password */}
                 <div className="mt-4">
@@ -104,9 +73,6 @@ export function SignInForm() {
                         >
                             Mot de passe
                         </label>
-                        <button onClick={handleForgetPassword}
-                                className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe oublié ?
-                        </button>
                     </div>
 
                     <div className="relative">
@@ -131,6 +97,27 @@ export function SignInForm() {
                             </ul>
                         }
                     </div>
+                </div>
+                {/* Champ Confirmation mot de passe */}
+                <div className="mt-4">
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
+                    <div className="relative">
+                        <input
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
+                            id="passwordConfirmation"
+                            type={!isConfirmPasswordVisible ? "password" : "text"}
+                            name="passwordConfirmation"
+                            placeholder="Confirmez votre mot de passe"
+                            required
+                            minLength={8}
+                            value={passwordConfirmation}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                        />
+                        <button className="absolute text-dark2 top-2 right-1" onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}>
+                            {!isConfirmPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
+                        </button>
+                    </div>
+                    {formErrors.passwordConfirmation && <p className="text-red text-sm">{formErrors.passwordConfirmation[0]}</p>}
                 </div>
             </div>
 

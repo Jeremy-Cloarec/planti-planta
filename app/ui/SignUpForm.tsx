@@ -6,7 +6,6 @@ import {useRouter} from "next/navigation";
 import {SignupFormShema, FormErrors} from "@/app/lib/definitions";
 import {authErrorMessages} from "@/app/lib/auth-translation";
 import {handlePasswordVisibility} from "@/app/utils/utils";
-import {emailInscriptionAction} from "@/app/actions/email-inscription.action";
 
 export function SignUpForm() {
     const [name, setName] = useState("")
@@ -50,8 +49,8 @@ export function SignUpForm() {
         try {
             await signUp.email({
                 email: validatedData.data.email,
-                password: validatedData.data.password,
-                name: validatedData.data.name,
+                name: validatedData.data.name,                password: validatedData.data.password,
+
                 callbackURL: "/compte",
                 fetchOptions: {
                     onResponse: () => {
@@ -66,7 +65,12 @@ export function SignUpForm() {
                         setFormErrors({general: [msg]});
                     },
                     onSuccess: async () => {
-                        await emailInscriptionAction(name)
+                        await fetch('/api/emails/inscription', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userName: name, userEmail: email })
+                        });
+
                         router.push("/compte");
                     },
                 },
