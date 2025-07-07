@@ -1,5 +1,4 @@
 "use client"
-import { useQuery } from "@tanstack/react-query"
 import Nav from "./ui/nav/Nav"
 import Heading from "./ui/Hero"
 import ListCardsPlants from "./ui/ListCardsPlants"

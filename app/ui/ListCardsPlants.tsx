@@ -1,8 +1,8 @@
 "use client"
 import { useState } from "react"
 import CardPlant from "./CardPlant"
-import { PopUpAddedToCard } from "./PopUp"
-import { v4 as uuidv4 } from 'uuid'
+//import { PopUpAddedToCard } from "./PopUp"
+//import { v4 as uuidv4 } from 'uuid'
 import { Plant } from "../lib/definitions"
 import { useQuery } from "@tanstack/react-query"
 import LoadingPlants from "./skeleton/loading"
@@ -12,16 +12,19 @@ import PlantPopover from "./PlantPopover"
 interface ListCardsClientProps {
     userId: string
 }*/
-
+/*
 interface Response {
     message: string
     success: boolean
 }
 
+ */
+
 export default function ListCardsPlants() {
-    const [responses, setResponses] = useState<Response[]>([])
+    //const [responses, setResponses] = useState<Response[]>([])
     const [index, setIndex] = useState<number>(0)
 
+    /*
     function addResponse(newResponse: Response) {
         setResponses((prev) => [...prev, newResponse])
 
@@ -29,6 +32,7 @@ export default function ListCardsPlants() {
             setResponses((prev) => prev.filter(r => r !== newResponse))
         }, 2000)
     }
+    */
 
     const { isPending, error, data } = useQuery({
         queryKey: ['plants'],
@@ -48,6 +52,7 @@ export default function ListCardsPlants() {
     return (
         <>
             <div className="flex flex-col gap-4 items-center">
+                {/*
                 <ul className="z-20 fixed bottom-10 left-1/2 -translate-x-1/2 text-center flex flex-col gap-2">
                     {responses.map((response) =>
                         <PopUpAddedToCard
@@ -57,7 +62,7 @@ export default function ListCardsPlants() {
                         />
                     )}
                 </ul>
-
+                */}
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
                     {data.map((plant: Plant) => (
                         <li key={plant.id}>

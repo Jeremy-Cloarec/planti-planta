@@ -7,7 +7,7 @@ export const auth = betterAuth({
     database: cp,
     emailAndPassword: {
         enabled: true,
-        sendResetPassword: async ({user, url, token}, request) => {
+        sendResetPassword: async ({user, url}) => {
             await resend.emails.send({
                 from: 'Dancing Plants <noreply@jeremycloarec.com>',
                 to: user.email,
