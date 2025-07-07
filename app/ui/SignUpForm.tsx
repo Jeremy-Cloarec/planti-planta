@@ -129,7 +129,7 @@ export function SignUpForm() {
                             name="password"
                             placeholder="Entrez votre mot de passe"
                             required
-                            minLength={8}
+                            minLength={6}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -155,7 +155,7 @@ export function SignUpForm() {
                             name="passwordConfirmation"
                             placeholder="Confirmez votre mot de passe"
                             required
-                            minLength={8}
+                            minLength={6}
                             value={passwordConfirmation}
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                         />

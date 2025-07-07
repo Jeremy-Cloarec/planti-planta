@@ -1,11 +1,11 @@
 'use client'
+import {useEffect} from "react";
 import {useState} from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/solid";
 import {authClient} from "@/app/lib/auth-client";
 import {useRouter} from "next/navigation";
 import {FormErrors, ResetPasswordFormShema} from "@/app/lib/definitions";
 import {handlePasswordVisibility} from "@/app/utils/utils";
-
 
 export function ResetPasswordForm() {
     const [password, setPassword] = useState("");
@@ -16,14 +16,25 @@ export function ResetPasswordForm() {
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
     (false);
+    const [token, setToken] = useState<string | null>(null);
 
     const router = useRouter();
 
-    const token : string = new URLSearchParams(window.location.search).get("token");
+    useEffect(() => {
+        console.log("formErrors",formErrors)
+    }, [formErrors]);
 
-    if (!token) {
-        router.push("/");
-    }
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const tokenFromUrl = searchParams.get("token");
+        console.log("token ", tokenFromUrl);
+
+        if (!tokenFromUrl) {
+            router.push("/");
+        } else {
+            setToken(tokenFromUrl);
+        }
+    }, [router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -32,6 +43,7 @@ export function ResetPasswordForm() {
 
         const validatedData = ResetPasswordFormShema.safeParse({
             password,
+            passwordConfirmation
         });
 
         if (!validatedData.success) {
@@ -40,7 +52,7 @@ export function ResetPasswordForm() {
             return;
         }
 
-        if(password !== passwordConfirmation) {
+        if (password !== passwordConfirmation) {
             setFormErrors({
                 passwordConfirmation: ["Les mots de passe ne correspondent pas"]
             });
@@ -49,13 +61,12 @@ export function ResetPasswordForm() {
         }
 
         try {
-            const { data, error } = await authClient.resetPassword({
+            const {data, error} = await authClient.resetPassword({
                 newPassword: validatedData.data.password,
                 token,
             });
             router.push("/compte");
-        } catch (e:unknown) {
-
+        } catch (e: unknown) {
             setFormErrors({general: ["Une erreur inconnue est survenue.", String(e)]});
         }
     };
@@ -74,7 +85,6 @@ export function ResetPasswordForm() {
                             Mot de passe
                         </label>
                     </div>
-
                     <div className="relative">
                         <input
                             className="peer block w-full  border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
@@ -100,7 +110,8 @@ export function ResetPasswordForm() {
                 </div>
                 {/* Champ Confirmation mot de passe */}
                 <div className="mt-4">
-                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de
+                        passe</label>
                     <div className="relative">
                         <input
                             className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
@@ -109,15 +120,17 @@ export function ResetPasswordForm() {
                             name="passwordConfirmation"
                             placeholder="Confirmez votre mot de passe"
                             required
-                            minLength={8}
+                            minLength={6}
                             value={passwordConfirmation}
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                         />
-                        <button className="absolute text-dark2 top-2 right-1" onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}>
-                            {!isConfirmPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
+                        <button className="absolute text-dark2 top-2 right-1"
+                                onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}>
+                            {!isConfirmPasswordVisible ? (<EyeIcon width={24}/>) : (<EyeSlashIcon width={24}/>)}
                         </button>
                     </div>
-                    {formErrors.passwordConfirmation && <p className="text-red text-sm">{formErrors.passwordConfirmation[0]}</p>}
+                    {formErrors.passwordConfirmation &&
+                        <p className="text-red text-sm">{formErrors.passwordConfirmation[0]}</p>}
                 </div>
             </div>
 
