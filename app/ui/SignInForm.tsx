@@ -1,9 +1,9 @@
 'use client'
-import {useState} from "react";
+import { useState} from "react";
 import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/solid";
 import {authClient, signIn} from "@/app/lib/auth-client";
 import {useRouter} from "next/navigation";
-import {FormErrors, SigninFormShema} from "@/app/lib/definitions";
+import {FormErrors, SignInFormShema, ResendFormShema} from "@/app/lib/definitions";
 import {handlePasswordVisibility} from "@/app/utils/utils";
 import {authErrorMessages} from "@/app/lib/auth-translation";
 
@@ -13,22 +13,49 @@ export function SignInForm() {
     const [loading, setLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState
     (false)
-    const [formErrors, setFormErrors] = useState<FormErrors>({});
     const router = useRouter();
+    const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const [formSucces, setFormSucces] = useState<FormErrors>({});
 
-    const handleForgetPassword = () => {
-        const {data, error} = authClient.requestPasswordReset({
-            email: "jeremycloarec@msn.com",
-            redirectTo: "/reset-password",
-        });
-    }
+    const handleForgetPassword = async (email: null | string) => {
+        setFormErrors({});
+
+        if (email === "") {
+            setFormErrors({reset: "Vous devez renseigner l'email"})
+            return;
+        }
+
+        if (!email) { return }
+
+        const validatedData = ResendFormShema.safeParse({
+            email,
+        })
+
+        if(!validatedData.success) {
+            setFormErrors(validatedData.error.flatten().fieldErrors);
+            return;
+        }
+
+        try {
+            await authClient.requestPasswordReset({
+                email: validatedData.data.email,
+                redirectTo: "/reset-password",
+            });
+
+            setFormSucces({ general: ["Si votre mail existe, vous recevrez un lien de réinitialisation."] });
+
+        } catch (error) {
+            setFormErrors({ general: ["Erreur lors de la demande de réinitialisation."] });
+            console.error("Erreur lors de la demande de réinitialisation :", error);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
         setFormErrors({});
 
-        const validatedData = SigninFormShema.safeParse({
+        const validatedData = SignInFormShema.safeParse({
             email,
             password,
         });
@@ -53,7 +80,6 @@ export function SignInForm() {
                     },
                     onError: (ctx) => {
                         const code = ctx.error.code
-                        console.log(code)
                         const msg = authErrorMessages[code] ?? ctx.error.message;
                         setFormErrors({general: [msg]});
                     },
@@ -104,9 +130,14 @@ export function SignInForm() {
                         >
                             Mot de passe
                         </label>
-                        <button onClick={handleForgetPassword}
-                                className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe oublié ?
-                        </button>
+                        <div>
+                            <button type="button" onClick={() => handleForgetPassword(email)}
+                                    className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe
+                                oublié ?
+                            </button>
+                            {formErrors.reset && <p className="text-red text-sm">{formErrors.reset}</p>}
+                        </div>
+
                     </div>
 
                     <div className="relative">
@@ -141,7 +172,8 @@ export function SignInForm() {
             >
                 {loading ? "Envoi en cours..." : "Se connecter"}
             </button>
-            {formErrors && <p className="text-red">{formErrors.general}</p>}
+            {formErrors && <p className="text-red text-sm">{formErrors.general}</p>}
+            {formSucces && <p className="text-green-900 text-sm">{formSucces.general}</p>}
         </form>
     )
 }

@@ -16,7 +16,7 @@ export function ResetPasswordForm() {
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
     (false);
-    const [token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string | undefined>(undefined);
 
     const router = useRouter();
 
@@ -61,7 +61,7 @@ export function ResetPasswordForm() {
         }
 
         try {
-            const {data, error} = await authClient.resetPassword({
+            authClient.resetPassword({
                 newPassword: validatedData.data.password,
                 token,
             });

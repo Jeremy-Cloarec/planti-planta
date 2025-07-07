@@ -13,19 +13,23 @@ export const ResetPasswordFormShema = z.object({
     passwordConfirmation: z.string().trim(),
 })
 
-export const SigninFormShema = z.object({
-    email: z.string().email({ message: "Entrez un email valide svp" }).trim(),
-    password: z.string().trim(),
+export const SignInFormShema = z.object({
+    email: z.string({message: "Entrez un email svp"}).email({ message: "Entrez un email valide svp" }).trim(),
+    password: z.string().min(1, {message: "être présent"}).trim(),
+})
+
+export const ResendFormShema = z.object({
+    email: z.string({message: "Entrez un email svp"}).email({ message: "Entrez un email valide svp" }).trim(),
 })
 
 export const SignupFormShema = z.object({
     name: z
-        .string()
+        .string({message: "Entrez un nom svp"})
         .min(1, { message: "Le nom doit avoir au moins un caractère de long" })
         .trim(),
-    email: z.string().email({ message: "Entrez un email valide svp" }),
+    email: z.string({message: "Entrez un email svp"}).email({ message: "Entrez un email valide svp" }),
     password: z
-        .string()
+        .string({message: "être présent"})
         .min(6, { message: 'avoir au moins 6 caractère de long' })
         .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
         .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
@@ -58,6 +62,7 @@ export type FormErrors = {
     password?: string[];
     passwordConfirmation?: string[];
     general?: string[];
+    reset?: string;
 };
 
 
