@@ -7,7 +7,6 @@ export const auth = betterAuth({
     database: cp,
     emailAndPassword: {
         enabled: true,
-
         sendResetPassword: async ({user, url, token}, request) => {
             await resend.emails.send({
                 from: 'Dancing Plants <noreply@jeremycloarec.com>',
@@ -16,11 +15,17 @@ export const auth = betterAuth({
                 text: `Click the link to reset your password: ${url}`,
             });
         },
-
     },
     user: {
         deleteUser: {
             enabled: true
         }
-    }
+    },
+    socialProviders: {
+        google: {
+            prompt: "select_account",
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        },
+    },
 })

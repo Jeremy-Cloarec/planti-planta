@@ -4,7 +4,6 @@ import {
 
 export const authClient = createAuthClient({
     baseURL: process.env.NEXT_PUBLIC_SITE_URL,
-
 })
 
 export const {
@@ -13,3 +12,7 @@ export const {
     signUp,
     useSession
 } = authClient;
+
+export const googleSignIn = () =>  authClient.signIn.social({
+    provider: "google",
+})
