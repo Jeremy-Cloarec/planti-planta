@@ -1,7 +1,6 @@
 import {connectionPool as cp} from 'app/db'
-import {plants, users} from 'app/lib/placeholder-data'
+import {plants} from 'app/lib/placeholder-data'
 
-// Crée les plantes
 async function seedPlants() {
     await cp.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
     await cp.query(`
@@ -15,7 +14,7 @@ async function seedPlants() {
         )
     `);
 
-    const insertPlants = await Promise.all(
+    return await Promise.all(
         plants.map((plant) =>
             cp.query(`
                         INSERT INTO plants (title, price, quantity, legend)
@@ -23,8 +22,6 @@ async function seedPlants() {
                 [plant.title, plant.price, plant.quantity, plant.legend])
         )
     );
-
-    return insertPlants;
 }
 
 async function seedBasket() {
@@ -43,7 +40,6 @@ async function deleteTables() {
     await cp.query(`DROP TABLE IF EXISTS plants`);
 }
 
-// Fonction GET pour initialiser la base
 export async function GET() {
     try {
         await deleteTables()

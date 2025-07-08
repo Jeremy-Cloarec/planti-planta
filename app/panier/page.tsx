@@ -7,8 +7,8 @@ import {useQuery} from "@tanstack/react-query"
 import {formatedUrl} from "../utils/utils"
 import {cabinBold, cormorant} from "../ui/fonts"
 import ButtonOrder from "../ui/buttons/ButtonOrder"
-import {Footer} from "../ui/Footer"
-import {useContext, useState} from "react";
+import Footer from "../ui/Footer"
+import {useContext} from "react";
 import {UserContext} from "@/app/context/UserContext";
 
 export default function Basket() {

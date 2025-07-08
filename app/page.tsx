@@ -1,8 +1,7 @@
-"use client"
 import Nav from "./ui/nav/Nav"
 import Heading from "./ui/Hero"
 import ListCardsPlants from "./ui/ListCardsPlants"
-import {Footer} from "./ui/Footer"
+import Footer from "./ui/Footer"
 
 export default function Home() {
     return (

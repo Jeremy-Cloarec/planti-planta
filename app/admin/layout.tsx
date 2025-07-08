@@ -1,4 +1,4 @@
-import { Footer } from "../ui/Footer";
+import Footer  from "../ui/Footer";
 import NavAdmin from "../ui/admin/NavAdmin";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

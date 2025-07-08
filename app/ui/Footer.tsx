@@ -41,7 +41,7 @@ const linksLegals = [
     },
 ]
 
-export function Footer() {
+export default function Footer() {
     const dateYear = new Date()
 
     return (
