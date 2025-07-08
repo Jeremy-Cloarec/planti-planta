@@ -1,26 +1,13 @@
 "use client"
-import { deletePlantFromBasket } from "@/app/actions/basket.action"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { TrashIcon } from "@heroicons/react/24/outline"
+import {TrashIcon} from "@heroicons/react/24/outline"
 
 interface ButtonDeleteProps {
     text: string
     plantId: string
-    userId: string | undefined
 }
 
-export default function ButtonDeleteToBasket({ text, plantId, userId }: ButtonDeleteProps) {
-    const queryClient = useQueryClient()
-
-    const deleteMutation = useMutation({
-        mutationFn: () => deletePlantFromBasket(plantId, userId),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['plantsInBasket'] })
-            queryClient.invalidateQueries({ queryKey: ['countBasket', userId] })
-            queryClient.invalidateQueries({ queryKey: ['totalPrice', userId] })
-        },
-    })
-
+export default function ButtonDeleteToBasket({text, plantId}: ButtonDeleteProps) {
+    /*
     const buttonContent = (isPending: boolean, text: string) => {
         if (isPending) return <div className="flex justify-center">
             <svg className="size-5 animate-spin"
@@ -30,14 +17,15 @@ export default function ButtonDeleteToBasket({ text, plantId, userId }: ButtonDe
         </div>
         return text
     }
+    */
 
     return (
         <button
-            onClick={() => deleteMutation.mutate()}
-            className={`${deleteMutation.isPending ? "animate-pulse w-[96px]" : ""} flex gap-1 items-center text-dark2 hover:text-red-opacity transition delay-150 duration-300 mt-auto`} 
+            onClick={() => console.log(plantId, " use local storage")}
+            className="flex gap-1 items-center text-dark2 hover:text-red-opacity transition delay-150 duration-300 mt-auto"
         >
             <TrashIcon width={16}/>
-            {buttonContent(deleteMutation.isPending, text)}
+            {text}
         </button>
     )
 } 
