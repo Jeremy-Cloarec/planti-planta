@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState} from "react"
 import Button from "./Button"
 import { addPlantToBasket, checkIfPlantIsInBasket } from "@/app/actions/plants.actions"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
@@ -22,7 +22,26 @@ export default function ButtonAddToBasket({ text, plantId, userId, disabled, add
     const [isDisable, setIsDisable] = useState<boolean>(false)
     const queryClient = useQueryClient()
 
+    const insertPlantInLocalStorage = () => {
+        const stored = localStorage.getItem("plantsInBasket")
+        const plantIds: string[] = stored ? JSON.parse(stored) : []
+
+        if (!plantIds.includes(plantId)) {
+            plantIds.push(plantId)
+            localStorage.setItem("plantsInBasket", JSON.stringify(plantIds))
+        }
+    }
+
     const handleAddToBasket = async () => {
+        const isGuest = userId === "1" || !userId
+
+        if (isGuest) {
+            insertPlantInLocalStorage()
+            addReponse({ message: "Plante ajoutée au panier", success: true })
+            setIsDisable(true)
+            return
+        }
+
         const res = await addPlantToBasket(plantId, userId)
 
         if (!res) {
@@ -37,6 +56,8 @@ export default function ButtonAddToBasket({ text, plantId, userId, disabled, add
         if (res.success) {
             setIsDisable(true)
             addReponse({ message: res.message, success: true })
+
+            deleteMutation.mutate();
         }
 
         const basket = await checkIfPlantIsInBasket(plantId, userId)
@@ -63,7 +84,7 @@ export default function ButtonAddToBasket({ text, plantId, userId, disabled, add
     }
 
     return (
-        <Button onClick={() => [handleAddToBasket(), deleteMutation.mutate()]} disabled={isDisable || disabled} className={deleteMutation.isPending ? "animate-pulse h-[40px]" : ""}>
+        <Button onClick={() => handleAddToBasket()} disabled={isDisable || disabled} className={deleteMutation.isPending ? "animate-pulse h-[40px]" : ""}>
             {buttonContent(deleteMutation.isPending, text)}
         </Button>
     )
