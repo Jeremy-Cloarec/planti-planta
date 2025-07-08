@@ -1,51 +1,47 @@
 "use client"
 import Nav from "../ui/nav/Nav"
 import Image from "next/image"
-import { Plant, User } from "../lib/definitions"
+import {Plant} from "../lib/definitions"
 import ButtonDeleteToBasket from "../ui/buttons/ButtonDeleteToBasket"
-import { useQuery } from "@tanstack/react-query"
-import { formatedUrl } from "../utils/utils"
-import { cabinBold, cormorant } from "../ui/fonts"
+import {useQuery} from "@tanstack/react-query"
+import {formatedUrl} from "../utils/utils"
+import {cabinBold, cormorant} from "../ui/fonts"
 import ButtonOrder from "../ui/buttons/ButtonOrder"
-import { Footer } from "../ui/Footer"
-import {authClient} from "@/app/lib/auth-client";
+import {Footer} from "../ui/Footer"
+import {useContext, useState} from "react";
+import {UserContext} from "@/app/context/UserContext";
 
 export default function Basket() {
 
-    const { data: session } = authClient.useSession()
-    const userId = session?.user?.id
+    const userId = useContext(UserContext)
+    const isGuest = userId === "1" || !userId
 
     const plantsData = useQuery({
         queryKey: ['plantsInBasket', userId],
         queryFn: () =>
-            fetch(`/api/basket/all_plants_in_basket?userId=${userId}`).then((res) => res.json())
-    })
-
-    const countNav = useQuery({
-        queryKey: ['countBasket', userId],
-        queryFn: () =>
-            fetch(`/api/basket/count_basket?userId=${userId}`).then((res) => res.json()),
-        enabled: !!userId
+            fetch(`/api/basket/all_plants_in_basket?userId=${userId}`).then((res) => res.json()),
+        enabled: !isGuest
     })
 
     const totalPrice = useQuery({
         queryKey: ['totalPrice', userId],
         queryFn: () =>
             fetch(`/api/basket/total_price?userId=${userId}`).then((res) => res.json()),
-        enabled: !!userId
+        enabled:  !!userId
     })
 
-    if (plantsData.isPending) return <p>Chargement...</p>
+    if (!isGuest && plantsData.isPending) return <p>Chargement...</p>
 
-    if (plantsData.error) return 'An error occured: ' + plantsData.error.message
+    if (!isGuest && plantsData.error) return 'An error occured: ' + plantsData.error.message
 
-    if (totalPrice.error) return 'An error has occurred: ' + totalPrice.error.message
+    if (!isGuest && totalPrice.error) return 'An error has occurred: ' + totalPrice.error.message
 
+    console.log(plantsData.data)
     const plants: Plant[] = plantsData.data
 
     return (
         <>
-            <Nav numberOfPlants={countNav.data} />
+            <Nav />
             <main className="w-full flex-1 pt-[72px] flex flex-col gap-4 max-w-(--breakpoint-lg)">
                 <div className="flex items-center justify-between my-6 px-3 md:px-4">
                     <h1 className={`${cormorant.className} text-3xl`}>Votre panier</h1>
@@ -97,7 +93,8 @@ export default function Basket() {
                                 <p>Frais de livraison</p>
                                 <p className="text-lime-600">Gratuit</p>
                             </div>
-                            <div className={`flex items-center justify-between py-3 ${cabinBold.className}  border-t border-y-slate-400`}>
+                            <div
+                                className={`flex items-center justify-between py-3 ${cabinBold.className}  border-t border-y-slate-400`}>
                                 <p>TOTAL</p>
                                 <p> {totalPrice.data} €</p>
                             </div>
@@ -116,7 +113,7 @@ export default function Basket() {
                 )}
             </main>
             <div className="hidden md:block w-full">
-                <Footer />
+                <Footer/>
             </div>
         </>
 

@@ -1,5 +1,5 @@
 "use client"
-import {useState} from "react"
+import {useContext, useState} from "react"
 import CardPlant from "./CardPlant"
 import {PopUpAddedToCard} from "./PopUp"
 import {v4 as uuidv4} from 'uuid'
@@ -7,15 +7,17 @@ import {Plant} from "../lib/definitions"
 import {useQuery} from "@tanstack/react-query"
 import LoadingPlants from "./skeleton/loading"
 import PlantPopover from "./PlantPopover"
+import {UserContext} from "@/app/context/UserContext";
 
 interface Response {
     message: string
     success: boolean
 }
 
-export default function ListCardsPlants({userId}: { userId: string }) {
+export default function ListCardsPlants() {
     const [responses, setResponses] = useState<Response[]>([])
     const [index, setIndex] = useState<number>(0)
+    const  userId = useContext(UserContext)
 
     function addResponse(newResponse: Response) {
         setResponses((prev) => [...prev, newResponse])
