@@ -8,16 +8,12 @@ import { formatedUrl } from "../utils/utils"
 import { cabinBold, cormorant } from "../ui/fonts"
 import ButtonOrder from "../ui/buttons/ButtonOrder"
 import { Footer } from "../ui/Footer"
+import {authClient} from "@/app/lib/auth-client";
 
 export default function Basket() {
-    const userQuery = useQuery<User>({
-        queryKey: ['user'],
-        queryFn: () =>
-            fetch("/api/user").then((res) => res.json()),
-        staleTime: 1000 * 60 * 5,
-    })
 
-    const userId = userQuery.data?.id
+    const { data: session } = authClient.useSession()
+    const userId = session?.user?.id
 
     const plantsData = useQuery({
         queryKey: ['plantsInBasket', userId],

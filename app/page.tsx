@@ -9,7 +9,6 @@ import {authClient} from "@/app/lib/auth-client";
 export default function Home() {
   const { data: session } = authClient.useSession()
   const userId = session?.user?.id
-  console.log("userId: ", userId)
 
   const {
     data: countBasket,
@@ -26,13 +25,14 @@ export default function Home() {
   if (countError) return <div>Erreur de chargement utilisateur (Home)</div>
   if (!userId) return <div>Utilisateur non connecté</div>
 
+
   return (
     <>
-    < Nav numberOfPlants={countBasket ?? "0"} />
+    < Nav numberOfPlants={countBasket ? countBasket : "0"} />
       <div className="flex flex-col flex-1 w-full">
         <Heading title="Dancing Plants" />
         <main className="flex-1 p-3 md:p-4 w-full max-w-(--breakpoint-lg) m-auto">
-          <ListCardsPlants userId={userId} />
+          <ListCardsPlants userId={userId}/>
         </main>
       </div>
       <Footer />
