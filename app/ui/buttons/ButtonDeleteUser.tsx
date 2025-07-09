@@ -13,8 +13,8 @@ export default function ButtonDeleteUser() {
 
     return (
         <>
-            <Button onClick={handleDeleteUser} className="bg-red">
-                Supprimer le compte
+            <Button onClick={handleDeleteUser} className="bg-white text-red-800 ring-1 ring-red-800 hover:bg-red-800 hover:text-white transition duration-300 text-sm">
+                Supprimer
             </Button>
         </>
     )

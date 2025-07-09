@@ -17,10 +17,8 @@ export default function ButtonLogout() {
     };
 
     return (
-        <>
-            <Button onClick={handleSignOut}>
-                Se déconnecter
-            </Button>
-        </>
+        <Button onClick={handleSignOut} className="bg-white text-sm hover:bg-slate-200 ring-1 ring-slate-200">
+            Se déconnecter
+        </Button>
     )
 }
