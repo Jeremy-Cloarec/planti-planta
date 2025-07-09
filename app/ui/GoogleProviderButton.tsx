@@ -17,9 +17,8 @@ export default function GoogleProviderButton() {
         <div>
             <button onClick={googleSignIn} className="w-full flex gap-2 items-center transition duration-300 mt-4 justify-center py-2 px-4 ring-1 ring-slate-200 hover:bg-slate-200">
                 {logoGoogle}
-                Se connecter
+                Se connecter avec Google
             </button>
-
         </div>
 
     )
