@@ -1,4 +1,6 @@
-export const  formatedUrl = (title:string) =>  title.toLowerCase().split(" ").join("_")
+import {Plant} from "@/app/lib/definitions";
+
+export const formatedUrl = (title: string) => title.toLowerCase().split(" ").join("_")
 
 export const handlePasswordVisibility = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -7,3 +9,7 @@ export const handlePasswordVisibility = (
     e.preventDefault();
     setter(prev => !prev);
 };
+
+export const calculateTotalPrice = (plants: Plant[]): number => {
+    return plants.reduce((acc, p) => acc + Number(p.price), 0)
+}

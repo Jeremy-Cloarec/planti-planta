@@ -5,10 +5,11 @@ import Footer from "../ui/Footer"
 import {usePlantsBasket} from "@/app/context/PlantsBasketContext";
 import CardPlantBasket from "@/app/ui/basket/CardPlantBasket";
 import CommandResume from "@/app/ui/basket/CommandResume";
+import {calculateTotalPrice} from "@/app/utils/utils";
 
 export default function Basket() {
     const plantsInBasket = usePlantsBasket()
-    const totalPrice = 120
+    const totalPrice = calculateTotalPrice(plantsInBasket)
 
     return (
         <>
@@ -22,8 +23,8 @@ export default function Basket() {
                     <div className="flex flex-col gap-6 flex-1 justify-between
                     md:flex-row md:items-start md:px-3
                     ">
-                        <CardPlantBasket plantsInBasket={plantsInBasket} />
-                        <CommandResume totalPrice={ totalPrice} />
+                        <CardPlantBasket plantsInBasket={plantsInBasket}/>
+                        <CommandResume totalPrice={totalPrice}/>
                     </div>
                 ) : (
                     <p className="p-3">Vous n&apos; avez pas encore de plantes dans votre panier</p>
