@@ -12,7 +12,13 @@ export default function ListCardsPlants() {
     const {isPending, error, data} = useQuery({
         queryKey: ['plants'],
         queryFn: () =>
-            fetch("/api/plants").then((res) => res.json())
+            fetch("/api/plants")
+                .then((res) => res.json())
+                .then((plants) => plants.map((plant: Plant) => ({
+                    ...plant,
+                    price: Number(plant.price),
+                    quantity: Number(plant.quantity),
+                })))
     })
 
     if (isPending) return <LoadingPlants/>

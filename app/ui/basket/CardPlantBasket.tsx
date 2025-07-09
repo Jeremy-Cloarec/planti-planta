@@ -2,9 +2,19 @@ import Image from "next/image";
 import {formatedUrl} from "@/app/utils/utils";
 import {cabinBold, cormorant} from "@/app/ui/fonts";
 import ButtonDeleteToBasket from "@/app/ui/buttons/ButtonDeleteToBasket";
-import {Plant} from "@/app/lib/definitions";
+import {PlantInBasket} from "@/app/lib/definitions";
+import {usePlantsBasketDispatch} from "@/app/context/PlantsBasketContext";
 
-export default function CardPlantBasket({ plantsInBasket}: { plantsInBasket: Plant[] }) {
+
+export default function CardPlantBasket({plantsInBasket}: { plantsInBasket: PlantInBasket[] }) {
+    const dispatch = usePlantsBasketDispatch()
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>, id: string) => {
+        const value = parseInt(e.target.value, 10)
+        if (!isNaN(value) && value > 0) {
+            dispatch({type: 'updateQuantity', id, quantity: value})
+        }
+    }
     return (
         <ul className="flex flex-col gap-4 px-3 md:px4
                         md:flex-3 md:px-0 md:gap-6">
@@ -22,8 +32,19 @@ export default function CardPlantBasket({ plantsInBasket}: { plantsInBasket: Pla
                     />
                     <div className="flex-3 flex flex-col gap-2">
                         <h2 className={`${cormorant.className} text-xl`}>{plant.title}</h2>
-                        <p className={`${cabinBold.className}`}>{plant.price} €</p>
+                        <p className={`${cabinBold.className}`}>{Number(plant.price)} €</p>
                         <p className="text-sm">{plant.legend}</p>
+                        <div className={"flex gap-2 w-full"}>
+                            <button onClick={() => dispatch({type: "decrement", id: plant.id})}>−</button>
+                            <input
+                                type="number"
+                                value={plant.basketQuantity}
+                                onChange={(e) => handleChange(e, plant.id)}
+                                min={1}
+                                className="w-12 text-center border"
+                            />
+                            <button onClick={() => dispatch({type: "increment", id: plant.id})}>+</button>
+                        </div>
                         <ButtonDeleteToBasket
                             text="Supprimer"
                             plantId={plant.id}

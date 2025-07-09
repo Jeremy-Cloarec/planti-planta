@@ -31,11 +31,12 @@ export default function Nav() {
         setShowMenu(!showMenu)
     }
     const plantsBasket = usePlantsBasket()
+    const numberOfPlants = plantsBasket.map(plant => plant.basketQuantity).reduce((acc, current) => acc + current, 0)
 
     const notif = (
         <div
             className="absolute -right-2 -top-1 bg-violet-light text-sm text-dark h-5 w-5 text-center rounded-full z-20">
-            {plantsBasket.length}
+            {numberOfPlants}
         </div>
     )
 

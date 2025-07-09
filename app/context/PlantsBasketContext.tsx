@@ -1,8 +1,8 @@
 import {createContext, Dispatch, useContext, useReducer} from 'react';
-import {Plant, PlantsAction} from "@/app/lib/definitions";
+import {Plant, PlantsAction, PlantInBasket} from "@/app/lib/definitions";
 
-const PlantsBasketContext = createContext<Plant[]>([]);
-const PlantsBasketDispatchContext = createContext<Dispatch<PlantsAction> | undefined>(undefined);
+const PlantsBasketContext = createContext<PlantInBasket[]>([]);
+const PlantsBasketDispatchContext = createContext<Dispatch<PlantsAction> | null>(null);
 
 export function PlantsBasketProvider({children}: { children: React.ReactNode }) {
     const [plantsInBasket, dispatch] = useReducer(
@@ -24,16 +24,75 @@ export function usePlantsBasket() {
 }
 
 export function usePlantsBasketDispatch() {
-    return useContext(PlantsBasketDispatchContext)
+    const context = useContext(PlantsBasketDispatchContext);
+    if (context === null) {
+        throw new Error("usePlantsBasketDispatch doit être utilisé à l'intérieur de PlantsBasketProvider");
+    }
+    return context;
 }
 
-export function plantsBasketReducer(state: Plant[], action: PlantsAction) {
+export function plantsBasketReducer(state: PlantInBasket[], action: PlantsAction) {
     switch (action.type) {
         case 'add':
-            if (state.some(p => p.id === action.plant.id)) return state
-            return [...state, action.plant];
+            const existing = state.find(p => p.id === action.plant.id)
+
+            const unitPrice = Number(action.plant.price)
+
+            if (existing) {
+                return state.map(p =>
+                    p.id === action.plant.id
+                        ? {
+                            ...p,
+                            basketQuantity: p.basketQuantity + 1,
+                            price: (p.basketQuantity + 1) * p.unitPrice
+                        }
+                        : p
+                )
+            }
+
+            return [
+                ...state,
+                {
+                    ...action.plant,
+                    basketQuantity: 1,
+                    unitPrice,
+                    price: unitPrice
+                }
+            ]
+
         case 'remove':
             return state.filter(p => p.id !== action.id)
+        case 'increment':
+            return state.map(p => {
+                    return p.id === action.id ? {
+                        ...p,
+                        basketQuantity: Number(p.basketQuantity) + 1,
+                        price: (p.basketQuantity + 1) * p.unitPrice
+                    } : p
+                }
+            )
+        case 'decrement':
+            return state
+                .map(p =>
+                    p.id === action.id
+                        ? {
+                            ...p,
+                            basketQuantity: Math.max(1, p.basketQuantity - 1),
+                            price: Math.max(1, p.basketQuantity - 1) * p.unitPrice
+                        }
+                        : p
+                )
+                .filter(p => p.basketQuantity > 0)
+        case 'updateQuantity':
+            return state.map(p =>
+                p.id === action.id
+                    ? {
+                        ...p,
+                        basketQuantity: action.quantity,
+                        price: action.quantity * p.unitPrice
+                    }
+                    : p
+            )
         case 'clear':
             return []
         default:
