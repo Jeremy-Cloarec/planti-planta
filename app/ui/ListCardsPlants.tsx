@@ -6,7 +6,6 @@ import {useQuery} from "@tanstack/react-query"
 import LoadingPlants from "./skeleton/loading"
 import PlantPopover from "./PlantPopover"
 
-
 export default function ListCardsPlants() {
     const [index, setIndex] = useState<number>(0)
 

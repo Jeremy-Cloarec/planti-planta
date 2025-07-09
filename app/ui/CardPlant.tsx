@@ -40,8 +40,7 @@ export default function CardPlant({
             <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
             <ButtonAddToBasket
                 text="Ajouter au panier"
-                plantTitle={plant.title}
-
+                plant={plant}
             />
         </div>
     )

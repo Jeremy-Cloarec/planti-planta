@@ -2,11 +2,9 @@
 import {UserIcon, ShoppingCartIcon, Bars3Icon, XMarkIcon} from "@heroicons/react/24/solid"
 import Link from "next/link"
 import {LogoLink} from "./LogoLink"
-import {useState, useContext,} from "react"
+import {useState} from "react"
 import {usePathname} from "next/navigation"
-import {useQuery} from "@tanstack/react-query";
-import {BasketContext} from "@/app/context/BasketContext";
-import {UserContext} from "@/app/context/UserContext";
+import {usePlantsBasket} from "@/app/context/PlantsBasketContext";
 
 const links = [
     {
@@ -32,29 +30,12 @@ export default function Nav() {
     const toggleMenu = () => {
         setShowMenu(!showMenu)
     }
-
-    const userId = useContext(UserContext)
-    const countPlantsInLocalStorage: string = String((useContext(BasketContext)).length)
-    const isGuest = userId === "1" || !userId
-
-    const {
-        data: countBasket,
-        isPending: isCountLoading,
-        error: countError,
-    } = useQuery({
-        queryKey: ['countBasket', userId],
-        queryFn: () =>
-            fetch(`/api/basket/count_basket?userId=${userId}`).then((res) => res.json()),
-        enabled: !isGuest,
-    })
-
-    if (!isGuest && isCountLoading) return <div> Chargement du nombre de plantes dans le panier </div>
-    if (!isGuest && countError) return <div>Erreur de chargement utilisateur </div>
+    const plantsBasket = usePlantsBasket()
 
     const notif = (
         <div
             className="absolute -right-2 -top-1 bg-violet-light text-sm text-dark h-5 w-5 text-center rounded-full z-20">
-            {isGuest ? countPlantsInLocalStorage : countBasket}
+            {plantsBasket.length}
         </div>
     )
 
@@ -109,7 +90,7 @@ export default function Nav() {
                         </Link>
                     </li>
                     <li className="relative">
-                        {countBasket != "0" && notif}
+                        { plantsBasket.length > 0 && notif}
                         <Link
                             key={"Panier"}
                             href="/panier"

@@ -1,23 +1,31 @@
 "use client"
 import Button from "./Button"
 import {usePopup} from "@/app/context/PopupContext";
+import {usePlantsBasketDispatch} from "@/app/context/PlantsBasketContext";
+import {Plant} from "@/app/lib/definitions";
 
 interface ButtonProps {
     text: string
-    plantTitle: string
+    plant: Plant
 }
 
-export default function ButtonAddToBasket({text, plantTitle}: ButtonProps) {
+export default function ButtonAddToBasket({text, plant}: ButtonProps) {
     const popup = usePopup()
+    const dispatch = usePlantsBasketDispatch()
 
     const handleAddToBasket = () => {
-        console.log(plantTitle)
+        if (dispatch) {
+            dispatch({type: "add", plant})
+        }
+
         popup({
             success: true,
-            message: `${plantTitle} ajoutée au panier !`,
+            message: `${plant.title} ajoutée au panier !`,
             classStyle: "bg-violet-light"
         })
     }
+
+
 
     const buttonContent = (isPending: boolean, text: string) => {
         if (isPending) return <div className="flex justify-center">

@@ -65,4 +65,9 @@ export type FormErrors = {
     reset?: string;
 };
 
+export type  PlantsAction =
+    | { type: 'add'; plant: Plant }
+    | { type: 'remove'; id: string }
+    | { type: 'clear' };
+
 
