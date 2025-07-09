@@ -1,4 +1,4 @@
-import {createContext, Dispatch, useContext, useReducer, useEffect} from 'react';
+import {createContext, Dispatch, useContext, useReducer, useEffect, ReactNode} from 'react';
 import { PlantsAction, PlantInBasket} from "@/app/lib/definitions";
 
 const PlantsBasketContext = createContext<PlantInBasket[]>([]);
