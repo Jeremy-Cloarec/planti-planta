@@ -1,35 +1,16 @@
 "use client"
-import {UserIcon, ShoppingCartIcon, Bars3Icon, XMarkIcon} from "@heroicons/react/24/solid"
+import {UserIcon, ShoppingCartIcon} from "@heroicons/react/24/solid"
 import Link from "next/link"
 import {LogoLink} from "./LogoLink"
-import {useState} from "react"
 import {usePathname} from "next/navigation"
 import {usePlantsBasket} from "@/app/context/PlantsBasketContext";
-
-const links = [
-    {
-        key: "Plantes",
-        href: "/",
-        text: "Plantes",
-    },
-    {
-        key: "Qui suis-je ?",
-        href: "/qui-suis-je",
-        text: "Qui suis-je ?",
-    },
-    {
-        key: "Contact",
-        href: "/contact",
-        text: "Contact",
-    },
-]
+import {authClient} from "@/app/lib/auth-client";
 
 export default function Nav() {
     const pathname = usePathname()
-    const [showMenu, setShowMenu] = useState(false)
-    const toggleMenu = () => {
-        setShowMenu(!showMenu)
-    }
+    const { data: session } = authClient.useSession()
+    const userName = session?.user?.name ? session.user.name : "Connexion"
+
     const plantsBasket = usePlantsBasket()
     const numberOfPlants = plantsBasket.map(plant => plant.basketQuantity).reduce((acc, current) => acc + current, 0)
 
@@ -40,54 +21,19 @@ export default function Nav() {
         </div>
     )
 
-    const menuIcon = showMenu ? (
-        <XMarkIcon className="size-8 md:hidden "/>
-    ) : (
-        <Bars3Icon className="size-8 md:hidden "/>
-    )
-
     return (
         <nav className='w-full fixed top-0 z-30'>
             <div
                 className="flex items-center justify-between bg-white border-b border-slate-200 p-3 md:p-4 h-16 relative">
-                <div className="flex items-center gap-1">
-                    <button
-                        role="Ouvrir ou fermer le menu"
-                        onClick={toggleMenu}
-                    >
-                        {menuIcon}
-                    </button>
-                    <LogoLink/>
-                </div>
-                <ul className={`
-                        flex flex-col h-32 absolute justify-between top-16 text-center bg-white w-full left-0 py-3 border-b border-slate-200 
-                        overflow-hidden transition-all duration-700 ease-in-out
-                        ${showMenu ? 'text-base max-h-32 opacity-100' : 'max-h-0 opacity-0 text-[0px]'}
-
-                        md:relative  md:top-0 md:justify-center md:items-center md:gap-5 md:flex-row md:bg-transparent md:border-none md:opacity-100 md:text-base  
-                    `}>
-                    {
-                        links.map(link =>
-                            <li key={link.key}>
-                                <Link
-                                    key={link.key}
-                                    href={link.href}
-                                    className={`hover:text-violet transition duration-300 uppercase ${pathname === link.href ? "text-violet" : "text-dark"}`}
-                                >
-                                    {link.text}
-                                </Link>
-                            </li>
-                        )
-                    }
-                </ul>
+                <LogoLink/>
                 <ul className="flex gap-4">
                     <li>
                         <Link
                             key={"Compte"}
                             href="/compte"
-                            className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" ? "text-violet" : "text-dark"}`}>
+                            className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/compte" ? "text-violet" : "text-dark"}`}>
                             <UserIcon className="size-8"/>
-                            <span className="text-xs">Connexion</span>
+                            <span className="text-xs text-center">{userName}</span>
                         </Link>
                     </li>
                     <li className="relative">

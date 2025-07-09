@@ -1,33 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
 
-const links = [
-    {
-        key: "Plantes",
-        href: "/",
-        text: "Plantes",
-    },
-    {
-        key: "Qui suis-je ?",
-        href: "/qui-suis-je",
-        text: "Qui suis-je ?",
-    },
-    {
-        key: "Contact",
-        href: "/contact",
-        text: "Contact",
-    },
-    {
-        key: "Connexion",
-        href: "/sign-in",
-        text: "Connexion",
-    },
-    {
-        key: "Panier",
-        href: "/panier",
-        text: "Panier",
-    },
-]
 const linksLegals = [
     {
         key: "Mentions légales",
@@ -54,24 +27,12 @@ export default function Footer() {
                     <h2>Dancing Plants</h2>
                 </div>
                 <ul className="flex items-center justify-center gap-3 flex-wrap">
-                    {links.map(link =>
-                        <li key={link.key}>
-                            <Link href={link.href} className="hover:underline hover:underline-offset-2">{link.text}</Link>
-                        </li>
-                    )}
-                </ul>
-                <ul className="flex items-center justify-center gap-3 flex-wrap">
                     {linksLegals.map(link =>
                         <li key={link.key}>
                             <Link href={link.href} className="hover:underline hover:underline-offset-2">{link.text}</Link>
                         </li>
                     )}
                 </ul>
-            </div>
-            <div className="flex flex-col items-center gap-4 md:flex-row">
-                <p className="text-base">
-                    {dateYear.getFullYear()} - Jérémy
-                </p>
                 <div className="flex gap-3">
                     <a href="https://github.com/Jeremy-Cloarec" target="_blank">
                         <Image src={"./github.svg"} alt="Lien " width={24} height={24} />
@@ -83,6 +44,11 @@ export default function Footer() {
                         <Image src={"./instagram.svg"} alt="Lien Instagrag" width={24} height={24} />
                     </a>
                 </div>
+            </div>
+            <div className="flex flex-col items-center gap-4 md:flex-row">
+                <p className="text-sm text-slate-600">
+                    {dateYear.getFullYear()} - Jérémy
+                </p>
             </div>
         </footer>
     )
