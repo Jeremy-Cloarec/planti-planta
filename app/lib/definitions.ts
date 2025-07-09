@@ -1,64 +1,51 @@
-import { z } from 'zod'
-export const PlantShema = z.object({
-    id: z.number(),
-    title: z.string(),
-    price: z.number(),
-    quantity: z.number(),
-    legend: z.string()
-})
+import {z} from 'zod'
 
-export const SigninFormShema = z.object({
-    email: z.string().email({ message: "Entrez un email valide svp" }).trim(),
-    password: z.string().trim(),
-})
-
-export const SignupFormShema = z.object({
-    isAdmin: z
-        .boolean(),
-    name: z
-        .string()
-        .min(1, { message: "Le nom doit avoir au moins un caractère de long" })
-        .trim(),
-    email: z.string().email({ message: "Entrez un email valide svp" }),
+export const ResetPasswordFormShema = z.object({
     password: z
         .string()
-        .min(8, { message: 'avoir au moins 8 caractère de long' })
-        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
-        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
+        .min(6, {message: 'avoir au moins 6 caractère de long'})
+        .regex(/[a-zA-Z]/, {message: 'contenir au moins une lettre'})
+        .regex(/[0-9]/, {message: 'contenir au moins un nombre'})
         .regex(/[^a-zA-Z0-9]/, {
             message: 'contenir au moins un caractère spécial',
         })
         .trim(),
+    passwordConfirmation: z.string().trim(),
 })
 
-export type FormState =
-    | {
-        error?: {
-            name?: string[],
-            email?: string[],
-            password?: string[]
-        }
-        message?: string
-    }
-    | undefined
+export const ResendFormShema = z.object({
+    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}).trim(),
+})
 
-export type SessionPayload = {
-    userId: string
-    expiresAt: Date
-    isAdmin: boolean
-}
+export const SignInFormShema = z.object({
+    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}).trim(),
+    password: z.string().min(1, {message: "être présent"}).trim(),
+})
+
+export const SignupFormShema = z.object({
+    name: z
+        .string({message: "Entrez un nom svp"})
+        .min(1, {message: "Le nom doit avoir au moins un caractère de long"})
+        .trim(),
+    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}),
+    password: z
+        .string({message: "être présent"})
+        .min(6, {message: 'avoir au moins 6 caractère de long'})
+        .regex(/[a-zA-Z]/, {message: 'contenir au moins une lettre'})
+        .regex(/[0-9]/, {message: 'contenir au moins un nombre'})
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'contenir au moins un caractère spécial',
+        })
+        .trim(),
+    passwordConfirmation: z.string().trim(),
+})
 
 export type Plant = {
     id: string
     title: string
     price: number
     quantity: number
-    legend:string
-}
-
-export type Basket = {
-    plantId: number,
-    userId: number
+    legend: string
 }
 
 export type User = {
@@ -69,10 +56,26 @@ export type User = {
     password: string
 }
 
-export type UserInfoType = {
-    name: string
-    email: string
-    is_admin: boolean
+export type FormErrors = {
+    name?: string[];
+    email?: string[];
+    password?: string[];
+    passwordConfirmation?: string[];
+    general?: string[];
+    reset?: string;
+};
+
+export type  PlantsAction =
+    | { type: 'add'; plant: Plant }
+    | { type: 'remove'; id: string }
+    | { type: 'increment', id: string }
+    | { type: 'decrement', id: string }
+    | { type: 'updateQuantity'; id: string; quantity: number }
+    | { type: 'clear' };
+
+export interface PlantInBasket extends Plant {
+    basketQuantity: number,
+    unitPrice: number,
 }
 
 

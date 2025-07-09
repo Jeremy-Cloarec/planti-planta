@@ -2,6 +2,7 @@ import { SignInForm } from "@/app/ui/SignInForm"
 import NavForms from "../ui/nav/NavForms"
 import Link from "next/link"
 import { cabinBold } from "../ui/fonts"
+import GoogleProviderButton from "@/app/ui/GoogleProviderButton";
 
 export default function SignInPage() {
     return (
@@ -15,9 +16,9 @@ export default function SignInPage() {
                     </header>
                     <main >
                         <SignInForm />
+                        <GoogleProviderButton />
                     </main>
                 </div>
-
             </div>
         </>
     )

@@ -18,6 +18,7 @@ export default async function RootLayout({ children }: (Readonly<{
     <html lang="fr">
       <body className={`${cabinRegular.className} ${cormorant.variable} ${cabinBold.variable} antialiased flex flex-col items-center min-h-dvh relative`}
       >
+
         <Providers >
           {children}
         </Providers>

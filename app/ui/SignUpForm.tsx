@@ -1,109 +1,182 @@
 'use client'
-import { signUp } from '@/app/actions/auth.action'
-import { useActionState, useState } from "react"
-import ButtonAuth from "./buttons/ButtonAuth"
+import { useState } from "react";
+import { signUp } from "@/app/lib/auth-client"
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/solid'
+import {useRouter} from "next/navigation";
+import {SignupFormShema, FormErrors} from "@/app/lib/definitions";
+import {authErrorMessages} from "@/app/lib/auth-translation";
+import {handlePasswordVisibility} from "@/app/utils/utils";
 
 export function SignUpForm() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [state, action, isPending] = useActionState(signUp, undefined)
-
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [isPasswordVisible, setIsPasswordVisible] = useState
+    (false)
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState
         (false)
+    const router = useRouter();
 
-    function showPassword(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
-        setIsPasswordVisible(!isPasswordVisible)
-    }
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setFormErrors({});
+
+        const validatedData = SignupFormShema.safeParse({
+            name,
+            email,
+            password,
+            passwordConfirmation
+        });
+
+        if (!validatedData.success) {
+            setFormErrors(validatedData.error.flatten().fieldErrors);
+            setLoading(false);
+            return;
+        }
+
+        if(password !== passwordConfirmation) {
+            setFormErrors({
+                passwordConfirmation: ["Les mots de passe ne correspondent pas"]
+            });
+            setLoading(false);
+            return
+        }
+
+        try {
+            await signUp.email({
+                email: validatedData.data.email,
+                name: validatedData.data.name,                password: validatedData.data.password,
+
+                callbackURL: "/compte",
+                fetchOptions: {
+                    onResponse: () => {
+                        setLoading(false);
+                    },
+                    onRequest: () => {
+                        setLoading(true);
+                    },
+                    onError: (ctx) => {
+                        const code = ctx.error.code
+                        const msg = authErrorMessages[code] ?? ctx.error.message;
+                        setFormErrors({general: [msg]});
+                    },
+                    onSuccess: async () => {
+                        await fetch('/api/emails/inscription', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ userName: name, userEmail: email })
+                        });
+
+                        router.push("/compte");
+                    },
+                },
+            });
+        } catch (e) {
+            console.log(e);
+            setFormErrors({ general: ["Une erreur inconnue est survenue."]});
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
-        <form action={action}>
+        <form onSubmit={handleSubmit} className="w-full">
             <div className="w-full">
+                {/* Champ Nom */}
                 <div>
-                    <label
-                        className="mb-3 mt-5 block text-sm"
-                        htmlFor="name"
-                    >
-                        Nom
-                    </label>
-                    <div>
-                        <input
-                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
-                            id="name"
-                            type="name"
-                            name="name"
-                            placeholder="Entrez votre nom"
-                            required
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                        />
-                    </div>
-                    {state?.errors?.name && <p>{state.errors.name}</p>}
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="name">Nom</label>
+                    <input
+                        className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
+                        id="name"
+                        type="text"
+                        name="name"
+                        placeholder="Entrez votre nom"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                    {formErrors.name && <p className="text-red text-sm">{formErrors.name[0]}</p>}
                 </div>
+
+                {/* Champ Email */}
                 <div>
-                    <label
-                        className="mb-3 mt-5 block text-sm"
-                        htmlFor="email"
-                    >
-                        Email
-                    </label>
-                    <div className="relative">
-                        <input
-                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
-                            id="email"
-                            type="email"
-                            name="email"
-                            placeholder="Entrez votre email"
-                            required
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    {state?.errors?.email && <p>{state.errors.email}</p>}
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="email">Email</label>
+                    <input
+                        className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
+                        id="email"
+                        type="email"
+                        name="email"
+                        placeholder="Entrez votre email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    {formErrors.email && <p className="text-red text-sm">{formErrors.email[0]}</p>}
                 </div>
+
+                {/* Champ Mot de passe */}
                 <div className="mt-4">
-                    <label
-                        className="mb-3 mt-5 block text-sm"
-                        htmlFor="password"
-                    >
-                        Mot de passe
-                    </label>
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="password">Mot de passe</label>
                     <div className="relative">
                         <input
                             className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
                             id="password"
-                            type={`${!isPasswordVisible ? ("password") : ("text")}`}
+                            type={!isPasswordVisible ? "password" : "text"}
                             name="password"
                             placeholder="Entrez votre mot de passe"
                             required
-                            minLength={8}
+                            minLength={6}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className='absolute text-dark2 top-2 right-1 ' onClick={(e) => showPassword(e)} >
+                        <button className="absolute text-dark2 top-2 right-1" onClick={(e) => handlePasswordVisibility(e, setIsPasswordVisible)}>
                             {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
                         </button>
                     </div>
-                    {state?.errors?.password && (
-                        <div className='text-red'>
-                            <p className='text-sm mt-3'>Le mot de passe doit : </p>
-                            <ul>
-                                {state.errors.password.map((error) => (
-                                    <li className='text-sm' key={error}>- {error}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                    {formErrors.password &&
+                        <ul className="text-sm text-red"> Le mot de passe doit :
+                            { formErrors.password.map((err:string) => <li key={err}>- {err} </li>)}
+                        </ul>
+                    }
                 </div>
+
+                {/* Champ Confirmation mot de passe */}
+                <div className="mt-4">
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
+                    <div className="relative">
+                        <input
+                            className="peer block w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500"
+                            id="passwordConfirmation"
+                            type={!isConfirmPasswordVisible ? "password" : "text"}
+                            name="passwordConfirmation"
+                            placeholder="Confirmez votre mot de passe"
+                            required
+                            minLength={6}
+                            value={passwordConfirmation}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
+                        />
+                        <button className="absolute text-dark2 top-2 right-1" onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}>
+                            {!isConfirmPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
+                        </button>
+                    </div>
+                    {formErrors.passwordConfirmation && <p className="text-red text-sm">{formErrors.passwordConfirmation[0]}</p>}
+                </div>
+
+                {/* Erreur générale */}
+                {formErrors.general && <p className="text-red text-sm mt-4">{formErrors.general[0]}</p>}
             </div>
-            {state?.message && <p className="text-red text-sm">{state.message}</p>}
-            <ButtonAuth
-                text="S'inscrire"
-                pending={isPending}
-                className="w-full mt-5"
-            />
+
+            <button
+                type="submit"
+                className="w-full px-4 py-2 transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark mt-4"
+                disabled={loading}
+            >
+                {loading ? "Envoi en cours..." : "Créer un compte"}
+            </button>
         </form>
     )
 }

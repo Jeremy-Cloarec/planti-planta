@@ -1,39 +1,103 @@
 'use client'
-import { startTransition, useActionState, useState } from "react";
-import { signIn } from "../actions/auth.action";
-import ButtonAuth from "./buttons/ButtonAuth";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { useState} from "react";
+import {EyeIcon, EyeSlashIcon} from "@heroicons/react/24/solid";
+import {authClient, signIn} from "@/app/lib/auth-client";
+import {useRouter} from "next/navigation";
+import {FormErrors, SignInFormShema, ResendFormShema} from "@/app/lib/definitions";
+import {handlePasswordVisibility} from "@/app/utils/utils";
+import {authErrorMessages} from "@/app/lib/auth-translation";
 
 export function SignInForm() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [state, action, isPending] = useActionState(signIn, undefined)
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState
-        (false)
+    (false)
+    const router = useRouter();
+    const [formErrors, setFormErrors] = useState<FormErrors>({});
+    const [formSucces, setFormSucces] = useState<FormErrors>({});
 
-    function showPassword(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault()
-        setIsPasswordVisible(!isPasswordVisible)
-    }
+    const handleForgetPassword = async (email: null | string) => {
+        setFormErrors({});
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append("email", email)
-        formData.append("password", password)
+        if (email === "") {
+            setFormErrors({reset: "Vous devez renseigner l'email"})
+            return;
+        }
 
-        startTransition(() => {
-            action(formData);
+        if (!email) { return }
+
+        const validatedData = ResendFormShema.safeParse({
+            email,
         })
-    }
 
-    const handleForgetPassword = () => {
-        alert("la récupération de mot de passe est en cours de construction")
-    }
+        if(!validatedData.success) {
+            setFormErrors(validatedData.error.flatten().fieldErrors);
+            return;
+        }
+
+        try {
+            await authClient.requestPasswordReset({
+                email: validatedData.data.email,
+                redirectTo: "/reset-password",
+            });
+
+            setFormSucces({ general: ["Si votre mail existe, vous recevrez un lien de réinitialisation."] });
+
+        } catch (error) {
+            setFormErrors({ general: ["Erreur lors de la demande de réinitialisation."] });
+            console.error("Erreur lors de la demande de réinitialisation :", error);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setFormErrors({});
+
+        const validatedData = SignInFormShema.safeParse({
+            email,
+            password,
+        });
+
+        if (!validatedData.success) {
+            setFormErrors(validatedData.error.flatten().fieldErrors);
+            setLoading(false);
+            return;
+        }
+
+        try {
+            await signIn.email({
+                email: validatedData.data.email,
+                password: validatedData.data.password,
+                callbackURL: "/compte",
+                fetchOptions: {
+                    onResponse: () => {
+                        setLoading(false);
+                    },
+                    onRequest: () => {
+                        setLoading(true);
+                    },
+                    onError: (ctx) => {
+                        const code = ctx.error.code
+                        const msg = authErrorMessages[code] ?? ctx.error.message;
+                        setFormErrors({general: [msg]});
+                    },
+                    onSuccess: async () => {
+                        router.push("/compte");
+                    },
+                }
+            })
+        } catch (e) {
+            console.log(e);
+            setFormErrors({general: ["Une erreur inconnue est survenue."]});
+        }
+    };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="w-full">
             <div className="w-full">
+                {/* email */}
                 <div>
                     <label
                         className="mb-3 mt-5 block text-sm"
@@ -53,8 +117,10 @@ export function SignInForm() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    {state?.errors?.email && <p>{state.errors.email}</p>}
+                    {formErrors.email && <p className="text-red text-sm">{formErrors.email[0]}</p>}
                 </div>
+
+                {/* Password */}
                 <div className="mt-4">
                     <div className="mb-3 mt-5 flex items-center justify-between">
                         <label
@@ -63,7 +129,14 @@ export function SignInForm() {
                         >
                             Mot de passe
                         </label>
-                        <button onClick={handleForgetPassword} className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe oublié ?</button>
+                        <div>
+                            <button type="button" onClick={() => handleForgetPassword(email)}
+                                    className="text-sm hover:opacity-80 transition-none duration-300 ">Mot de passe
+                                oublié ?
+                            </button>
+                            {formErrors.reset && <p className="text-red text-sm">{formErrors.reset}</p>}
+                        </div>
+
                     </div>
 
                     <div className="relative">
@@ -78,28 +151,28 @@ export function SignInForm() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        <button className='absolute text-dark2 top-2 right-1 ' onClick={(e) => showPassword(e)} >
-                            {!isPasswordVisible ? (<EyeIcon width={24} />) : (<EyeSlashIcon width={24} />)}
+                        <button className="absolute text-dark2 top-2 right-1"
+                                onClick={(e) => handlePasswordVisibility(e, setIsPasswordVisible)}>
+                            {!isPasswordVisible ? (<EyeIcon width={24}/>) : (<EyeSlashIcon width={24}/>)}
                         </button>
-                    </div>
-                    {state?.errors?.password && (
-                        <div className='text-red'>
-                            <p className='text-sm mt-3'>Le mot de passe doit : </p>
-                            <ul>
-                                {state.errors.password.map((error) => (
-                                    <li className='text-sm' key={error}>- {error}</li>
-                                ))}
+                        {formErrors.password &&
+                            <ul className="text-sm text-red"> Le mot de passe doit :
+                                {formErrors.password.map((err: string) => <li key={err}>- {err} </li>)}
                             </ul>
-                        </div>
-                    )}
+                        }
+                    </div>
                 </div>
             </div>
-            {state?.message && <p className="text-red text-sm">{state.message}</p>}
-            <ButtonAuth
-                text="Se connecter"
-                pending={isPending}
-                className="w-full mt-5"
-            />
+
+            <button
+                type="submit"
+                className="w-full px-4 py-2 transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark mt-4"
+                disabled={loading}
+            >
+                {loading ? "Envoi en cours..." : "Se connecter"}
+            </button>
+            {formErrors && <p className="text-red text-sm">{formErrors.general}</p>}
+            {formSucces && <p className="text-green-900 text-sm">{formSucces.general}</p>}
         </form>
     )
 }

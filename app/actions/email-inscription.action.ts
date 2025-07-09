@@ -1,7 +1,8 @@
+"use server"
 import {Resend} from "resend"
 import {EmailInscription} from "@/emails/EmailInscription"
 
-export async function emailInscriptionAction(userName: string) {
+export async function emailInscriptionAction(userName: string, userEmail:string) {
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     if (!process.env.RESEND_API_KEY) {
@@ -11,20 +12,16 @@ export async function emailInscriptionAction(userName: string) {
         );
     }
 
-    try {
-        const { data, error } = await resend.emails.send({
-            from: 'Dancing Plants <noreply@jeremycloarec.com>',
-            to: ['jeremycloarec@msn.com'],
-            subject: `Bienvenue sur Dancing Plants, ${userName}`,
-            react: EmailInscription({userName})
-        });
+    const { data, error } = await resend.emails.send({
+        from: 'Dancing Plants <noreply@jeremycloarec.com>',
+        to: [userEmail],
+        subject: `Bienvenue sur Dancing Plants, ${userName}`,
+        react: EmailInscription({userName})
+    });
 
-        if (error) {
-            return Response.json({ error }, { status: 500 });
-        }
-
-        return Response.json(data);
-    } catch (error) {
+    if (error) {
         return Response.json({ error }, { status: 500 });
     }
+
+    return Response.json(data);
 }
