@@ -21,20 +21,19 @@ export default async function UserAccount() {
     return (
         <>
             <Nav/>
-            <header className="px-3 mt-[72px] w-full py-6 flex items-center justify-between">
+            <header className="px-3 mt-[72px] w-full py-6 flex items-center justify-between max-w-[768px]">
                 <h1 className={`${cormorant.className} text-3xl`}>Mon compte</h1>
                 <ButtonLogout/>
             </header>
-            <main className="w-full flex-1 ">
-                <section className="bg-green p-3 flex gap-3 justify-center items-center">
+            <main className="w-full flex-1 max-w-[768px]">
+                <section className="bg-green p-3 flex gap-3  justify-center items-center md:mx-3 md:rounded-xs mb-6">
                     <button className="underline underline-offset-2">Mes infos</button>
                     <button>Mes Commandes</button>
                 </section>
-                <section className="p-3 flex flex-col gap-3">
+                <section className="px-3 flex flex-col gap-3">
                     <div className="p-3 ring-1 ring-slate-200 rounded-xs flex flex-col gap-3">
                         <div className="flex items-center justify-between">
                             <h2 className={`${cabinBold.className}`}>Informations personnelles</h2>
-
                          <ButtonChangeInfo />
                         </div>
                         <div>
