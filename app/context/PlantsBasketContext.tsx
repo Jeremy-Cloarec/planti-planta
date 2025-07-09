@@ -1,14 +1,34 @@
-import {createContext, Dispatch, useContext, useReducer} from 'react';
-import {Plant, PlantsAction, PlantInBasket} from "@/app/lib/definitions";
+import {createContext, Dispatch, useContext, useReducer, useEffect} from 'react';
+import { PlantsAction, PlantInBasket} from "@/app/lib/definitions";
 
 const PlantsBasketContext = createContext<PlantInBasket[]>([]);
 const PlantsBasketDispatchContext = createContext<Dispatch<PlantsAction> | null>(null);
 
-export function PlantsBasketProvider({children}: { children: React.ReactNode }) {
+export function PlantsBasketProvider({children}: { children: ReactNode }) {
     const [plantsInBasket, dispatch] = useReducer(
         plantsBasketReducer,
-        initialPlantsBasket
+        [],
+        getInitialPlantsBasket
     )
+
+    useEffect(() => {
+        localStorage.setItem("plantsInBasket", JSON.stringify(plantsInBasket))
+    }, [plantsInBasket])
+
+    function getInitialPlantsBasket (): PlantInBasket[]  {
+        if (typeof window !== "undefined") {
+            const stored = localStorage.getItem("plantsInBasket")
+            if (stored) {
+                try {
+                    return JSON.parse(stored)
+                } catch (e) {
+                    console.error("Erreur parsing localStorage:", e)
+                    return []
+                }
+            }
+        }
+        return []
+    }
 
     return (
         <PlantsBasketContext.Provider value={plantsInBasket}>
@@ -99,5 +119,3 @@ export function plantsBasketReducer(state: PlantInBasket[], action: PlantsAction
             return state;
     }
 }
-
-const initialPlantsBasket: Plant[] = []

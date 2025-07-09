@@ -20,7 +20,7 @@ export default function ButtonDeleteToBasket({text, plantId}: ButtonDeleteProps)
     return (
         <button
             onClick={handleDeleteOneToBasket}
-            className="flex gap-1 items-center text-dark2 hover:text-red-opacity transition delay-150 duration-300 mt-auto"
+            className="flex gap-1 items-center text-dark2 hover:text-red-opacity transition duration-300 mt-auto"
         >
             <TrashIcon width={16}/>
             {text}

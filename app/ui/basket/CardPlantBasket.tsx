@@ -28,14 +28,18 @@ export default function CardPlantBasket({plantsInBasket}: { plantsInBasket: Plan
                         width={130}
                         height={165}
                         src={`/plants/${formatedUrl(plant.title)}.png`}
-                        className="flex-2"
+                        className="flex-2 object-contain"
                     />
                     <div className="flex-3 flex flex-col gap-2">
                         <h2 className={`${cormorant.className} text-xl`}>{plant.title}</h2>
                         <p className={`${cabinBold.className}`}>{Number(plant.price)} €</p>
                         <p className="text-sm">{plant.legend}</p>
-                        <div className={"flex gap-2 w-full"}>
-                            <button onClick={() => dispatch({type: "decrement", id: plant.id})}>−</button>
+                        <div className={"flex gap-1 w-full items-center"}>
+                            <button onClick={() => dispatch({type: "decrement", id: plant.id})}
+                                    className="transition duration-300 w-6 h-6 hover:bg-slate-200 rounded-md"
+                                    aria-label={`Diminuer la quantité de ${plant.title}`}
+                            >−
+                            </button>
                             <input
                                 type="number"
                                 value={plant.basketQuantity}
@@ -43,7 +47,11 @@ export default function CardPlantBasket({plantsInBasket}: { plantsInBasket: Plan
                                 min={1}
                                 className="w-12 text-center border"
                             />
-                            <button onClick={() => dispatch({type: "increment", id: plant.id})}>+</button>
+                            <button onClick={() => dispatch({type: "increment", id: plant.id})}
+                                    className="transition duration-300 w-6 h-6 hover:bg-slate-200 rounded-md"
+                                    aria-label={`Augmenter la quantité de ${plant.title}`}
+                            >+
+                            </button>
                         </div>
                         <ButtonDeleteToBasket
                             text="Supprimer"
