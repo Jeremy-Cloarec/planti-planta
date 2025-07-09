@@ -1,12 +1,26 @@
 "use client"
 import Button from "./Button"
+import {authClient} from "@/app/lib/auth-client";
+import Link from "next/link";
 
-interface ButtonOrderProps {
-    text: string
-}
+export default function ButtonOrder() {
+    const {data: session} = authClient.useSession()
 
-export default function ButtonOrder({ text }: ButtonOrderProps) {
+    const text = session?.user?.name ? "Passer la commande" : "Se connecter"
+
+    const buttonOrder = session?.user?.name ?
+        <Button className="w-full" onClick={() => alert("Passer la commande est en cours de dévelopement")}>
+            {text}
+        </Button>
+        :
+        <Button className="w-full">
+            <Link href={"/sign-in"}>
+                {text}
+            </Link>
+        </Button>
+
+
     return (
-        <Button className="w-full" onClick={() => alert("La fonctionnalité est en cours de construction")}>{text}</Button>
+        buttonOrder
     )
 } 
