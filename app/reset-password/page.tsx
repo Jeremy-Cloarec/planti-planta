@@ -1,17 +1,21 @@
-
-import Footer from "../ui/Footer";
-import Nav from "../ui/nav/Nav";
 import {ResetPasswordForm} from "@/app/ui/ResetPasswordForm";
+import NavForms from "@/app/ui/nav/NavForms";
+import {cabinBold} from "@/app/ui/fonts";
 
 export default async function ReinitialiserMotDePasse() {
     return (
         <>
-            <Nav />
-            <main className="flex-1 flex flex-col justify-center pt-[72px]">
-                <h1>Réinitialiser le mot de passe</h1>
-                <ResetPasswordForm />
-            </main>
-            <Footer />
+            <NavForms />
+            <div className="flex-1 flex flex-col justify-center w-full p-3 md:p-4 max-w-2xl" >
+                <div className="ring-1 ring-slate-200 rounded-xs p-3">
+                    <header className="flex items-center justify-between flex-wrap gap-3">
+                        <h1 className={`md:text-lg ${cabinBold.className}`}>Réinitialiser le mot de passe</h1>
+                    </header>
+                    <main >
+                        <ResetPasswordForm />
+                    </main>
+                </div>
+            </div>
         </>
     )
 }

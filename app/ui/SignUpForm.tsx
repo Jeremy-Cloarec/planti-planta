@@ -172,7 +172,7 @@ export function SignUpForm() {
 
             <button
                 type="submit"
-                className="w-full mt-5"
+                className="w-full px-4 py-2 transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark mt-4"
                 disabled={loading}
             >
                 {loading ? "Envoi en cours..." : "Créer un compte"}

@@ -1,6 +1,7 @@
 import {betterAuth} from "better-auth";
 import {connectionPool as cp} from "@/app/db"
 import {Resend} from "resend";
+import {EmailResetPassword} from "@/emails/EmailResetPassword";
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 export const auth = betterAuth({
@@ -12,7 +13,7 @@ export const auth = betterAuth({
                 from: 'Dancing Plants <noreply@jeremycloarec.com>',
                 to: user.email,
                 subject: "Reset your password",
-                text: `Click the link to reset your password: ${url}`,
+                react: EmailResetPassword({url})
             });
         },
     },

@@ -6,7 +6,6 @@ import {headers} from "next/headers";
 import {redirect} from "next/navigation";
 import ButtonLogout from "@/app/ui/buttons/ButtonLogout";
 import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
-import Button from "@/app/ui/buttons/Button"
 import ButtonChangeInfo from "@/app/ui/buttons/ButtonChangeInfo";
 
 export default async function UserAccount() {

@@ -70,8 +70,6 @@ export const EmailInscription = ({userName} : {userName : string}) => (
     </Html>
 );
 
-export default EmailInscription;
-
 const main = {
     backgroundColor: '#ffffff',
     fontFamily:

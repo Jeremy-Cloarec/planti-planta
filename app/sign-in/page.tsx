@@ -16,6 +16,11 @@ export default function SignInPage() {
                     </header>
                     <main >
                         <SignInForm />
+                        <div className=" w-full flex justify-center mt-4">
+                            <p className="text-sm bg-white px-3">
+                                Ou connectez-vous avec Google
+                            </p>
+                        </div>
                         <GoogleProviderButton />
                     </main>
                 </div>

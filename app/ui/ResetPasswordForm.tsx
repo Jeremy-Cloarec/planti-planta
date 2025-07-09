@@ -21,7 +21,7 @@ export function ResetPasswordForm() {
     const router = useRouter();
 
     useEffect(() => {
-        console.log("formErrors",formErrors)
+        console.log("formErrors", formErrors)
     }, [formErrors]);
 
     useEffect(() => {
@@ -74,7 +74,6 @@ export function ResetPasswordForm() {
     return (
         <form onSubmit={handleSubmit} className="w-full">
             <div className="w-full">
-
                 {/* Password */}
                 <div className="mt-4">
                     <div className="mb-3 mt-5 flex items-center justify-between">
@@ -110,7 +109,8 @@ export function ResetPasswordForm() {
                 </div>
                 {/* Champ Confirmation mot de passe */}
                 <div className="mt-4">
-                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de
+                    <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le
+                        mot de
                         passe</label>
                     <div className="relative">
                         <input
@@ -126,7 +126,8 @@ export function ResetPasswordForm() {
                         />
                         <button className="absolute text-dark2 top-2 right-1"
                                 onClick={(e) => handlePasswordVisibility(e, setIsConfirmPasswordVisible)}>
-                            {!isConfirmPasswordVisible ? (<EyeIcon width={24}/>) : (<EyeSlashIcon width={24}/>)}
+                            {!isConfirmPasswordVisible ? (<EyeIcon width={24}/>) : (
+                                <EyeSlashIcon width={24}/>)}
                         </button>
                     </div>
                     {formErrors.passwordConfirmation &&
@@ -136,7 +137,7 @@ export function ResetPasswordForm() {
 
             <button
                 type="submit"
-                className="w-full mt-5"
+                className="w-full px-4 py-2 transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark mt-4"
                 disabled={loading}
             >
                 {loading ? "Envoi en cours..." : "Se connecter"}
