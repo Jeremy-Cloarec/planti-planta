@@ -40,20 +40,40 @@ export const SignupFormShema = z.object({
     passwordConfirmation: z.string().trim(),
 })
 
+export type Session = {
+    session: {
+        id: string
+        token: string
+        userId: string
+        expiresAt: Date
+        createdAt: Date
+        updatedAt: Date
+        ipAddress?: string | null | undefined
+        userAgent?: string | null | undefined
+    }
+    user: {
+        id: string
+        name: string
+        email: string
+        emailVerified: boolean
+        image: string | null | undefined
+        createdAt: Date
+        updatedAt: Date
+    }
+} | null
+
+export type User = {
+    id: string
+    name: string
+    email: string
+}
+
 export type Plant = {
     id: string
     title: string
     price: number
     quantity: number
     legend: string
-}
-
-export type User = {
-    id: string
-    isAdmin: boolean
-    name: string
-    email: string
-    password: string
 }
 
 export type FormErrors = {
