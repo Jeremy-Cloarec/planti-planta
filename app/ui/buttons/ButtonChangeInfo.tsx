@@ -1,11 +1,11 @@
 "use client"
 import Button from "@/app/ui/buttons/Button";
 
-export default function ButtonChangeInfo({onClick}: { onClick: () => void }) {
+export default function ButtonChangeInfo({onClick, textButton = "Modifier"}: { onClick: () => void, textButton: string }) {
     return (
         <Button className="text-sm"
                 onClick={onClick}>
-            Modifier
+            {textButton}
         </Button>
     )
 }
