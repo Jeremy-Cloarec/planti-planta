@@ -13,3 +13,8 @@ export const handlePasswordVisibility = (
 export const calculateTotalPrice = (plants: Plant[]): number => {
     return plants.reduce((acc, p) => acc + Number(p.price), 0)
 }
+
+export const toogleChangeInfos = (bool: boolean, functionBool: (value: (((prevState: boolean) => boolean) | boolean)) => void) => {
+    console.log(bool)
+    functionBool(!bool)
+}

@@ -1,23 +1,27 @@
-import {betterAuth} from "better-auth";
-import {connectionPool as cp} from "@/app/db"
-import {Resend} from "resend";
-import {EmailResetPassword} from "@/emails/EmailResetPassword";
+import { betterAuth } from "better-auth";
+import { connectionPool as cp } from "@/app/db"
+import { Resend } from "resend";
+import { EmailResetPassword } from "@/emails/EmailResetPassword";
 
 const resend = new Resend(process.env.RESEND_API_KEY)
+
 export const auth = betterAuth({
     database: cp,
     emailAndPassword: {
         enabled: true,
-        sendResetPassword: async ({user, url}) => {
+        sendResetPassword: async ({ user, url }) => {
             await resend.emails.send({
                 from: 'Dancing Plants <noreply@jeremycloarec.com>',
                 to: user.email,
                 subject: "Reset your password",
-                react: EmailResetPassword({url})
+                react: EmailResetPassword({ url })
             });
         },
     },
     user: {
+        changeEmail: {
+            enabled: true,
+        },
         deleteUser: {
             enabled: true
         }

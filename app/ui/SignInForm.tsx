@@ -33,7 +33,7 @@ export function SignInForm() {
 
         if(!validatedData.success) {
             setFormErrors(validatedData.error.flatten().fieldErrors);
-            return;
+            return
         }
 
         try {
