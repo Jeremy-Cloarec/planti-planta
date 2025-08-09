@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChangePersonnalInfosShema, FormErrors, User } from "@/app/lib/definitions"
 import H2Section from "../H2Section";
 import { toogleChangeInfos } from "@/app/utils/utils";
@@ -28,13 +28,13 @@ export default function ChangePersonalInfos({ user, isChangePersonnalInfos, setI
             return
         }
 
-        if (name !== validateData.data.name) {
+        if (user.name !== validateData.data.name) {
             await authClient.updateUser({
                 name: validateData.data.name,
             })
         }
 
-        if (email !== validateData.data.email) {
+        if (user.email !== validateData.data.email) {
             await authClient.changeEmail({
                 newEmail: validateData.data.email,
             })
