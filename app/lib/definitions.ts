@@ -1,11 +1,19 @@
-import {z} from 'zod'
+import { z } from 'zod'
 
+export const ChangePersonnalInfosShema = z.object({
+    name: z
+        .string()
+        .min(1, { message: 'Le nom ne doit pas être vide' })
+        .trim(),
+    email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
+
+})
 export const ResetPasswordFormShema = z.object({
     password: z
         .string()
-        .min(6, {message: 'avoir au moins 6 caractère de long'})
-        .regex(/[a-zA-Z]/, {message: 'contenir au moins une lettre'})
-        .regex(/[0-9]/, {message: 'contenir au moins un nombre'})
+        .min(6, { message: 'avoir au moins 6 caractère de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
         .regex(/[^a-zA-Z0-9]/, {
             message: 'contenir au moins un caractère spécial',
         })
@@ -13,26 +21,28 @@ export const ResetPasswordFormShema = z.object({
     passwordConfirmation: z.string().trim(),
 })
 
+
+
 export const ResendFormShema = z.object({
-    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}).trim(),
+    email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
 })
 
 export const SignInFormShema = z.object({
-    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}).trim(),
-    password: z.string().min(1, {message: "être présent"}).trim(),
+    email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
+    password: z.string().min(1, { message: "être présent" }).trim(),
 })
 
 export const SignupFormShema = z.object({
     name: z
-        .string({message: "Entrez un nom svp"})
-        .min(1, {message: "Le nom doit avoir au moins un caractère de long"})
+        .string({ message: "Entrez un nom svp" })
+        .min(1, { message: "Le nom doit avoir au moins un caractère de long" })
         .trim(),
-    email: z.string({message: "Entrez un email svp"}).email({message: "Entrez un email valide svp"}),
+    email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }),
     password: z
-        .string({message: "être présent"})
-        .min(6, {message: 'avoir au moins 6 caractère de long'})
-        .regex(/[a-zA-Z]/, {message: 'contenir au moins une lettre'})
-        .regex(/[0-9]/, {message: 'contenir au moins un nombre'})
+        .string({ message: "être présent" })
+        .min(6, { message: 'avoir au moins 6 caractère de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
         .regex(/[^a-zA-Z0-9]/, {
             message: 'contenir au moins un caractère spécial',
         })
@@ -85,7 +95,7 @@ export type FormErrors = {
     reset?: string;
 };
 
-export type  PlantsAction =
+export type PlantsAction =
     | { type: 'add'; plant: Plant }
     | { type: 'remove'; id: string }
     | { type: 'increment', id: string }

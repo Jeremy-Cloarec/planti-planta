@@ -6,7 +6,6 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import ButtonLogout from "@/app/ui/buttons/ButtonLogout";
 import ToggleSection from "@/app/ui/account/ToggleSection";
-import { User } from "@/app/lib/definitions";
 
 export default async function UserAccount() {
     const session = await auth.api.getSession({
