@@ -1,5 +1,58 @@
-import {connectionPool as cp} from 'app/db'
-import {plants} from 'app/lib/placeholder-data'
+import { connectionPool as cp } from 'app/db'
+import { plants } from 'app/lib/placeholder-data'
+
+async function betterAuthMigration() {
+    await cp.query(`
+        CREATE TABLE IF NOT EXISTS "user"
+            (
+                "id" text not null primary key, 
+                "name" text not null, 
+                "email" text not null unique, 
+                "emailVerified" boolean not null, 
+                "image" text, 
+                "createdAt" timestamp not null, "updatedAt" timestamp not null)
+        `)
+    await cp.query(`
+        CREATE TABLE IF NOT EXISTS "session"
+            (
+                "id" text not null primary key, 
+                "expiresAt" timestamp not null, 
+                "token" text not null unique, 
+                "createdAt" timestamp not null, 
+                "updatedAt" timestamp not null, 
+                "ipAddress" text, 
+                "userAgent" text, 
+                "userId" text not null references "user" ("id")
+            )
+        `)
+    await cp.query(`
+        CREATE TABLE IF NOT EXISTS "account" 
+            (
+                "id" text not null primary key, 
+                "accountId" text not null, 
+                "providerId" text not null, 
+                "userId" text not null references "user" ("id"), 
+                "accessToken" text, 
+                "refreshToken" text, 
+                "idToken" text, 
+                "accessTokenExpiresAt" timestamp, 
+                "refreshTokenExpiresAt" timestamp, 
+                "scope" text, 
+                "password" text, 
+                "createdAt" timestamp not null, 
+                "updatedAt" timestamp not null)
+        `)
+    await cp.query(`
+        CREATE TABLE IF NOT EXISTS "verification" 
+            (
+                "id" text not null primary key, 
+                "identifier" text not null, 
+                "value" text not null, 
+                "expiresAt" timestamp not null, 
+                "createdAt" timestamp, 
+                "updatedAt" timestamp)
+        `)
+}
 
 async function seedPlants() {
     await cp.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
@@ -24,31 +77,18 @@ async function seedPlants() {
     );
 }
 
-async function seedBasket() {
-    await cp.query(`
-        CREATE TABLE IF NOT EXISTS basket
-        (
-            plant_id UUID REFERENCES plants (id) ON DELETE CASCADE ON UPDATE CASCADE,
-            user_id  TEXT REFERENCES "user" (id) ON DELETE CASCADE ON UPDATE CASCADE,
-            PRIMARY KEY (plant_id, user_id)
-        )
-    `)
-}
-
 async function deleteTables() {
-    await cp.query(`DROP TABLE IF EXISTS basket`);
     await cp.query(`DROP TABLE IF EXISTS plants`);
 }
 
 export async function GET() {
     try {
         await deleteTables()
+        await betterAuthMigration()
         await seedPlants()
-        await seedBasket()
-
-        return Response.json({message: 'Database seeded successfully'});
+        return Response.json({ message: 'Database seeded successfully' });
     } catch (error) {
         console.error(error)
-        return Response.json({error: String(error)}, {status: 500});
+        return Response.json({ error: String(error) }, { status: 500 });
     }
 }
