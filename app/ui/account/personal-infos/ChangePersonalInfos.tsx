@@ -38,6 +38,7 @@ export default function ChangePersonalInfos({ user, isChangePersonnalInfos, setI
             await authClient.changeEmail({
                 newEmail: validateData.data.email,
             })
+            user.email = validateData.data.email
         }
 
         toogleChangeInfos(isChangePersonnalInfos, setIsChangePersonnalInfos)
