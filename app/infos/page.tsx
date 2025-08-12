@@ -25,7 +25,7 @@ export default async function Infos() {
                 <h1 className={`${cormorant.className} text-3xl`}>Mes infos</h1>
             </header>
             <main className="w-full flex-1 max-w-[768px]">
-                    <InfosUI addressPromise={addressPromise} />
+                <InfosUI addressPromise={addressPromise} />
             </main>
             <Footer />
         </>
