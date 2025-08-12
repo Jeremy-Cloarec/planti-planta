@@ -1,8 +1,9 @@
 import { toogleChangeInfos } from "@/app/utils/utils"
-import H2Section from "../H2Section"
 import { AddressType } from "@/app/lib/definitions"
 import { use } from "react"
 import { cabinBold } from "../../fonts"
+import HeadingSection from "../HeadingSection"
+import ContainerInfos from "../ContainerInfos"
 
 type AddressProps = {
     addressPromise: Promise<AddressType[]>,
@@ -15,7 +16,7 @@ export default function Address({ addressPromise, isChangeAdress, setIsChangeAdr
 
     if (!addresses || addresses.length === 0) return (
         <>
-            <H2Section
+            <HeadingSection
                 text={"Adresse"}
                 onClick={() => toogleChangeInfos(isChangeAdress, setIsChangeAdress)}
                 textButton="Ajouter"
@@ -26,30 +27,38 @@ export default function Address({ addressPromise, isChangeAdress, setIsChangeAdr
 
     return (
         <div>
+            <h2 className={`${cabinBold.className} mb-3`}>Adresses</h2>
+
             {addresses.map((a) => (
-                <div key={a.id} className="flex flex-col gap-3">
-                    <H2Section text="Informations personnelles"
-                        onClick={() => toogleChangeInfos(isChangeAdress, setIsChangeAdress)}
-                        textButton="Modifier"
-                    />
-                    <div>
-                        <p className={`${cabinBold.className} text-sm`}>Nom : </p>
-                        <p>{a.name}</p>
+                <ContainerInfos>
+                    <div key={a.id} className="flex flex-col gap-3">
+                        <HeadingSection text="Adresse 1"
+                            onClick={() => toogleChangeInfos(isChangeAdress, setIsChangeAdress)}
+                            textButton="Modifier"
+                            as="h3"
+                            style="text-sm"
+                        />
+                        <div>
+                            <p className={`${cabinBold.className} text-sm`}>Nom : </p>
+                            <p>{a.name}</p>
+                        </div>
+                        <div>
+                            <p className={`${cabinBold.className} text-sm`}>Rue : </p>
+                            <p>{a.address}</p>
+                        </div>
+                        <div>
+                            <p className={`${cabinBold.className} text-sm`}>Code Postal : </p>
+                            <p>{a.postcode}</p>
+                        </div>
+                        <div>
+                            <p className={`${cabinBold.className} text-sm`}>Ville : </p>
+                            <p>{a.city}</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className={`${cabinBold.className} text-sm`}>Addresse : </p>
-                        <p>{a.address}</p>
-                    </div>
-                    <div>
-                        <p className={`${cabinBold.className} text-sm`}>Code Postal : </p>
-                        <p>{a.postcode}</p>
-                    </div>
-                    <div>
-                        <p className={`${cabinBold.className} text-sm`}>Ville : </p>
-                        <p>{a.city}</p>
-                    </div>
-                </div>
+                </ContainerInfos>
+
             ))}
         </div>
+
     )
 }

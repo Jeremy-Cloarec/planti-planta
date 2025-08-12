@@ -1,5 +1,4 @@
 import { connectionPool as cp } from "app/db"
-import { AddressType } from "../lib/definitions"
 
 export async function fetchAdress(userId: string) {
     try {

@@ -3,7 +3,6 @@
 import { cabinBold } from "@/app/ui/fonts";
 import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 import { AddressType, User } from "@/app/lib/definitions";
-import H2Section from "@/app/ui/account/H2Section";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
 import { Suspense, use, useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
@@ -11,6 +10,7 @@ import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
 import Address from "./adress/Address";
 import { authClient } from "@/app/lib/auth-client";
+import HeadingSection from "./HeadingSection";
 
 export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
@@ -62,7 +62,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 </Suspense>
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Information de paiement"}
                     onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
                     textButton="Modifier"
@@ -70,7 +70,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 <p>Vous n&apos;avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Changer le mot de passe"}
                     onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
                     textButton="Modifier"

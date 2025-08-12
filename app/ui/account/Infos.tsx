@@ -1,7 +1,7 @@
 import { cabinBold } from "@/app/ui/fonts";
 import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 import { User } from "@/app/lib/definitions";
-import H2Section from "@/app/ui/account/H2Section";
+import HeadingSection from "@/app/ui/account/HeadingSection";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
 import { useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
@@ -42,7 +42,7 @@ export default function Infos({ user }: { user: User }) {
                 />
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Information de paiement"}
                     onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
                     textButton="Modifier"
@@ -50,7 +50,7 @@ export default function Infos({ user }: { user: User }) {
                 <p>Vous n&apos;avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Changer le mot de passe"}
                     onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
                     textButton="Modifier"
