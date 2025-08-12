@@ -24,7 +24,7 @@ export default async function UserAccount() {
                 <ButtonLogout />
             </header>
             <main className="w-full flex-1 max-w-[768px]">
-                <ToggleSection  />
+                <ToggleSection />
             </main>
             <Footer />
         </>

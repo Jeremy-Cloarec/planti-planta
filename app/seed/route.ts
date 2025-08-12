@@ -10,7 +10,9 @@ async function betterAuthMigration() {
                 "email" text not null unique, 
                 "emailVerified" boolean not null, 
                 "image" text, 
-                "createdAt" timestamp not null, "updatedAt" timestamp not null)
+                "createdAt" timestamp not null, 
+                "updatedAt" timestamp not null
+            )
         `)
     await cp.query(`
         CREATE TABLE IF NOT EXISTS "session"
@@ -54,6 +56,21 @@ async function betterAuthMigration() {
         `)
 }
 
+async function seedAddress() {
+    await cp.query(`
+        CREATE TABLE IF NOT EXISTS "address" (
+                "id" text not null primary key, 
+                "name" text not null,
+                "address" text not null,
+                "postcode" int not null,
+                "city" text not null,
+                "userId" text not null references "user" ("id"), 
+                "createdAt" timestamp not null, 
+                "updatedAt" timestamp not null
+            )
+        `)
+}
+
 async function seedPlants() {
     await cp.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
     await cp.query(`
@@ -85,6 +102,7 @@ export async function GET() {
     try {
         await deleteTables()
         await betterAuthMigration()
+        await seedAddress()
         await seedPlants()
         return Response.json({ message: 'Database seeded successfully' });
     } catch (error) {

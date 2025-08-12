@@ -11,12 +11,12 @@ export default function ToggleSection() {
     const { data: session } = authClient.useSession()
     if (!session) redirect("/")
 
-    const user : User = {
-        id : session?.user.id,
+    const user: User = {
+        id: session?.user.id,
         name: session?.user.name,
         email: session?.user.email
     }
-    
+
     const [isInfos, setIsInfos] = useState<boolean>(true)
 
     return (

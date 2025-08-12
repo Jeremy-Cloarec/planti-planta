@@ -7,6 +7,7 @@ import { useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
+import Address from "./adress/Address";
 
 export default function Infos({ user }: { user: User }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
@@ -34,12 +35,11 @@ export default function Infos({ user }: { user: User }) {
                     )}
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
-                    text={"Adresse"}
-                    onClick={() => toogleChangeInfos(isChangeAdress, setIsChangeAdress)}
-                    textButton="Modifier"
+                <Address
+                    isChangeAdress={isChangeAdress}
+                    setIsChangeAdress={setIsChangeAdress}
+                    userId={user.id}
                 />
-                <p>Vous n&apos;avez pas encore d&apos;adresse</p>
             </ContainerInfos>
             <ContainerInfos>
                 <H2Section

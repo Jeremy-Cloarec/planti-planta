@@ -78,6 +78,17 @@ export type User = {
     email: string
 }
 
+export type Adress = {
+    id: string,
+    name: string,
+    address: string,
+    postcode: number
+    city: string,
+    userId: string,
+    createdAt: Date,
+    updatedAt: Date
+}
+
 export type Plant = {
     id: string
     title: string
