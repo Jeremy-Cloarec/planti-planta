@@ -1,4 +1,5 @@
 import { connectionPool as cp } from "app/db"
+import { AddressType } from "../lib/definitions"
 
 export async function fetchAdress(userId: string) {
     try {
@@ -16,9 +17,10 @@ export async function fetchAdress(userId: string) {
             JOIN "user" ON "address"."userId" = "user"."id"
             WHERE "user"."id" = $1
             `, [userId]);
-            
+
         return data.rows
     } catch (error) {
         console.error("Failed to fetch address. " + error)
+        return []
     }
 }

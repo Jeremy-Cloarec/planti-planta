@@ -1,0 +1,87 @@
+"use client"
+
+import { cabinBold } from "@/app/ui/fonts";
+import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
+import { AddressType, User } from "@/app/lib/definitions";
+import H2Section from "@/app/ui/account/H2Section";
+import ContainerInfos from "@/app/ui/account/ContainerInfos";
+import { Suspense, use, useState } from "react";
+import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
+import { toogleChangeInfos } from "@/app/utils/utils";
+import PersonalInfos from "./personal-infos/PersonnalInfos";
+import Address from "./adress/Address";
+import { authClient } from "@/app/lib/auth-client";
+
+export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
+    const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
+    const [isChangeAdress, setIsChangeAdress] = useState<boolean>(false)
+    const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
+    const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false)
+
+    const { data: session } = authClient.useSession()
+
+    if (!session) {
+        return null
+    }
+
+    const user: User = {
+        id: session?.user.id,
+        name: session?.user.name,
+        email: session?.user.email
+    }
+
+    const addressClient = use(addressPromise)
+    console.log("addressClient: ", addressClient);
+
+    return (
+        <section className="px-3 flex flex-col gap-3">
+            <ContainerInfos>
+                {!isChangePersonnalInfos ?
+                    (
+                        <PersonalInfos
+                            user={user}
+                            isChangePersonnalInfos={isChangePersonnalInfos}
+                            setIsChangePersonnalInfos={setIsChangePersonnalInfos}
+                        />
+                    ) :
+                    (
+                        <ChangePersonalInfos
+                            user={user}
+                            isChangePersonnalInfos={isChangePersonnalInfos}
+                            setIsChangePersonnalInfos={setIsChangePersonnalInfos}
+                        />
+                    )}
+            </ContainerInfos>
+            <ContainerInfos>
+                <Suspense fallback={<div>Chargement des adresses…</div>}>
+                    <Address
+                        addressPromise={addressPromise}
+                        isChangeAdress={isChangeAdress}
+                        setIsChangeAdress={setIsChangeAdress}
+                    />
+                </Suspense>
+            </ContainerInfos>
+            <ContainerInfos>
+                <H2Section
+                    text={"Information de paiement"}
+                    onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
+                    textButton="Modifier"
+                />
+                <p>Vous n&apos;avez pas ajouté de moyen de paiement</p>
+            </ContainerInfos>
+            <ContainerInfos>
+                <H2Section
+                    text={"Changer le mot de passe"}
+                    onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
+                    textButton="Modifier"
+                />
+            </ContainerInfos>
+            <ContainerInfos>
+                <div className="flex items-center justify-between">
+                    <h2 className={`${cabinBold.className}`}>Supprimer le compte</h2>
+                    <ButtonDeleteUser />
+                </div>
+            </ContainerInfos>
+        </section>
+    )
+}

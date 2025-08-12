@@ -78,7 +78,7 @@ export type User = {
     email: string
 }
 
-export type Adress = {
+export type AddressType = {
     id: string,
     name: string,
     address: string,
