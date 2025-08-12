@@ -10,6 +10,7 @@ export async function fetchPlants() {
         return plants
     } catch (error) {
         console.error("Failed to fetch plants. " + error)
+        return []
     }
 }
 

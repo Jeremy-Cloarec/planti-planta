@@ -1,32 +1,14 @@
 "use client"
-import {useState} from "react"
+import { use, useState } from "react"
 import CardPlant from "./CardPlant"
-import {Plant} from "../lib/definitions"
-import {useQuery} from "@tanstack/react-query"
-import LoadingPlants from "./skeleton/loading"
+import { Plant } from "../lib/definitions"
 import PlantPopover from "./PlantPopover"
 
-export default function ListCardsPlants() {
+export default function ListCardsPlants({ promisePlants }: { promisePlants: Promise<Plant[]> }) {
     const [index, setIndex] = useState<number>(0)
-
-    const {isPending, error, data} = useQuery({
-        queryKey: ['plants'],
-        queryFn: () =>
-            fetch("/api/plants")
-                .then((res) => res.json())
-                .then((plants) => plants.map((plant: Plant) => ({
-                    ...plant,
-                    price: Number(plant.price),
-                    quantity: Number(plant.quantity),
-                })))
-    })
-
-    if (isPending) return <LoadingPlants/>
-
-    if (error) return 'An error occured: ' + error.message
-
+    const plants = use(promisePlants)
     const findIndex = (plant: Plant) => {
-        const nameIndex: number = data.indexOf(plant)
+        const nameIndex: number = plants.indexOf(plant)
         setIndex(nameIndex)
     }
 
@@ -34,7 +16,7 @@ export default function ListCardsPlants() {
         <>
             <div className="flex flex-col gap-4 items-center">
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
-                    {data.map((plant: Plant) => (
+                    {plants.map((plant: Plant) => (
                         <li key={plant.id}>
                             <CardPlant
                                 plant={plant}
@@ -47,7 +29,7 @@ export default function ListCardsPlants() {
             <PlantPopover
                 index={index}
                 setIndex={setIndex}
-                plants={data}
+                plants={plants}
             />
         </>
     )
