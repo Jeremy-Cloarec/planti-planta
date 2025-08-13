@@ -1,8 +1,33 @@
 import { z } from 'zod'
 
+export const UpdateAddressSchema = z.object({
+    name: z
+        .string({ message: "Le nom ne peut pas être vide" })
+        .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom doit contenir au maximum 100 caractères" }),
+    nameAddress: z
+        .string({ message: "Le nom de l'adresse ne peut pas être vide" })
+        .min(2, { message: "Le nom de l'adresse doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom de l'adresse doit contenir au maximum 100 caractères" }),
+    address: z
+        .string({ message: "L'adresse ne peut pas être vide" })
+        .min(5, { message: "L'adresse doit contenir au moins 5 caractères" })
+        .max(200, { message: "L'adresse doit contenir au maximum 200 caractères" }),
+    postcode: z
+        .number({ message: "Le code postal ne peut pas être vide" })
+        .gte(5, { message: "Le code postal doit contenir au moins 5 chiffres" })
+        .lte(99999, {
+            message: "Le code postal doit contenir au maximum 5 chiffres"
+        }),
+    city: z
+        .string({ message: "La ville ne peut pas être vide" })
+        .min(2, { message: "La ville doit contenir au moins 2 caractères" })
+        .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
+})
+
 export const ChangePersonnalInfosShema = z.object({
     name: z
-        .string()
+        .string({ message: "Le nom ne peut pas être vide" })
         .min(1, { message: 'Le nom ne doit pas être vide' })
         .trim(),
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
@@ -20,8 +45,6 @@ export const ResetPasswordFormShema = z.object({
         .trim(),
     passwordConfirmation: z.string().trim(),
 })
-
-
 
 export const ResendFormShema = z.object({
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
@@ -105,6 +128,9 @@ export type FormErrors = {
     passwordConfirmation?: string[];
     general?: string[];
     reset?: string;
+    address?: string[];
+    city?: string[];
+    postcode?: string[];
 };
 
 export type PlantsAction =

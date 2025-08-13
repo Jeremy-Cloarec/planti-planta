@@ -4,7 +4,7 @@ import { User } from "@/app/lib/definitions";
 import HeadingSection from "@/app/ui/account/HeadingSection";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
 import { useState } from "react";
-import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
+import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
 import Address from "./adress/Addresses";

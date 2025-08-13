@@ -1,9 +1,9 @@
-import { toogleChangeInfos } from "@/app/utils/utils"
 import { AddressType } from "@/app/lib/definitions"
-import { use, useEffect, useState } from "react"
+import { Fragment, use, useEffect, useState } from "react"
 import { cabinBold } from "../../fonts"
 import HeadingSection from "../HeadingSection"
-import ContainerInfos from "../ContainerInfos"
+import ChangePersonalInfos from "./AddressInfos"
+import UpdatePersonalInfos from "./UpdateAddressInfos"
 
 type AddressesProps = {
     addressPromise: Promise<AddressType[]>,
@@ -11,19 +11,8 @@ type AddressesProps = {
 
 export default function Address({ addressPromise }: AddressesProps) {
     const addresses = use(addressPromise)
-    const [isChangeAdresses, setIsChangeAdresses] = useState<{ [key: number]: boolean }>({ 0: true })
-
-    function updateAddressesChangeObject() {
-        const object: { [key: number]: boolean } = {}
-        for (let i = 0; i < addresses.length; i++) {
-            object[i] = true
-        }
-        setIsChangeAdresses(object)
-    }
-
-    useEffect(() => {
-        updateAddressesChangeObject()
-    }, [])
+    const [isChangeAdresses, setIsChangeAdresses] = useState<{ [key: number]: boolean }>(() =>
+        Object.fromEntries(addresses.map((_, i) => [i, false])))
 
     const toogleAddresses = (key: number, value: boolean) => {
         setIsChangeAdresses({
@@ -31,14 +20,6 @@ export default function Address({ addressPromise }: AddressesProps) {
             [key]: !value
         })
     }
-
-    const handleUpdatedAddresses = (key: number, value: boolean) => {
-        toogleAddresses(key, value)
-    }
-
-    useEffect(() => {
-        console.log(isChangeAdresses);
-    }, [isChangeAdresses])
 
     if (!addresses || addresses.length === 0) return (
         <>
@@ -56,48 +37,24 @@ export default function Address({ addressPromise }: AddressesProps) {
             <h2 className={`${cabinBold.className} mb-3`}>Adresses</h2>
             <div className="flex flex-col gap-3">
                 {addresses.map((a, index) => (
-                    <>
-                        {isChangeAdresses[index] !== false ?
+                    <Fragment key={a.id}>
+                        {isChangeAdresses[index] === false ?
                             (
-                                <ContainerInfos>
-                                    <div key={a.id} className="flex flex-col gap-3">
-                                        <HeadingSection text={a.nameAddress}
-                                            onClick={() => toogleAddresses(index, isChangeAdresses[index])}
-                                            textButton="Modifier"
-                                            as="h3"
-                                            style="text-sm"
-                                        />
-                                        <div>
-                                            <p className={`${cabinBold.className} text-sm`}>Nom : </p>
-                                            <p>{a.name}</p>
-                                        </div>
-                                        <div>
-                                            <p className={`${cabinBold.className} text-sm`}>Rue : </p>
-                                            <p>{a.address}</p>
-                                        </div>
-                                        <div>
-                                            <p className={`${cabinBold.className} text-sm`}>Code Postal : </p>
-                                            <p>{a.postcode}</p>
-                                        </div>
-                                        <div>
-                                            <p className={`${cabinBold.className} text-sm`}>Ville : </p>
-                                            <p>{a.city}</p>
-                                        </div>
-                                    </div>
-                                </ContainerInfos>
+                                <ChangePersonalInfos
+                                    a={a}
+                                    index={index}
+                                    isChangeAdresses={isChangeAdresses}
+                                    toogleAddresses={toogleAddresses}
+                                />
                             ) : (
-                                <ContainerInfos>
-                                    <HeadingSection text={a.nameAddress}
-                                        onClick={() => handleUpdatedAddresses(index, isChangeAdresses[index])}
-                                        textButton="Enregistrer"
-                                        as="h3"
-                                        style="text-sm"
-                                    />
-                                    <p>Formulaire de modification d&apos;adresse</p>
-                                    {/* Ici vous pouvez ajouter le formulaire de modification d'adresse */}
-                                </ContainerInfos>
+                                <UpdatePersonalInfos
+                                    a={a}
+                                    index={index}
+                                    isChangeAdresses={isChangeAdresses}
+                                    toogleAddresses={toogleAddresses}
+                                />
                             )}
-                    </>
+                    </Fragment>
                 ))}
             </div>
         </div>
