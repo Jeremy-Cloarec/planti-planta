@@ -5,6 +5,7 @@ export async function fetchAdress(userId: string) {
         const data = await cp.query(`
             SELECT 
                 "address"."id", 
+                "address"."nameAddress",
                 "address"."name", 
                 "address"."address", 
                 "address"."postcode", 

@@ -7,7 +7,7 @@ import { useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
-import Address from "./adress/Address";
+import Address from "./adress/Addresses";
 
 export default function Infos({ user }: { user: User }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)

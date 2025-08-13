@@ -8,13 +8,12 @@ import { Suspense, use, useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
-import Address from "./adress/Address";
+import Address from "./adress/Addresses";
 import { authClient } from "@/app/lib/auth-client";
 import HeadingSection from "./HeadingSection";
 
 export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
-    const [isChangeAdress, setIsChangeAdress] = useState<boolean>(false)
     const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
     const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false)
 
@@ -56,10 +55,9 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 <Suspense fallback={<div>Chargement des adresses…</div>}>
                     <Address
                         addressPromise={addressPromise}
-                        isChangeAdress={isChangeAdress}
-                        setIsChangeAdress={setIsChangeAdress}
                     />
                 </Suspense>
+                <button>Ajouter une adresse</button>
             </ContainerInfos>
             <ContainerInfos>
                 <HeadingSection

@@ -60,6 +60,7 @@ async function seedAddress() {
     await cp.query(`
         CREATE TABLE IF NOT EXISTS "address" (
                 "id" text not null primary key, 
+                "nameAddress" text not null,
                 "name" text not null,
                 "address" text not null,
                 "postcode" int not null,

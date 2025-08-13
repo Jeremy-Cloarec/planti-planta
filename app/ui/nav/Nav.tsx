@@ -29,9 +29,9 @@ export default function Nav() {
                 <ul className="flex gap-4">
                     <li>
                         <Link
-                            key={"Compte"}
-                            href="/compte"
-                            className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/compte" ? "text-violet" : "text-dark"}`}>
+                            key={"Infos"}
+                            href="/infos"
+                            className={`hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" ? "text-violet" : "text-dark"}`}>
                             <UserIcon className="size-8"/>
                             <span className="text-xs text-center">{userName}</span>
                         </Link>

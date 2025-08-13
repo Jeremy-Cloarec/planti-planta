@@ -81,6 +81,7 @@ export type User = {
 export type AddressType = {
     id: string,
     name: string,
+    nameAddress: string,
     address: string,
     postcode: number
     city: string,
