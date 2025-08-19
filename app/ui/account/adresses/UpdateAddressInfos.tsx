@@ -2,12 +2,13 @@ import { AddressFormState, AddressType } from "@/app/lib/definitions";
 import ContainerInfos from "../ContainerInfos";
 import ButtonChangeInfo from "../../buttons/ButtonChangeInfo";
 import { updateAddress } from "@/app/actions/adress.action";
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { cabinBold } from "../../fonts";
 
 type UpdatePersonalInfosProps = {
     a: AddressType,
     isChangeAdresses: { [key: number]: boolean },
-    index:number,
+    index: number,
     toogleAddresses: (key: number, value: boolean) => void,
 }
 
@@ -24,17 +25,33 @@ export default function UpdateAddressInfos(
         updateAddress, { success: false, errors: {} }
     )
 
-    const handleSubmit = async (formData: FormData) => {
+    const [cancel, setCancel] = useState<boolean>(false)
+
+    if (cancel) {
         toogleAddresses(index, isChangeAdresses[index])
-        return formAction(formData)
+        return null
     }
 
-    
+    useEffect(() => {
+        console.log(state.success);
+        if(state.success) toogleAddresses(index, isChangeAdresses[index])
+    }, [state.success])
+
+    const handleSubmit = async (FormData: FormData) => {
+        formAction(FormData)
+    }
+
     return (
         <ContainerInfos>
             <form className="flex flex-col gap-3" action={handleSubmit}>
                 <input type="hidden" name="id" value={a.id} />
-                <ButtonChangeInfo textButton="Enregistrer" />
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
+                    <h3 className={`${cabinBold.className}`}>Modifier l'adresse {a.nameAddress}</h3>
+                    <div className="flex md:justify-end gap-3 items-center">
+                        <button type="button" className="hover:text-slate-700" onClick={() => setCancel(true)}>Annuler</button>
+                        <ButtonChangeInfo textButton="Enregistrer" style="w-fit" />
+                    </div>
+                </div>
                 <label className="text-sm">
                     Entrez le nom de l'adresse
                     <input

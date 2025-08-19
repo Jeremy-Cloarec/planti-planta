@@ -29,7 +29,7 @@ export async function fetchAdress(userId: string) {
     }
 }
 
-export async function updateAddress(state: AddressFormState, formData: FormData):Promise<AddressFormState> {
+export async function updateAddress(state: AddressFormState, formData: FormData): Promise<AddressFormState> {
     const id = formData.get("id")
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")
