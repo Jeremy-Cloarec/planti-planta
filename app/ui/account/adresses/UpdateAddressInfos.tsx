@@ -1,28 +1,38 @@
-import { AddressType } from "@/app/lib/definitions";
+import { AddressFormState, AddressType } from "@/app/lib/definitions";
 import ContainerInfos from "../ContainerInfos";
 import ButtonChangeInfo from "../../buttons/ButtonChangeInfo";
-import { AddressFormState, updateAddress } from "@/app/actions/adress.action";
+import { updateAddress } from "@/app/actions/adress.action";
 import { useActionState } from "react";
 
 type UpdatePersonalInfosProps = {
     a: AddressType,
-    index: number,
     isChangeAdresses: { [key: number]: boolean },
+    index:number,
     toogleAddresses: (key: number, value: boolean) => void,
 }
 
-export default function UpdatePersonalInfos(
+export default function UpdateAddressInfos(
     {
         a,
+        isChangeAdresses,
+        index,
+        toogleAddresses
     }: UpdatePersonalInfosProps
 ) {
-    const [state, formAction] = useActionState<AddressFormState, FormData>(updateAddress, { success: false, errors: {} })
-    console.log("state", state);
 
+    const [state, formAction] = useActionState<AddressFormState, FormData>(
+        updateAddress, { success: false, errors: {} }
+    )
 
+    const handleSubmit = async (formData: FormData) => {
+        toogleAddresses(index, isChangeAdresses[index])
+        return formAction(formData)
+    }
+
+    
     return (
         <ContainerInfos>
-            <form className="flex flex-col gap-3" action={formAction}>
+            <form className="flex flex-col gap-3" action={handleSubmit}>
                 <input type="hidden" name="id" value={a.id} />
                 <ButtonChangeInfo textButton="Enregistrer" />
                 <label className="text-sm">

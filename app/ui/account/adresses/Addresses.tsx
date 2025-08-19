@@ -2,14 +2,14 @@ import { AddressType } from "@/app/lib/definitions"
 import { Fragment, use, useEffect, useState } from "react"
 import { cabinBold } from "../../fonts"
 import HeadingSection from "../HeadingSection"
-import ChangePersonalInfos from "./AddressInfos"
-import UpdatePersonalInfos from "./UpdateAddressInfos"
+import AddressesInfos from "./AddressInfos"
+import UpdateAddressInfos from "./UpdateAddressInfos"
 
 type AddressesProps = {
     addressPromise: Promise<AddressType[]>,
 }
 
-export default function Address({ addressPromise }: AddressesProps) {
+export default function Addresses({ addressPromise }: AddressesProps) {
     const addresses = use(addressPromise)
     const [isChangeAdresses, setIsChangeAdresses] = useState<{ [key: number]: boolean }>(() =>
         Object.fromEntries(addresses.map((_, i) => [i, false])))
@@ -20,6 +20,10 @@ export default function Address({ addressPromise }: AddressesProps) {
             [key]: !value
         })
     }
+
+    useEffect(() => {
+        console.log(isChangeAdresses);
+    }, [isChangeAdresses])
 
     if (!addresses || addresses.length === 0) return (
         <>
@@ -40,14 +44,14 @@ export default function Address({ addressPromise }: AddressesProps) {
                     <Fragment key={a.id}>
                         {isChangeAdresses[index] === false ?
                             (
-                                <ChangePersonalInfos
+                                <AddressesInfos
                                     a={a}
                                     index={index}
                                     isChangeAdresses={isChangeAdresses}
                                     toogleAddresses={toogleAddresses}
                                 />
                             ) : (
-                                <UpdatePersonalInfos
+                                <UpdateAddressInfos
                                     a={a}
                                     index={index}
                                     isChangeAdresses={isChangeAdresses}

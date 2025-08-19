@@ -33,6 +33,7 @@ export const ChangePersonnalInfosShema = z.object({
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
 
 })
+
 export const ResetPasswordFormShema = z.object({
     password: z
         .string()
@@ -145,5 +146,18 @@ export interface PlantInBasket extends Plant {
     basketQuantity: number,
     unitPrice: number,
 }
+
+
+export type AddressFormState = {
+    success: boolean;
+    message?: string;
+    errors: {
+        name?: string[];
+        nameAddress?: string[];
+        address?: string[];
+        postcode?: string[];
+        city?: string[];
+    };
+};
 
 

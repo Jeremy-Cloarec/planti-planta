@@ -8,7 +8,7 @@ import { Suspense, useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
-import Address from "./adress/Addresses";
+import Addresses from "./adresses/Addresses";
 import { authClient } from "@/app/lib/auth-client";
 import HeadingSection from "./HeadingSection";
 
@@ -50,7 +50,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
             </ContainerInfos>
             <ContainerInfos>
                 <Suspense fallback={<div>Chargement des adresses…</div>}>
-                    <Address
+                    <Addresses
                         addressPromise={addressPromise}
                     />
                 </Suspense>

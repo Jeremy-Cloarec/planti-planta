@@ -9,7 +9,7 @@ type ChangePersonalInfosProps = {
     isChangeAdresses: { [key: number]: boolean },
     toogleAddresses: (index: number, value: boolean) => void
 }
-export default function ChangePersonalInfos({a, index, isChangeAdresses, toogleAddresses}: ChangePersonalInfosProps) {
+export default function AddressesInfos({ a, index, isChangeAdresses, toogleAddresses }: ChangePersonalInfosProps) {
     return (
         <ContainerInfos>
             <div key={a.id} className="flex flex-col gap-3">

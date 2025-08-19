@@ -1,6 +1,6 @@
 "use server"
 import { connectionPool as cp } from "app/db"
-import { UpdateAddressSchema } from "../lib/definitions";
+import { AddressFormState, UpdateAddressSchema } from "../lib/definitions";
 import { revalidatePath } from "next/cache";
 
 export async function fetchAdress(userId: string) {
@@ -29,21 +29,7 @@ export async function fetchAdress(userId: string) {
     }
 }
 
-export type AddressFormState = {
-    success: boolean;
-    message?: string;
-    errors: {
-        name?: string[];
-        nameAddress?: string[];
-        address?: string[];
-        postcode?: string[];
-        city?: string[];
-    };
-};
-
 export async function updateAddress(state: AddressFormState, formData: FormData):Promise<AddressFormState> {
-    console.log("formData", formData)
-
     const id = formData.get("id")
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")
