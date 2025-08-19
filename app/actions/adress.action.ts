@@ -29,7 +29,21 @@ export async function fetchAdress(userId: string) {
     }
 }
 
-export async function updateAddress(prevState: any, formData: FormData) {
+export type AddressFormState = {
+    success: boolean;
+    message?: string;
+    errors: {
+        name?: string[];
+        nameAddress?: string[];
+        address?: string[];
+        postcode?: string[];
+        city?: string[];
+    };
+};
+
+export async function updateAddress(state: AddressFormState, formData: FormData):Promise<AddressFormState> {
+    console.log("formData", formData)
+
     const id = formData.get("id")
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")

@@ -4,7 +4,7 @@ import { cabinBold } from "@/app/ui/fonts";
 import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 import { AddressType, User } from "@/app/lib/definitions";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
-import { Suspense, use, useState } from "react";
+import { Suspense, useState } from "react";
 import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
@@ -28,9 +28,6 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
         name: session?.user.name,
         email: session?.user.email
     }
-
-    const addressClient = use(addressPromise)
-    console.log("addressClient: ", addressClient);
 
     return (
         <section className="px-3 flex flex-col gap-3">
