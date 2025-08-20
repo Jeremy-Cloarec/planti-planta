@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const UpdateAddressSchema = z.object({
     id: z
-        .string().uuid({message: "Le format de l'id n'est pas correct"}),
+        .string({ message: "Le format de l'id n'est pas correct" }),
     name: z
         .string({ message: "Le nom ne peut pas être vide" })
         .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
@@ -30,7 +30,7 @@ export const UpdateAddressSchema = z.object({
 
 export const CreateAddressSchema = z.object({
     id: z
-        .string().uuid({message: "Le format de l'id n'est pas correct"}),
+        .string({ message: "Le format de l'id n'est pas correct" }),
     name: z
         .string({ message: "Le nom ne peut pas être vide" })
         .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
@@ -53,9 +53,9 @@ export const CreateAddressSchema = z.object({
         .string({ message: "La ville ne peut pas être vide" })
         .min(2, { message: "La ville doit contenir au moins 2 caractères" })
         .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
-    updateAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
-    createAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
-    userId: z.string().uuid({message: "Le format userId n'est pas correct"})
+    updatedAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    createdAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    userId: z.string({ message: "Le format userId n'est pas correct" })
 })
 
 export const ChangePersonnalInfosShema = z.object({
@@ -190,6 +190,14 @@ export type AddressFormState = {
         address?: string[];
         postcode?: string[];
         city?: string[];
+        general?: string
+    };
+    fields?: {
+        nameAddress?: string;
+        name?: string;
+        address?: string;
+        postcode?: string;
+        city?: string;
     };
 };
 

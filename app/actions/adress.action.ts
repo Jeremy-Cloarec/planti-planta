@@ -1,6 +1,6 @@
 "use server"
 import { connectionPool as cp } from "app/db"
-import { AddressFormState, UpdateAddressSchema } from "../lib/definitions";
+import { AddressFormState, CreateAddressSchema, UpdateAddressSchema } from "../lib/definitions";
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 
@@ -30,8 +30,10 @@ export async function fetchAdress(userId: string) {
     }
 }
 
-export async function createAddress(state: any, formData: FormData,) {
-    const id = randomUUID()
+export async function createAddress(state: AddressFormState, formData: FormData): Promise<AddressFormState> {
+    console.log(formData)
+
+    const id = formData.get("id")
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")
     const address = formData.get("address")
@@ -39,7 +41,74 @@ export async function createAddress(state: any, formData: FormData,) {
     const city = formData.get("city")
     const userId = formData.get("userId")
 
-    const date = (new Date().toISOString().split('T').join(' ').slice(0, - 1))
+    const date = (new Date().toISOString())
+    const createdAt = date
+    const updatedAt = date
+
+    const validateData = CreateAddressSchema.safeParse({
+        id,
+        name,
+        nameAddress,
+        address,
+        postcode,
+        city,
+        createdAt,
+        updatedAt,
+        userId
+    })
+
+    if (!validateData.success) {
+        console.log("Invalid Created address schema", validateData.error.flatten())
+        return {
+            errors: validateData.error.flatten().fieldErrors,
+            success: false,
+            fields: Object.fromEntries(formData)
+        }
+    }
+
+    try {
+        await cp.query(`
+                INSERT INTO "address" (
+                    "id" , 
+                    "name",
+                    "nameAddress", 
+                    "address", 
+                    "city", 
+                    "postcode", 
+                    "userId", 
+                    "createdAt", 
+                    "updatedAt") VALUES (
+                            $1, $2, $3, $4, $5, $6, $7, $8, $9
+                        )
+            `, [
+            validateData.data.id,
+            validateData.data.name,
+            validateData.data.nameAddress,
+            validateData.data.address,
+            validateData.data.city,
+            validateData.data.postcode,
+            validateData.data.userId,
+            validateData.data.createdAt,
+            validateData.data.updatedAt,
+        ])
+
+        revalidatePath('/infos')
+
+        return {
+            success: true,
+            errors: {},
+            message: "Adresse créée avec succès"
+        }
+
+    } catch (error) {
+        console.log("Error when creating address", error);
+
+        return {
+            success: false,
+            errors: { general: "Erreur dans la création de l'addresse" },
+            fields: Object.fromEntries(formData)
+        }
+    }
 }
 
 export async function updateAddress(state: AddressFormState, formData: FormData): Promise<AddressFormState> {
@@ -49,7 +118,6 @@ export async function updateAddress(state: AddressFormState, formData: FormData)
     const address = formData.get("address")
     const postcode = parseInt(formData.get("postcode") as string, 10) || null
     const city = formData.get("city")
-
     const updateAt = (new Date()).toISOString()
 
     const validateData = UpdateAddressSchema.safeParse({
@@ -90,15 +158,33 @@ export async function updateAddress(state: AddressFormState, formData: FormData)
             updateAt,
             id
         ]);
+
+        revalidatePath('/infos')
+
+        return {
+            success: true,
+            errors: {},
+            message: "Adresse modifiée avec succès"
+        }
+
     } catch (error) {
-        console.error("Failed to update address. " + error)
+        console.log("Error when updating address", error);
+
+        return {
+            success: false,
+            errors: { general: "Erreur dans la modification de l'addresse" },
+        }
     }
+}
 
-    revalidatePath('/infos')
+export async function deleteAddress(addressId: string) {
+    if (!addressId) return
+    try {
 
-    return {
-        success: true,
-        errors: {},
-        message: "Adresse modifiée avec succès"
+    } catch (error) {
+        return {
+            success: true,
+            errors: { gene },
+        }
     }
 }

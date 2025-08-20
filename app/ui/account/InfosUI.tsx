@@ -52,9 +52,9 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 <Suspense fallback={<div>Chargement des adresses…</div>}>
                     <Addresses
                         addressPromise={addressPromise}
+                        userId={user.id}
                     />
                 </Suspense>
-                <button>Ajouter une adresse</button>
             </ContainerInfos>
             <ContainerInfos>
                 <HeadingSection

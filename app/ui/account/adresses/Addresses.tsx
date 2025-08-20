@@ -2,19 +2,22 @@ import { AddressType } from "@/app/lib/definitions"
 import { Fragment, use, useEffect, useState } from "react"
 import { cabinBold } from "../../fonts"
 import HeadingSection from "../HeadingSection"
-import AddressesInfos from "./AddressInfos"
+import AddressesInfos from "./GetAddressInfos"
 import UpdateAddressInfos from "./UpdateAddressInfos"
+import CreateAddressInfos from "./CreateAdressInfos"
 
 type AddressesProps = {
     addressPromise: Promise<AddressType[]>,
+    userId: string
 }
 
-export default function Addresses({ addressPromise }: AddressesProps) {
+export default function Addresses({ addressPromise, userId }: AddressesProps) {
     const addresses = use(addressPromise)
-    const [isChangeAdresses, setIsChangeAdresses] = useState<{ [key: number]: boolean }>(() =>
-        Object.fromEntries(addresses.map((_, i) => [i, false])))
+    const [isChangeAdresses, setIsChangeAdresses] = useState<{ [key: string]: boolean }>(() =>
+        Object.fromEntries(addresses.map((a) => [a.id, false])))
+    const [isCreateAddress, setIsCreateAddress] = useState(false)
 
-    const toogleAddresses = (key: number, value: boolean) => {
+    const toogleAddresses = (key: string, value: boolean) => {
         setIsChangeAdresses({
             ...isChangeAdresses,
             [key]: !value
@@ -36,13 +39,23 @@ export default function Addresses({ addressPromise }: AddressesProps) {
         </>
     )
 
+    if (isCreateAddress) {
+        return (
+            <CreateAddressInfos
+                setIsCreateAddress={setIsCreateAddress}
+                userId={userId}
+                setIsChangeAdresses={setIsChangeAdresses}
+            />
+        )
+    }
+
     return (
-        <div>
+        <>
             <h2 className={`${cabinBold.className} mb-3`}>Adresses</h2>
             <div className="flex flex-col gap-3">
                 {addresses.map((a, index) => (
                     <Fragment key={a.id}>
-                        {isChangeAdresses[index] === false ?
+                        {isChangeAdresses[a.id] === false ?
                             (
                                 <AddressesInfos
                                     a={a}
@@ -61,7 +74,12 @@ export default function Addresses({ addressPromise }: AddressesProps) {
                     </Fragment>
                 ))}
             </div>
-        </div>
-
+            <button
+                className={`self-start ${cabinBold.className} 0hover:text-slate-700 text-sm`}
+                onClick={() => setIsCreateAddress(true)}
+            >
+                + Ajouter une adresse
+            </button>
+        </>
     )
 }

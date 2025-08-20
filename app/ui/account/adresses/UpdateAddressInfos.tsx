@@ -7,9 +7,9 @@ import { cabinBold } from "../../fonts";
 
 type UpdatePersonalInfosProps = {
     a: AddressType,
-    isChangeAdresses: { [key: number]: boolean },
+    isChangeAdresses: { [key: string]: boolean },
     index: number,
-    toogleAddresses: (key: number, value: boolean) => void,
+    toogleAddresses: (key: string, value: boolean) => void,
 }
 
 export default function UpdateAddressInfos(
@@ -27,17 +27,18 @@ export default function UpdateAddressInfos(
 
     const [cancel, setCancel] = useState<boolean>(false)
 
-    if (cancel) {
-        toogleAddresses(index, isChangeAdresses[index])
-        return null
-    }
+    useEffect(() => {
+        if (cancel) {
+            toogleAddresses(a.id, isChangeAdresses[a.id]);
+        }
+    }, [cancel]);
 
     useEffect(() => {
         console.log(state.message);
         console.log(state.success);
         console.log(state.errors);
-        if (state.success) toogleAddresses(index, isChangeAdresses[index])
-    }, [state.success])
+        if (state.success) toogleAddresses(a.id, isChangeAdresses[a.id])
+    }, [state])
 
     return (
         <ContainerInfos>
@@ -46,7 +47,7 @@ export default function UpdateAddressInfos(
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
                     <h3 className={`${cabinBold.className}`}>Modifier l'adresse {a.nameAddress}</h3>
                     <div className="flex md:justify-end gap-3 items-center">
-                        <button type="button" className="hover:text-slate-700" onClick={() => setCancel(true)}>Annuler</button>
+                        <button type="button" className="hover:text-slate-700 text-sm" onClick={() => setCancel(true)}>Annuler</button>
                         <ButtonChangeInfo textButton="Enregistrer" style="w-fit" />
                     </div>
                 </div>
