@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
 export const UpdateAddressSchema = z.object({
+    id: z
+        .string().uuid({message: "Le format de l'id n'est pas correct"}),
     name: z
         .string({ message: "Le nom ne peut pas être vide" })
         .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
@@ -23,6 +25,37 @@ export const UpdateAddressSchema = z.object({
         .string({ message: "La ville ne peut pas être vide" })
         .min(2, { message: "La ville doit contenir au moins 2 caractères" })
         .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
+    updateAt: z.string().datetime({ message: "Le format de updateAt n'est pas valide" })
+})
+
+export const CreateAddressSchema = z.object({
+    id: z
+        .string().uuid({message: "Le format de l'id n'est pas correct"}),
+    name: z
+        .string({ message: "Le nom ne peut pas être vide" })
+        .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom doit contenir au maximum 100 caractères" }),
+    nameAddress: z
+        .string({ message: "Le nom de l'adresse ne peut pas être vide" })
+        .min(2, { message: "Le nom de l'adresse doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom de l'adresse doit contenir au maximum 100 caractères" }),
+    address: z
+        .string({ message: "L'adresse ne peut pas être vide" })
+        .min(5, { message: "L'adresse doit contenir au moins 5 caractères" })
+        .max(200, { message: "L'adresse doit contenir au maximum 200 caractères" }),
+    postcode: z
+        .number({ message: "Le code postal ne peut pas être vide" })
+        .gte(5, { message: "Le code postal doit contenir au moins 5 chiffres" })
+        .lte(99999, {
+            message: "Le code postal doit contenir au maximum 5 chiffres"
+        }),
+    city: z
+        .string({ message: "La ville ne peut pas être vide" })
+        .min(2, { message: "La ville doit contenir au moins 2 caractères" })
+        .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
+    updateAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    createAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    userId: z.string().uuid({message: "Le format userId n'est pas correct"})
 })
 
 export const ChangePersonnalInfosShema = z.object({

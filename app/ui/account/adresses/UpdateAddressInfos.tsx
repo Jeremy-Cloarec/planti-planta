@@ -33,17 +33,15 @@ export default function UpdateAddressInfos(
     }
 
     useEffect(() => {
+        console.log(state.message);
         console.log(state.success);
-        if(state.success) toogleAddresses(index, isChangeAdresses[index])
+        console.log(state.errors);
+        if (state.success) toogleAddresses(index, isChangeAdresses[index])
     }, [state.success])
-
-    const handleSubmit = async (FormData: FormData) => {
-        formAction(FormData)
-    }
 
     return (
         <ContainerInfos>
-            <form className="flex flex-col gap-3" action={handleSubmit}>
+            <form className="flex flex-col gap-3" action={formAction}>
                 <input type="hidden" name="id" value={a.id} />
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
                     <h3 className={`${cabinBold.className}`}>Modifier l'adresse {a.nameAddress}</h3>
