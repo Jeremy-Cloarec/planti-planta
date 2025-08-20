@@ -29,7 +29,7 @@ export default function UpdateAddressInfos(
 
     useEffect(() => {
         if (cancel) {
-            toogleAddresses(a.id, isChangeAdresses[a.id]);
+            toogleAddresses(a.id, false);
         }
     }, [cancel]);
 
@@ -37,7 +37,7 @@ export default function UpdateAddressInfos(
         console.log(state.message);
         console.log(state.success);
         console.log(state.errors);
-        if (state.success) toogleAddresses(a.id, isChangeAdresses[a.id])
+        if (state.success) toogleAddresses(a.id, false)
     }, [state])
 
     return (

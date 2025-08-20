@@ -20,24 +20,13 @@ export default function Addresses({ addressPromise, userId }: AddressesProps) {
     const toogleAddresses = (key: string, value: boolean) => {
         setIsChangeAdresses({
             ...isChangeAdresses,
-            [key]: !value
+            [key]: value
         })
     }
 
     useEffect(() => {
         console.log(isChangeAdresses);
-    }, [isChangeAdresses])
-
-    if (!addresses || addresses.length === 0) return (
-        <>
-            <HeadingSection
-                text={"Adresse"}
-                onClick={() => alert("ajouter une adresse")}
-                textButton="Ajouter"
-            />
-            <p>Vous n&apos;avez pas encore d&apos;adresse</p>
-        </>
-    )
+    }, [isChangeAdresses, addresses])
 
     if (isCreateAddress) {
         return (
@@ -49,28 +38,38 @@ export default function Addresses({ addressPromise, userId }: AddressesProps) {
         )
     }
 
+    if (!addresses || addresses.length === 0) return (
+        <>
+            <HeadingSection
+                text={"Adresse"}
+                onClick={() => setIsCreateAddress(true)}
+                textButton="Ajouter"
+            />
+            <p>Vous n&apos;avez pas encore d&apos;adresse</p>
+        </>
+    )
+
     return (
         <>
             <h2 className={`${cabinBold.className} mb-3`}>Adresses</h2>
             <div className="flex flex-col gap-3">
                 {addresses.map((a, index) => (
                     <Fragment key={a.id}>
-                        {isChangeAdresses[a.id] === false ?
-                            (
-                                <AddressesInfos
-                                    a={a}
-                                    index={index}
-                                    isChangeAdresses={isChangeAdresses}
-                                    toogleAddresses={toogleAddresses}
-                                />
-                            ) : (
-                                <UpdateAddressInfos
-                                    a={a}
-                                    index={index}
-                                    isChangeAdresses={isChangeAdresses}
-                                    toogleAddresses={toogleAddresses}
-                                />
-                            )}
+                        {!isChangeAdresses[a.id] ? (
+                            <AddressesInfos
+                                a={a}
+                                isChangeAdresses={isChangeAdresses}
+                                toogleAddresses={toogleAddresses}
+                                setIsChangeAdresses={setIsChangeAdresses}
+                            />
+                        ) : (
+                            <UpdateAddressInfos
+                                a={a}
+                                index={index}
+                                isChangeAdresses={isChangeAdresses}
+                                toogleAddresses={toogleAddresses}
+                            />
+                        )}
                     </Fragment>
                 ))}
             </div>

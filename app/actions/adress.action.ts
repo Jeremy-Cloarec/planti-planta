@@ -177,14 +177,24 @@ export async function updateAddress(state: AddressFormState, formData: FormData)
     }
 }
 
-export async function deleteAddress(addressId: string) {
-    if (!addressId) return
-    try {
+export async function deleteAddress(addressId: string): Promise<AddressFormState> {
 
-    } catch (error) {
+    try {
+        cp.query(`
+            DELETE FROM "address" WHERE id=$1
+            `, [addressId])
+
+        revalidatePath('/infos')
+
         return {
             success: true,
-            errors: { gene },
+            errors: {},
+            message: "Adresse supprimée avec succès"
+        }
+    } catch (error) {
+        return {
+            success: false,
+            errors: { general: "Erreur dans la suppression de l'adresse" },
         }
     }
 }
