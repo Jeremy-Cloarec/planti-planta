@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChangePersonnalInfosShema, FormErrors, User } from "@/app/lib/definitions"
 import HeadingSection from "../HeadingSection";
 import { toogleChangeInfos } from "@/app/utils/utils";

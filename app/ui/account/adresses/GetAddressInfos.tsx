@@ -8,16 +8,10 @@ type ChangePersonalInfosProps = {
     a: AddressType,
     isChangeAdresses: { [key: string]: boolean },
     toogleAddresses: (index: string, value: boolean) => void
-    setIsChangeAdresses: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>,
-
 }
-export default function AddressesInfos({ a, toogleAddresses, setIsChangeAdresses }: ChangePersonalInfosProps) {
-    const handleDeleteAddress = (id: string) => {
+export default function AddressesInfos({ a, toogleAddresses }: ChangePersonalInfosProps) {
+    const handleDeleteAddress = () => {
         deleteAddress(a.id)
-        setIsChangeAdresses(prev => {
-            const { [id]: _, ...rest } = prev
-            return rest
-        });
     }
 
     return (
@@ -28,7 +22,7 @@ export default function AddressesInfos({ a, toogleAddresses, setIsChangeAdresses
                     <div className="flex md:justify-end gap-3 items-center">
                         <button type="button"
                             className="hover:text-slate-700 text-sm"
-                            onClick={() => { handleDeleteAddress(a.id) }}
+                            onClick={() => { handleDeleteAddress() }}
                         >
                             Supprimer
                         </button>

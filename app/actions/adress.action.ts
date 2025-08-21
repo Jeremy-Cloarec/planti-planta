@@ -193,6 +193,8 @@ export async function deleteAddress(addressId: string): Promise<AddressFormState
             message: "Adresse supprimée avec succès"
         }
     } catch (error) {
+        console.log("Error when deleting address", error)
+        
         return {
             success: false,
             errors: { general: "Erreur dans la suppression de l'adresse" },

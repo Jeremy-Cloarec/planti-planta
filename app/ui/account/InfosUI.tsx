@@ -62,7 +62,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                     onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
                     textButton="Modifier"
                 />
-                <p>Vous n&apos;avez pas ajouté de moyen de paiement</p>
+                <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
             <ContainerInfos>
                 <HeadingSection

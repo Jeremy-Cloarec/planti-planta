@@ -21,7 +21,7 @@ export default async function Commandes() {
                 <h1 className={`${cormorant.className} text-3xl`}>Mes commandes</h1>
             </header>
             <main className="w-full flex-1 max-w-[768px]">
-                <p className="px-3">Vous n'avez pas encore de commandes</p>
+                <p className="px-3">Vous n&apos; avez pas encore de commandes</p>
             </main>
             <Footer />
         </>

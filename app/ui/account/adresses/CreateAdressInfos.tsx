@@ -3,7 +3,6 @@ import ButtonChangeInfo from "../../buttons/ButtonChangeInfo"
 import { useActionState, useEffect } from "react"
 import { AddressFormState } from "@/app/lib/definitions"
 import { cabinBold } from "../../fonts"
-import { v4 as uuidv4 } from 'uuid'
 
 type CreateAddressInfosProps = {
     setIsCreateAddress: (isCreate: boolean) => void
@@ -28,7 +27,7 @@ export default function CreateAddressInfos({ setIsCreateAddress, userId, setIsCh
             setIsCreateAddress(false)
             console.log(state.fields);
         }
-    }, [state])
+    }, [state, setIsChangeAdresses, setIsCreateAddress])
 
     return (
         <form className="flex flex-col gap-3" action={formAction}>
@@ -41,12 +40,12 @@ export default function CreateAddressInfos({ setIsCreateAddress, userId, setIsCh
                 </div>
             </div>
             <label className="text-sm">
-                Entrez le nom de l'adresse
+                Entrez le nom de l&apos; adresse
                 <input
                     className="w-full border-2 border-green px-3 py-2 text-sm focus:outline-2 outline-green placeholder:text-gray-500 mt-2"
                     type="text"
                     name="nameAddress"
-                    placeholder="Entrer le nom de l'adresse"
+                    placeholder="Entrer le nom de l&apos; adresse"
                     required
                     defaultValue={(state?.fields?.nameAddress as string) || ""}
                 />

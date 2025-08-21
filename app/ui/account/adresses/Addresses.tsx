@@ -53,20 +53,17 @@ export default function Addresses({ addressPromise, userId }: AddressesProps) {
         <>
             <h2 className={`${cabinBold.className} mb-3`}>Adresses</h2>
             <div className="flex flex-col gap-3">
-                {addresses.map((a, index) => (
+                {addresses.map((a) => (
                     <Fragment key={a.id}>
                         {!isChangeAdresses[a.id] ? (
                             <AddressesInfos
                                 a={a}
                                 isChangeAdresses={isChangeAdresses}
                                 toogleAddresses={toogleAddresses}
-                                setIsChangeAdresses={setIsChangeAdresses}
                             />
                         ) : (
                             <UpdateAddressInfos
                                 a={a}
-                                index={index}
-                                isChangeAdresses={isChangeAdresses}
                                 toogleAddresses={toogleAddresses}
                             />
                         )}
