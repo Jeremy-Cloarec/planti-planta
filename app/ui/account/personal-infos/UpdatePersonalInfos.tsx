@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChangePersonnalInfosShema, FormErrors, User } from "@/app/lib/definitions"
-import H2Section from "../H2Section";
+import HeadingSection from "../HeadingSection";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import { authClient } from "@/app/lib/auth-client";
 
@@ -46,7 +46,7 @@ export default function ChangePersonalInfos({ user, isChangePersonnalInfos, setI
 
     return (
         <>
-            <H2Section text={"Informations personnelles"}
+            <HeadingSection text={"Informations personnelles"}
                 onClick={handleChangeinfos}
                 textButton={"Enregistrer"}
             />

@@ -1,18 +1,33 @@
+"use client"
+
 import { cabinBold } from "@/app/ui/fonts";
 import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
-import { User } from "@/app/lib/definitions";
-import H2Section from "@/app/ui/account/H2Section";
+import { AddressType, User } from "@/app/lib/definitions";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
-import { useState } from "react";
-import ChangePersonalInfos from "@/app/ui/account/personal-infos/ChangePersonalInfos";
+import { Suspense, useState } from "react";
+import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import { toogleChangeInfos } from "@/app/utils/utils";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
+import Addresses from "./adresses/Addresses";
+import { authClient } from "@/app/lib/auth-client";
+import HeadingSection from "./HeadingSection";
 
-export default function Infos({ user }: { user: User }) {
+export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
-    const [isChangeAdress, setIsChangeAdress] = useState<boolean>(false)
     const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
     const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false)
+
+    const { data: session } = authClient.useSession()
+
+    if (!session) {
+        return null
+    }
+
+    const user: User = {
+        id: session?.user.id,
+        name: session?.user.name,
+        email: session?.user.email
+    }
 
     return (
         <section className="px-3 flex flex-col gap-3">
@@ -34,23 +49,23 @@ export default function Infos({ user }: { user: User }) {
                     )}
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
-                    text={"Adresse"}
-                    onClick={() => toogleChangeInfos(isChangeAdress, setIsChangeAdress)}
-                    textButton="Modifier"
-                />
-                <p>Vous n&apos;avez pas encore d&apos;adresse</p>
+                <Suspense fallback={<div>Chargement des adresses…</div>}>
+                    <Addresses
+                        addressPromise={addressPromise}
+                        userId={user.id}
+                    />
+                </Suspense>
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Information de paiement"}
                     onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
                     textButton="Modifier"
                 />
-                <p>Vous n&apos;avez pas ajouté de moyen de paiement</p>
+                <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
             <ContainerInfos>
-                <H2Section
+                <HeadingSection
                     text={"Changer le mot de passe"}
                     onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
                     textButton="Modifier"

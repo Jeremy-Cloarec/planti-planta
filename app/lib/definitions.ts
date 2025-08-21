@@ -1,13 +1,70 @@
 import { z } from 'zod'
 
+export const UpdateAddressSchema = z.object({
+    id: z
+        .string({ message: "Le format de l'id n'est pas correct" }),
+    name: z
+        .string({ message: "Le nom ne peut pas être vide" })
+        .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom doit contenir au maximum 100 caractères" }),
+    nameAddress: z
+        .string({ message: "Le nom de l'adresse ne peut pas être vide" })
+        .min(2, { message: "Le nom de l'adresse doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom de l'adresse doit contenir au maximum 100 caractères" }),
+    address: z
+        .string({ message: "L'adresse ne peut pas être vide" })
+        .min(5, { message: "L'adresse doit contenir au moins 5 caractères" })
+        .max(200, { message: "L'adresse doit contenir au maximum 200 caractères" }),
+    postcode: z
+        .number({ message: "Le code postal ne peut pas être vide" })
+        .gte(5, { message: "Le code postal doit contenir au moins 5 chiffres" })
+        .lte(99999, {
+            message: "Le code postal doit contenir au maximum 5 chiffres"
+        }),
+    city: z
+        .string({ message: "La ville ne peut pas être vide" })
+        .min(2, { message: "La ville doit contenir au moins 2 caractères" })
+        .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
+    updateAt: z.string().datetime({ message: "Le format de updateAt n'est pas valide" })
+})
+
+export const CreateAddressSchema = z.object({
+    name: z
+        .string({ message: "Le nom ne peut pas être vide" })
+        .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom doit contenir au maximum 100 caractères" }),
+    nameAddress: z
+        .string({ message: "Le nom de l'adresse ne peut pas être vide" })
+        .min(2, { message: "Le nom de l'adresse doit contenir au moins 2 caractères" })
+        .max(100, { message: "Le nom de l'adresse doit contenir au maximum 100 caractères" }),
+    address: z
+        .string({ message: "L'adresse ne peut pas être vide" })
+        .min(5, { message: "L'adresse doit contenir au moins 5 caractères" })
+        .max(200, { message: "L'adresse doit contenir au maximum 200 caractères" }),
+    postcode: z
+        .number({ message: "Le code postal ne peut pas être vide" })
+        .gte(5, { message: "Le code postal doit contenir au moins 5 chiffres" })
+        .lte(99999, {
+            message: "Le code postal doit contenir au maximum 5 chiffres"
+        }),
+    city: z
+        .string({ message: "La ville ne peut pas être vide" })
+        .min(2, { message: "La ville doit contenir au moins 2 caractères" })
+        .max(100, { message: "La ville doit contenir au maximum 100 caractères" }),
+    updatedAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    createdAt: z.string().datetime({ message: "Le format de la date n'est pas valide" }),
+    userId: z.string({ message: "Le format userId n'est pas correct" })
+})
+
 export const ChangePersonnalInfosShema = z.object({
     name: z
-        .string()
+        .string({ message: "Le nom ne peut pas être vide" })
         .min(1, { message: 'Le nom ne doit pas être vide' })
         .trim(),
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
 
 })
+
 export const ResetPasswordFormShema = z.object({
     password: z
         .string()
@@ -20,8 +77,6 @@ export const ResetPasswordFormShema = z.object({
         .trim(),
     passwordConfirmation: z.string().trim(),
 })
-
-
 
 export const ResendFormShema = z.object({
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }).trim(),
@@ -78,6 +133,18 @@ export type User = {
     email: string
 }
 
+export type AddressType = {
+    id: string,
+    name: string,
+    nameAddress: string,
+    address: string,
+    postcode: number
+    city: string,
+    userId: string,
+    createdAt: Date,
+    updatedAt: Date
+}
+
 export type Plant = {
     id: string
     title: string
@@ -93,6 +160,9 @@ export type FormErrors = {
     passwordConfirmation?: string[];
     general?: string[];
     reset?: string;
+    address?: string[];
+    city?: string[];
+    postcode?: string[];
 };
 
 export type PlantsAction =
@@ -107,5 +177,27 @@ export interface PlantInBasket extends Plant {
     basketQuantity: number,
     unitPrice: number,
 }
+
+
+export type AddressFormState = {
+    success: boolean;
+    message?: string;
+    errors: {
+        name?: string[];
+        nameAddress?: string[];
+        address?: string[];
+        postcode?: string[];
+        city?: string[];
+        general?: string
+    };
+    fields?: {
+        id?: string
+        nameAddress?: string;
+        name?: string;
+        address?: string;
+        postcode?: string;
+        city?: string;
+    };
+};
 
 
