@@ -29,8 +29,6 @@ export const UpdateAddressSchema = z.object({
 })
 
 export const CreateAddressSchema = z.object({
-    id: z
-        .string({ message: "Le format de l'id n'est pas correct" }),
     name: z
         .string({ message: "Le nom ne peut pas être vide" })
         .min(2, { message: "Le nom doit contenir au moins 2 caractères" })
@@ -193,6 +191,7 @@ export type AddressFormState = {
         general?: string
     };
     fields?: {
+        id?: string
         nameAddress?: string;
         name?: string;
         address?: string;

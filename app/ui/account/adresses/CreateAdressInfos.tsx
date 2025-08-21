@@ -14,26 +14,25 @@ export default function CreateAddressInfos({ setIsCreateAddress, userId, setIsCh
     const [state, formAction] = useActionState<AddressFormState, FormData>(
         createAddress, { success: false, errors: {} }
     )
-    const idAddress = uuidv4()
-
+    
     useEffect(() => {
         console.log(state.message)
         console.log(state.success)
-        console.log(state.errors)
+        console.log(state.errors)        
 
-        if (state.success) {
+        if (state.success && state.fields) {
             setIsChangeAdresses(prev => ({
                 ...prev,
-                [idAddress]: false,
+                [String(state.fields?.id)]: false,
             }))            
             setIsCreateAddress(false)
+            console.log(state.fields);
         }
     }, [state])
 
     return (
         <form className="flex flex-col gap-3" action={formAction}>
             <input type="hidden" name="userId" value={userId} />
-            <input type="hidden" name="id" value={idAddress} />
             <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
                 <h3 className={`${cabinBold.className}`}>Ajouter une adresse </h3>
                 <div className="flex md:justify-end gap-3 items-center">

@@ -24,7 +24,7 @@ export default function AddressesInfos({ a, toogleAddresses, setIsChangeAdresses
         <ContainerInfos>
             <div key={a.id} className="flex flex-col gap-3">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
-                    <h3 className={`${cabinBold.className}`}>Modifier l'adresse {a.nameAddress}</h3>
+                    <h3 className={`${cabinBold.className}`}>{a.nameAddress}</h3>
                     <div className="flex md:justify-end gap-3 items-center">
                         <button type="button"
                             className="hover:text-slate-700 text-sm"

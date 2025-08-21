@@ -2,7 +2,6 @@
 import { connectionPool as cp } from "app/db"
 import { AddressFormState, CreateAddressSchema, UpdateAddressSchema } from "../lib/definitions";
 import { revalidatePath } from "next/cache";
-import { randomUUID } from "crypto";
 
 export async function fetchAdress(userId: string) {
     try {
@@ -32,21 +31,17 @@ export async function fetchAdress(userId: string) {
 
 export async function createAddress(state: AddressFormState, formData: FormData): Promise<AddressFormState> {
     console.log(formData)
-
-    const id = formData.get("id")
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")
     const address = formData.get("address")
     const postcode = parseInt(formData.get("postcode") as string, 10) || null
     const city = formData.get("city")
     const userId = formData.get("userId")
-
     const date = (new Date().toISOString())
     const createdAt = date
     const updatedAt = date
 
     const validateData = CreateAddressSchema.safeParse({
-        id,
         name,
         nameAddress,
         address,
@@ -67,9 +62,8 @@ export async function createAddress(state: AddressFormState, formData: FormData)
     }
 
     try {
-        await cp.query(`
+        const result = await cp.query(`
                 INSERT INTO "address" (
-                    "id" , 
                     "name",
                     "nameAddress", 
                     "address", 
@@ -77,11 +71,13 @@ export async function createAddress(state: AddressFormState, formData: FormData)
                     "postcode", 
                     "userId", 
                     "createdAt", 
-                    "updatedAt") VALUES (
-                            $1, $2, $3, $4, $5, $6, $7, $8, $9
-                        )
+                    "updatedAt"
+                ) 
+                VALUES (
+                    $1, $2, $3, $4, $5, $6, $7, $8
+                )
+                RETURNING id
             `, [
-            validateData.data.id,
             validateData.data.name,
             validateData.data.nameAddress,
             validateData.data.address,
@@ -92,12 +88,17 @@ export async function createAddress(state: AddressFormState, formData: FormData)
             validateData.data.updatedAt,
         ])
 
+        const id = result.rows[0].id
+
         revalidatePath('/infos')
 
         return {
             success: true,
             errors: {},
-            message: "Adresse créée avec succès"
+            message: "Adresse créée avec succès",
+            fields: {
+                id
+            }
         }
 
     } catch (error) {
