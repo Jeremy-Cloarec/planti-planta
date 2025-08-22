@@ -70,7 +70,7 @@ export function SignInForm() {
             await signIn.email({
                 email: validatedData.data.email,
                 password: validatedData.data.password,
-                callbackURL: "/compte",
+                callbackURL: "/infos",
                 fetchOptions: {
                     onResponse: () => {
                         setLoading(false);
@@ -84,7 +84,7 @@ export function SignInForm() {
                         setFormErrors({general: [msg]});
                     },
                     onSuccess: async () => {
-                        router.push("/compte");
+                        router.push("/infos");
                     },
                 }
             })

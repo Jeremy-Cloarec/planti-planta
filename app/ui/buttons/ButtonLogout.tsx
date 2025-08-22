@@ -1,7 +1,6 @@
 "use client"
-import Button from "./Button"
-import {authClient} from "@/app/lib/auth-client";
-import {useRouter} from "next/navigation";
+import { authClient } from "@/app/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function ButtonLogout() {
     const router = useRouter();
@@ -17,8 +16,11 @@ export default function ButtonLogout() {
     };
 
     return (
-        <Button onClick={handleSignOut} className="bg-white text-sm hover:bg-slate-200 ring-1 ring-slate-200">
+        <button
+            onClick={handleSignOut}
+            className={`px-1 py-1 w-full transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark rounded-sm`}
+        >
             Se déconnecter
-        </Button>
+        </button>
     )
 }
