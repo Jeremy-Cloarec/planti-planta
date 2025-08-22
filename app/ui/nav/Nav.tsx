@@ -44,22 +44,22 @@ export default function Nav() {
                                     </div>
                                     {open &&
                                         (<div
-                                            className="flex-col absolute bg-transparent text-sm left-1/2 -translate-x-1/2 top-10 pt-6"
+                                            className="flex-col absolute bg-transparent left-1/2 -translate-x-1/2 top-10 pt-6"
                                             onMouseEnter={() => setOpen(true)}
                                             onMouseLeave={() => setOpen(false)}
                                         >
-                                            <div className="bg-white ring-1 ring-slate-100 shadow p-1 w-32 flex flex-col items-center justify-center gap-1 rounded-md">
+                                            <div className="bg-white ring-1 ring-slate-100 shadow p-1 w-34 flex flex-col items-center justify-center gap-1 rounded-md">
                                                 <Link
                                                     key={"Infos"}
                                                     href={"/infos"}
-                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
+                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm py-2 px-1"
                                                 >
                                                     Mes infos
                                                 </Link>
                                                 <Link
                                                     key={"Commandes"}
                                                     href={"/commandes"}
-                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
+                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm py-2 px-1"
                                                 >
                                                     Mes commandes
                                                 </Link>

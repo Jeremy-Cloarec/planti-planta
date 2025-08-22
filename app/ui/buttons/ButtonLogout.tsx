@@ -18,7 +18,7 @@ export default function ButtonLogout() {
     return (
         <button
             onClick={handleSignOut}
-            className={`px-1 py-1 w-full transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark rounded-sm`}
+            className={`px-1 py-2 w-full transition delay-75 duration-300 ease-in-out bg-green hover:bg-green-hover text-dark rounded-sm`}
         >
             Se déconnecter
         </button>
