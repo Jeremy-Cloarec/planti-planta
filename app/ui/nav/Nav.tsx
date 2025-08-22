@@ -29,29 +29,47 @@ export default function Nav() {
                 <LogoLink />
                 <ul className="flex gap-4">
                     <li className="relative group cursor-pointer">
-                        <div className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname==="/commandes" ? "text-violet" : "text-dark"}`}>
-                            <UserIcon className="size-8" />
-                            <span className="text-xs text-center">{userName}</span>
-                        </div>
-                        <div className="flex-col absolute bg-transparent text-sm left-1/2 -translate-x-1/2 top-10 hidden group-hover:flex hover:flex pt-6">
-                            <div className="bg-white p-1 w-32 flex flex-col items-center justify-center gap-1 rounded-md">
-                                <Link
-                                    key={"Infos"}
-                                    href={"/infos"}
-                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
-                                >
-                                    Mes infos
-                                </Link>
-                                <Link
-                                    key={"Commandes"}
-                                    href={"/commandes"}
-                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
-                                >
-                                    Mes commandes
-                                </Link>
-                                <ButtonLogout />
-                            </div>
-                        </div>
+                        {
+                            session?.user.name ?
+                                (
+                                    <>
+                                        <div className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}>
+                                            <UserIcon className="size-8" />
+                                            <span className="text-xs text-center">{userName}</span>
+                                        </div>
+                                        <div className="flex-col absolute bg-transparent text-sm left-1/2 -translate-x-1/2 top-10 hidden group-hover:flex hover:flex pt-6">
+                                            <div className="bg-white ring-1 ring-slate-100 shadow p-1 w-32 flex flex-col items-center justify-center gap-1 rounded-md">
+                                                <Link
+                                                    key={"Infos"}
+                                                    href={"/infos"}
+                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
+                                                >
+                                                    Mes infos
+                                                </Link>
+                                                <Link
+                                                    key={"Commandes"}
+                                                    href={"/commandes"}
+                                                    className="w-full text-center hover:bg-slate-100 transition duration-300 rounded-sm"
+                                                >
+                                                    Mes commandes
+                                                </Link>
+                                                <ButtonLogout />
+                                            </div>
+                                        </div>
+                                    </>
+                                )
+                                :
+                                (
+                                    <Link
+                                        key={"Sign-in"}
+                                        href={"/sign-in"}
+                                        className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}
+                                    >
+                                        <UserIcon className="size-8" />
+                                        <span className="text-xs text-center">{userName}</span>
+                                    </Link>
+                                )
+                        }
                     </li>
                     <li className="relative">
                         {plantsBasket.length > 0 && notif}
