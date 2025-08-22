@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation"
 import { usePlantsBasket } from "@/app/context/PlantsBasketContext";
 import { authClient } from "@/app/lib/auth-client";
 import ButtonLogout from "../buttons/ButtonLogout"
+import { useState } from "react"
 
 export default function Nav() {
     const pathname = usePathname()
     const { data: session } = authClient.useSession()
     const userName = session?.user?.name ? session.user.name : "Connexion"
-
+    const [open, setOpen] = useState(false);
     const plantsBasket = usePlantsBasket()
     const numberOfPlants = plantsBasket.map(plant => plant.basketQuantity).reduce((acc, current) => acc + current, 0)
 
@@ -30,14 +31,23 @@ export default function Nav() {
                 <ul className="flex gap-4">
                     <li className="relative group cursor-pointer">
                         {
-                            session?.user.name ?
-                                (
-                                    <>
-                                        <div className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}>
-                                            <UserIcon className="size-8" />
-                                            <span className="text-xs text-center">{userName}</span>
-                                        </div>
-                                        <div className="flex-col absolute bg-transparent text-sm left-1/2 -translate-x-1/2 top-10 hidden group-hover:flex hover:flex pt-6">
+                            session?.user.name ? (
+                                <>
+                                    <div
+                                        className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}
+                                        onClick={() => setOpen(!open)}
+                                        onMouseEnter={() => setOpen(true)}
+                                        onMouseLeave={() => setOpen(false)}
+                                    >
+                                        <UserIcon className="size-8" />
+                                        <span className="text-xs text-center">{userName}</span>
+                                    </div>
+                                    {open &&
+                                        (<div
+                                            className="flex-col absolute bg-transparent text-sm left-1/2 -translate-x-1/2 top-10 pt-6"
+                                            onMouseEnter={() => setOpen(true)}
+                                            onMouseLeave={() => setOpen(false)}
+                                        >
                                             <div className="bg-white ring-1 ring-slate-100 shadow p-1 w-32 flex flex-col items-center justify-center gap-1 rounded-md">
                                                 <Link
                                                     key={"Infos"}
@@ -55,9 +65,8 @@ export default function Nav() {
                                                 </Link>
                                                 <ButtonLogout />
                                             </div>
-                                        </div>
-                                    </>
-                                )
+                                        </div>)}
+                                </>)
                                 :
                                 (
                                     <Link
