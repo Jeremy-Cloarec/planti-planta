@@ -57,10 +57,10 @@ async function betterAuthMigration() {
 }
 
 async function seedAddress() {
-    await cp.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`)
+    await cp.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`)
     await cp.query(`
         CREATE TABLE IF NOT EXISTS "address" (
-                "id" UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+                "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
                 "nameAddress" text not null,
                 "name" text not null,
                 "address" text not null,
@@ -74,11 +74,11 @@ async function seedAddress() {
 }
 
 async function seedPlants() {
-    await cp.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
+    await cp.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
     await cp.query(`
         CREATE TABLE IF NOT EXISTS plants
         (
-            id       UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+            id       UUID DEFAULT gen_random_uuid() PRIMARY KEY,
             title    TEXT    NOT NULL,
             price    NUMERIC NOT NULL,
             quantity NUMERIC NOT NULL,
