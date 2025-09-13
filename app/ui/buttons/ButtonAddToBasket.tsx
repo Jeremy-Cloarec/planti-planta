@@ -1,27 +1,27 @@
 "use client"
 import Button from "./Button"
-import {usePopup} from "@/app/context/PopupContext";
-import {usePlantsBasketDispatch} from "@/app/context/PlantsBasketContext";
-import {Plant} from "@/app/lib/definitions";
+import { usePopup } from "@/app/context/PopupContext";
+import { usePlantsBasketDispatch } from "@/app/context/PlantsBasketContext";
+import { Plant } from "@/app/lib/definitions";
 
 interface ButtonProps {
     text: string
     plant: Plant
 }
 
-export default function ButtonAddToBasket({text, plant}: ButtonProps) {
+export default function ButtonAddToBasket({ text, plant }: ButtonProps) {
     const popup = usePopup()
     const dispatch = usePlantsBasketDispatch()
 
     const handleAddToBasket = () => {
         if (dispatch) {
-            dispatch({type: "add", plant})
+            dispatch({ type: "add", plant })
         }
 
         popup({
             success: true,
             message: `${plant.title} ajoutée au panier !`,
-            classStyle: "bg-violet-light"
+            classStyle: "bg-special-green-light"
         })
     }
 
@@ -30,11 +30,11 @@ export default function ButtonAddToBasket({text, plant}: ButtonProps) {
     const buttonContent = (isPending: boolean, text: string) => {
         if (isPending) return <div className="flex justify-center">
             <svg className="size-5 animate-spin"
-                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 22 22" fill="none">
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 22 22" fill="none">
                 <path
                     d="M11 1V5.167M11 16.833V21M21 11H16.834M5.167 11H1M18.209 3.792L15.292 6.709M6.708 15.292L3.791 18.208M18.209 18.208L15.292 15.292M6.708 6.709L3.791 3.792"
                     stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round"
-                    strokeLinejoin="round"/>
+                    strokeLinejoin="round" />
             </svg>
         </div>
         return text

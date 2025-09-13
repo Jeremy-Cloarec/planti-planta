@@ -18,7 +18,7 @@ export default function Nav() {
 
     const notif = (
         <div
-            className="absolute -right-2 -top-1 bg-violet-light text-sm text-dark h-5 w-5 text-center rounded-full z-20">
+            className="absolute -right-2 -top-1 bg-special-green-light text-sm text-dark h-5 w-5 text-center rounded-full z-20">
             {numberOfPlants}
         </div>
     )
@@ -34,7 +34,7 @@ export default function Nav() {
                             session?.user.name ? (
                                 <>
                                     <div
-                                        className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}
+                                        className={`group-hover:text-special-green hover:text-special-green transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-special-green" : "text-dark"}`}
                                         onClick={() => setOpen(!open)}
                                         onMouseEnter={() => setOpen(true)}
                                         onMouseLeave={() => setOpen(false)}
@@ -72,7 +72,7 @@ export default function Nav() {
                                     <Link
                                         key={"Sign-in"}
                                         href={"/sign-in"}
-                                        className={`group-hover:text-violet hover:text-violet transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-violet" : "text-dark"}`}
+                                        className={`group-hover:text-special-green hover:text-special-green transition duration-300 flex flex-col items-center ${pathname === "/sign-in" || pathname === "/infos" || pathname === "/commandes" ? "text-special-green" : "text-dark"}`}
                                     >
                                         <UserIcon className="size-8" />
                                         <span className="text-xs text-center">{userName}</span>
@@ -85,7 +85,7 @@ export default function Nav() {
                         <Link
                             key={"Panier"}
                             href="/panier"
-                            className={`z-10 flex flex-col items-center hover:text-violet transition duration-300 relative ${pathname === "/panier" ? "text-violet" : "text-dark"}`}>
+                            className={`z-10 flex flex-col items-center hover:text-special-green transition duration-300 relative ${pathname === "/panier" ? "text-special-green" : "text-dark"}`}>
                             <ShoppingCartIcon
                                 className="size-8" />
                             <span className="text-xs">Panier</span>

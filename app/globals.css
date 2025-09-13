@@ -12,8 +12,8 @@
   --color-red: var(--red);
   --color-red-opacity: var(--red-opacity);
   --color-white: var(--white);
-  --color-violet: var(--violet);
-  --color-violet-light: var(--violet-light);
+  --color-special-green: var(--special-green);
+  --color-special-green-light: var(--special-green-light);
 }
 
 @layer base {
@@ -39,8 +39,8 @@
   --red: #FF5252;
   --red-opacity: #ff5252d6;
   --white: #ffffff;
-  --violet: #375428;
-  --violet-light: #8cdb63;
+  --special-green: #117526;
+  --special-green-light: #8cdb63;
 }
 
 body {

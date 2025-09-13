@@ -1,9 +1,9 @@
 "use client"
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
-import {Plant} from "../lib/definitions"
-import {cabinBold, cabinCondensed, cormorant} from "./fonts"
-import {formatedUrl} from "../utils/utils"
+import { Plant } from "../lib/definitions"
+import { cabinBold, cabinCondensed, cormorant } from "./fonts"
+import { formatedUrl } from "../utils/utils"
 
 interface CardPlantProps {
     plant: Plant
@@ -11,9 +11,9 @@ interface CardPlantProps {
 }
 
 export default function CardPlant({
-                                      plant,
-                                      findIndex
-                                  }: CardPlantProps) {
+    plant,
+    findIndex
+}: CardPlantProps) {
     const alt: string = `Photographie du desin ${plant.title}`
     const url = `/plants/${formatedUrl(plant.title)}.png`
 
@@ -36,7 +36,7 @@ export default function CardPlant({
                 </button>
             </div>
             <h2 className={`${cormorant.className} text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl`}>{plant.title}</h2>
-            <p className={`text-3xl ${cabinBold.className} text-violet`}>{plant.price}€</p>
+            <p className={`text-3xl ${cabinBold.className} text-special-green`}>{plant.price}€</p>
             <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
             <ButtonAddToBasket
                 text="Ajouter au panier"
