@@ -5,7 +5,7 @@ import { AddressFormState } from "@/app/lib/definitions"
 import { cabinBold } from "../../fonts"
 
 type CreateAddressInfosProps = {
-    setIsCreateAddress: (isCreate: boolean) => void
+    setIsCreateAddress: (value: boolean | ((prevState: boolean) => boolean)) => void
     setIsChangeAdresses: React.Dispatch<React.SetStateAction<{ [key: string]: boolean }>>,
     userId: string
 }
@@ -15,10 +15,6 @@ export default function CreateAddressInfos({ setIsCreateAddress, userId, setIsCh
     )
     
     useEffect(() => {
-        console.log(state.message)
-        console.log(state.success)
-        console.log(state.errors)        
-
         if (state.success && state.fields) {
             setIsChangeAdresses(prev => ({
                 ...prev,

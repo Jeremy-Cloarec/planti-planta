@@ -5,8 +5,7 @@ import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 import { AddressType, User } from "@/app/lib/definitions";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
 import { Suspense, useState } from "react";
-import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
-import { toogleChangeInfos } from "@/app/utils/utils";
+import UpdatePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
 import Addresses from "./adresses/Addresses";
 import { authClient } from "@/app/lib/auth-client";
@@ -41,7 +40,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                         />
                     ) :
                     (
-                        <ChangePersonalInfos
+                        <UpdatePersonalInfos
                             user={user}
                             isChangePersonnalInfos={isChangePersonnalInfos}
                             setIsChangePersonnalInfos={setIsChangePersonnalInfos}
@@ -59,7 +58,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
             <ContainerInfos>
                 <HeadingSection
                     text={"Information de paiement"}
-                    onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
+                    onClick={() => setIsChangePayment(false)}
                     textButton="Modifier"
                 />
                 <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
@@ -67,7 +66,7 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
             <ContainerInfos>
                 <HeadingSection
                     text={"Changer le mot de passe"}
-                    onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
+                    onClick={() => setIsChangeMDP(false)}
                     textButton="Modifier"
                 />
             </ContainerInfos>

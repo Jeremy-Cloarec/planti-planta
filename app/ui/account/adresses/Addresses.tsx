@@ -24,10 +24,6 @@ export default function Addresses({ addressPromise, userId }: AddressesProps) {
         })
     }
 
-    useEffect(() => {
-        console.log(isChangeAdresses);
-    }, [isChangeAdresses, addresses])
-
     if (isCreateAddress) {
         return (
             <CreateAddressInfos
