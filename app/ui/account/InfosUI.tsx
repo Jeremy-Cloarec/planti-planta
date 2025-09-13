@@ -1,21 +1,21 @@
 "use client"
 
 import { cabinBold } from "@/app/ui/fonts";
-import ButtonDeleteUser from "@/app/ui/buttons/ButtonDeleteUser";
 import { AddressType, User } from "@/app/lib/definitions";
 import ContainerInfos from "@/app/ui/account/ContainerInfos";
 import { Suspense, useState } from "react";
-import ChangePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
-import { toogleChangeInfos } from "@/app/utils/utils";
+import UpdatePersonalInfos from "@/app/ui/account/personal-infos/UpdatePersonalInfos";
 import PersonalInfos from "./personal-infos/PersonnalInfos";
 import Addresses from "./adresses/Addresses";
 import { authClient } from "@/app/lib/auth-client";
 import HeadingSection from "./HeadingSection";
+import ModalToDeleteUser from "./ModalToDeleteUser";
 
 export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
-    const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
-    const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false)
+
+    {/**   const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
+    const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false) */}
 
     const { data: session } = authClient.useSession()
 
@@ -36,14 +36,12 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                     (
                         <PersonalInfos
                             user={user}
-                            isChangePersonnalInfos={isChangePersonnalInfos}
                             setIsChangePersonnalInfos={setIsChangePersonnalInfos}
                         />
                     ) :
                     (
-                        <ChangePersonalInfos
+                        <UpdatePersonalInfos
                             user={user}
-                            isChangePersonnalInfos={isChangePersonnalInfos}
                             setIsChangePersonnalInfos={setIsChangePersonnalInfos}
                         />
                     )}
@@ -59,7 +57,6 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
             <ContainerInfos>
                 <HeadingSection
                     text={"Information de paiement"}
-                    onClick={() => toogleChangeInfos(isChangePayment, setIsChangePayment)}
                     textButton="Modifier"
                 />
                 <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
@@ -67,16 +64,21 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
             <ContainerInfos>
                 <HeadingSection
                     text={"Changer le mot de passe"}
-                    onClick={() => toogleChangeInfos(isChangeMDP, setIsChangeMDP)}
                     textButton="Modifier"
                 />
             </ContainerInfos>
             <ContainerInfos>
                 <div className="flex items-center justify-between">
                     <h2 className={`${cabinBold.className}`}>Supprimer le compte</h2>
-                    <ButtonDeleteUser />
+                    <button
+                        className="px-4 py-2 bg-white text-red-800 ring-1 ring-red-800 hover:bg-red-800 hover:text-white transition duration-300 text-sm"
+                        popoverTarget="modalToDeleteUser"
+                    >
+                        Supprimer 
+                    </button>
                 </div>
             </ContainerInfos>
+            <ModalToDeleteUser/>
         </section>
     )
 }

@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { ChangePersonnalInfosShema, FormErrors, User } from "@/app/lib/definitions"
-import HeadingSection from "../HeadingSection";
-import { toogleChangeInfos } from "@/app/utils/utils";
 import { authClient } from "@/app/lib/auth-client";
+import { cabinBold } from "../../fonts";
+import ButtonChangeInfo from "../../buttons/ButtonChangeInfo";
 
-type ChangePersonalInfosProps = {
+type UpdatePersonalInfosProps = {
     user: User,
-    isChangePersonnalInfos: boolean,
     setIsChangePersonnalInfos: (value: boolean | ((prevState: boolean) => boolean)) => void
 }
 
-export default function ChangePersonalInfos({ user, isChangePersonnalInfos, setIsChangePersonnalInfos }: ChangePersonalInfosProps) {
+export default function UpdatePersonalInfos({ user, setIsChangePersonnalInfos }: UpdatePersonalInfosProps) {
     const [name, setName] = useState<string>(user.name);
     const [email, setEmail] = useState<string>(user.email);
     const [formErrors, setFormErrors] = useState<FormErrors>({})
@@ -41,15 +40,22 @@ export default function ChangePersonalInfos({ user, isChangePersonnalInfos, setI
             user.email = validateData.data.email
         }
 
-        toogleChangeInfos(isChangePersonnalInfos, setIsChangePersonnalInfos)
+        setIsChangePersonnalInfos(false)
     };
 
     return (
         <>
-            <HeadingSection text={"Informations personnelles"}
-                onClick={handleChangeinfos}
-                textButton={"Enregistrer"}
-            />
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between flex-wrap gap-3">
+                <h3 className={`${cabinBold.className}`}>Informations Personnelles</h3>
+                <div className="flex md:justify-end gap-3 items-center">
+                    <button type="button" className="hover:text-slate-700 text-sm" onClick={() => setIsChangePersonnalInfos(false)}>Annuler</button>
+                    <ButtonChangeInfo 
+                        textButton="Enregistrer" 
+                        onClick={handleChangeinfos}
+                        style="w-fit" 
+                        />
+                </div>
+            </div> 
             <form className="flex flex-col gap-3">
                 <label className="text-sm">
                     Votre nom

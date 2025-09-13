@@ -1,19 +1,17 @@
 import { User } from "@/app/lib/definitions";
 import HeadingSection from "../HeadingSection";
-import { toogleChangeInfos } from "@/app/utils/utils";
 import { cabinBold } from "../../fonts";
 
 type PersonalInfosProps = {
     user: User,
-    isChangePersonnalInfos: boolean,
     setIsChangePersonnalInfos: (value: boolean | ((prevState: boolean) => boolean)) => void
 }
 
-export default function PersonalInfos({ user, isChangePersonnalInfos, setIsChangePersonnalInfos }: PersonalInfosProps) {
+export default function PersonalInfos({ user, setIsChangePersonnalInfos }: PersonalInfosProps) {
     return (
         <>
             <HeadingSection text="Informations personnelles"
-                onClick={() => toogleChangeInfos(isChangePersonnalInfos, setIsChangePersonnalInfos)}
+                onClick={() => setIsChangePersonnalInfos(true)}
                 textButton="Modifier"
             />
             <div>

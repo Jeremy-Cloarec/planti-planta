@@ -3,7 +3,7 @@ import ButtonChangeInfo from "@/app/ui/buttons/ButtonChangeInfo"
 
 type HeadingSectionProps = {
     text: string
-    onClick: () => void
+    onClick?: () => void
     textButton: string
     as?: keyof JSX.IntrinsicElements
     style?: string

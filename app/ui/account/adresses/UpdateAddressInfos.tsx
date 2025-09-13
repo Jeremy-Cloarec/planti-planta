@@ -30,11 +30,9 @@ export default function UpdateAddressInfos(
     }, [cancel]);
 
     useEffect(() => {
-        console.log(state.message);
-        console.log(state.success);
-        console.log(state.errors);
         if (state.success) toogleAddresses(a.id, false)
     }, [state, a.id, toogleAddresses])
+
     return (
         <ContainerInfos>
             <form className="flex flex-col gap-3" action={formAction}>
