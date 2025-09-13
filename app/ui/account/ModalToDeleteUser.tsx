@@ -3,7 +3,7 @@ import styles from "./modal-delete.module.css"
 
 export default function ModalToDeleteUser () {
     return (
-        <div popover="auto" id="modalToDeleteUser" className={styles.popoverOpen}>
+        <div popover="auto" id="modalToDeleteUser" className={styles.modal}>
             <div className="bg-white p-3 m-3 flex flex-col gap-5 rounded-xs">
                 <p>Etes vous sur de vouloir supprimer votre compte ?</p>
                 <div className="flex gap-3 justify-between">
