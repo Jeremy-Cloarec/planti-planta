@@ -10,7 +10,8 @@ export const {
     signIn,
     signOut,
     signUp,
-    useSession
+    useSession,
+    deleteUser
 } = authClient;
 
 export const googleSignIn = () =>  authClient.signIn.social({

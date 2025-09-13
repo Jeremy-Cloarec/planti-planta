@@ -49,8 +49,8 @@ export function SignUpForm() {
         try {
             await signUp.email({
                 email: validatedData.data.email,
-                name: validatedData.data.name,                password: validatedData.data.password,
-
+                name: validatedData.data.name,               
+                password: validatedData.data.password,
                 callbackURL: "/infos",
                 fetchOptions: {
                     onResponse: () => {

@@ -1,5 +1,5 @@
 import { AddressType } from "@/app/lib/definitions"
-import { Fragment, use, useEffect, useState } from "react"
+import { Fragment, use, useState } from "react"
 import { cabinBold } from "../../fonts"
 import HeadingSection from "../HeadingSection"
 import AddressesInfos from "./GetAddressInfos"

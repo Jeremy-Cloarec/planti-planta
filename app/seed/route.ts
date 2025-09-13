@@ -66,7 +66,7 @@ async function seedAddress() {
                 "address" text not null,
                 "postcode" int not null,
                 "city" text not null,
-                "userId" text not null references "user" ("id"), 
+                "userId" text not null references "user" ("id") ON DELETE CASCADE, 
                 "createdAt" timestamp not null, 
                 "updatedAt" timestamp not null
             )

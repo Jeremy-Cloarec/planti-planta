@@ -6,11 +6,10 @@ import ButtonChangeInfo from "../../buttons/ButtonChangeInfo";
 
 type UpdatePersonalInfosProps = {
     user: User,
-    isChangePersonnalInfos: boolean,
     setIsChangePersonnalInfos: (value: boolean | ((prevState: boolean) => boolean)) => void
 }
 
-export default function UpdatePersonalInfos({ user, isChangePersonnalInfos, setIsChangePersonnalInfos }: UpdatePersonalInfosProps) {
+export default function UpdatePersonalInfos({ user, setIsChangePersonnalInfos }: UpdatePersonalInfosProps) {
     const [name, setName] = useState<string>(user.name);
     const [email, setEmail] = useState<string>(user.email);
     const [formErrors, setFormErrors] = useState<FormErrors>({})

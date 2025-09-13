@@ -65,7 +65,7 @@ export function ResetPasswordForm() {
                 newPassword: validatedData.data.password,
                 token,
             });
-            router.push("/compte");
+            router.push("/infos");
         } catch (e: unknown) {
             setFormErrors({general: ["Une erreur inconnue est survenue.", String(e)]});
         }
