@@ -12,7 +12,7 @@ export default function Home() {
         <>
             <Nav />
             <Heading title="Dancing Plants" />
-            <main className="flex-1 p-3 md:p-4 w-full">
+            <main className="flex-1 p-3 md:p-4 w-full relative">
                 <Suspense fallback={<LoadingPlants />}>
                     <ListCardsPlants promisePlants={promisePlants} />
                 </Suspense>

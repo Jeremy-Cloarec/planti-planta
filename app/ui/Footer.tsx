@@ -19,7 +19,7 @@ Footer() {
     const dateYear = new Date()
 
     return (
-        <footer className="w-full mt-10 px-3 py-8 bg-green flex flex-col items-center gap-4 snap-center snap-always">
+        <footer className="w-full mt-10 px-3 py-8 bg-green flex flex-col items-center gap-4">
             <div className="flex flex-col gap-2 items-center md:flex-row md:justify-between md:w-full">
                 <div className="flex items-center gap-2">
                     <Link href={"./"}>

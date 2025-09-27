@@ -1,8 +1,8 @@
 "use client"
 import { use, useState } from "react"
-import CardPlant from "./CardPlant"
+import CardPlant from "./card-plant/CardPlant"
 import { Plant } from "../lib/definitions"
-import PlantPopover from "./PlantPopover"
+import MiniaturesCards from "./card-plant/MiniaturesCards"
 
 export default function ListCardsPlants({ promisePlants }: { promisePlants: Promise<Plant[]> }) {
     const [index, setIndex] = useState<number>(0)
@@ -11,26 +11,20 @@ export default function ListCardsPlants({ promisePlants }: { promisePlants: Prom
         const nameIndex: number = plants.indexOf(plant)
         setIndex(nameIndex)
     }
+    
+    console.log(index);
+    
 
     return (
         <>
-            <div className="flex flex-col gap-4 items-center">
-                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-1 md:grid-cols-1 w-full">
-                    {plants.map((plant: Plant) => (
-                        <li className="h-dvh border-2 snap-center snap-always" key={plant.id}>
-                            <CardPlant
-                                plant={plant}
-                                findIndex={findIndex}
-                            />
-                        </li>
-                    ))}
-                </ul>
+            <div className="flex flex-col gap-6 items-start relative
+            min-[370px]:flex-row w-full">
+                <CardPlant
+                    plants={plants}
+                    findIndex={findIndex}
+                />
+                <MiniaturesCards plants={plants} />
             </div>
-            <PlantPopover
-                index={index}
-                setIndex={setIndex}
-                plants={plants}
-            />
         </>
     )
 }

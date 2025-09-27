@@ -22,7 +22,7 @@ export const PopupProvider = ({children}: {children: React.ReactNode}) => {
 
     return (
         <PopupContext.Provider value={addPopup}>
-            <ul className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-fit ">
+            <ul className="fixed bottom-10 w-fit left-3 md:left-4">
                 {responses.map((r, i) => (
                     <div key={i} className={`p-2 shadow w-fit text-center rounded-lg mb-1 ${r.classStyle}`}>{r.message}</div>
                 ))}
