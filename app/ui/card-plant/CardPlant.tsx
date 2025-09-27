@@ -26,7 +26,7 @@ export default function CardPlant({
                         sm:order-2 sm:h-full">
                             <button
                                 onClick={() => findIndex(plant)}
-                                className="flex h-full max-h-full w-full md:w-5/6"
+                                className="flex h-full max-h-full w-3/4 md:w-5/6"
                             >
                                 <Image
                                     src={`/plants/${formatedUrl(plant.title)}.png`}
