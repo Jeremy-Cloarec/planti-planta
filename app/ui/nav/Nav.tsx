@@ -26,7 +26,7 @@ export default function Nav() {
     return (
         <nav className='w-full fixed top-0 z-30'>
             <div
-                className="flex items-center justify-between bg-white border-b border-slate-200 px-3 h-16 md:px-4  relative">
+                className="flex items-center justify-between bg-transparent px-3 h-16 md:px-4  relative ">
                 <LogoLink />
                 <ul className="flex gap-4">
                     <li className="relative group cursor-pointer">

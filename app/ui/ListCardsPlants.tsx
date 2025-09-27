@@ -15,9 +15,9 @@ export default function ListCardsPlants({ promisePlants }: { promisePlants: Prom
     return (
         <>
             <div className="flex flex-col gap-4 items-center">
-                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-1 md:grid-cols-1 w-full">
                     {plants.map((plant: Plant) => (
-                        <li key={plant.id}>
+                        <li className="h-dvh border-2 snap-center snap-always" key={plant.id}>
                             <CardPlant
                                 plant={plant}
                                 findIndex={findIndex}

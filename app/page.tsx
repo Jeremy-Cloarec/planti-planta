@@ -11,14 +11,12 @@ export default function Home() {
     return (
         <>
             <Nav />
-            <div className="flex flex-col flex-1 w-full">
-                <Heading title="Dancing Plants" />
-                <main className="flex-1 p-3 md:p-4 w-full max-w-(--breakpoint-lg) m-auto">
-                    <Suspense fallback={<LoadingPlants />}>
-                        <ListCardsPlants promisePlants={promisePlants} />
-                    </Suspense>
-                </main>
-            </div>
+            <Heading title="Dancing Plants" />
+            <main className="flex-1 p-3 md:p-4 w-full">
+                <Suspense fallback={<LoadingPlants />}>
+                    <ListCardsPlants promisePlants={promisePlants} />
+                </Suspense>
+            </main>
             <Footer />
         </>
     )

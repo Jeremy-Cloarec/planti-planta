@@ -18,30 +18,32 @@ export default function CardPlant({
     const url = `/plants/${formatedUrl(plant.title)}.png`
 
     return (
-        <div className=" bg-white flex flex-col gap-4 justify-between">
-            <div className="relative bg-white flex items-center">
+        <div className="bg-white flex gap-4 border-2 h-full">
+            <div className="bg-white flex items-center border-2 w-full justify-center">
                 <button
                     popoverTarget="popover_plant"
                     popoverTargetAction="show"
-                    className="w-full"
                     onClick={() => findIndex(plant)}
+                    className="flex h-full max-h-full"
                 >
                     <Image
                         src={url}
                         alt={alt}
                         width={212}
                         height={209}
-                        className="w-full"
+                        className="h-full object-contain w-full"
                     />
                 </button>
             </div>
-            <h2 className={`${cormorant.className} text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl`}>{plant.title}</h2>
-            <p className={`text-3xl ${cabinBold.className} text-special-green`}>{plant.price}€</p>
-            <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
-            <ButtonAddToBasket
-                text="Ajouter au panier"
-                plant={plant}
-            />
+            <div>
+                <h2 className={`${cormorant.className} text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl`}>{plant.title}</h2>
+                <p className={`text-3xl ${cabinBold.className} text-special-green`}>{plant.price}€</p>
+                <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
+                <ButtonAddToBasket
+                    text="Ajouter au panier"
+                    plant={plant}
+                />
+            </div>
         </div>
     )
 }

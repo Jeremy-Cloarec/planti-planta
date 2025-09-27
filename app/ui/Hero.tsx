@@ -3,7 +3,7 @@ import { cabinRegular, cormorant } from "./fonts"
 
 export default function Heading({ title }: { title: string }) {
   return (
-    <header className="relative bg-linear-to-t from-[#B5E888] to-[#F6FFEE] h-dvh grid grid-cols-2 gap-1 overflow-hidden">
+    <header className="relative bg-linear-to-t from-[#B5E888] to-[#F6FFEE] h-dvh grid grid-cols-2 gap-1 overflow-hidden snap-center snap-always w-full">
       {/* 1 */}
       <Image
         src='/leaf.svg'
