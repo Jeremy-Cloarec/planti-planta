@@ -18,7 +18,7 @@ export default function ListCardsPlants({ promisePlants }: { promisePlants: Prom
     return (
         <>
             <div className="flex flex-col gap-6 items-start relative
-            min-[370px]:flex-row w-full">
+            sm:flex-row w-full">
                 <CardPlant
                     plants={plants}
                     findIndex={findIndex}

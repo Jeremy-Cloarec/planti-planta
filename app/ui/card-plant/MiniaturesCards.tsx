@@ -5,8 +5,8 @@ import Link from "next/link";
 
 export default function MiniaturesCards({ plants }: { plants: Plant[] }) {
     return (
-        <div className=" sticky bottom-3 flex justify-center w-full min-[370px]:w-auto min-[370px]:top-0 min-[370px]:h-dvh">
-            <ul className="flex min-[370px]:flex-col gap-2 justify-center">
+        <div className=" sticky bottom-3 flex justify-center w-full sm:w-auto sm:top-0 sm:h-dvh">
+            <ul className="flex sm:flex-col gap-2 justify-center">
                 {plants.map((plant: Plant) => (
                     <li key={plant.id} >
                         <Link href={"/"}>
