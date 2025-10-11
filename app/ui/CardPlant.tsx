@@ -18,7 +18,7 @@ export default function CardPlant({
     const url = `/plants/${formatedUrl(plant.title)}.png`
 
     return (
-        <div className=" bg-white flex flex-col gap-4 justify-between">
+        <div className="flex flex-col gap-4">
             <div className="relative bg-white flex items-center">
                 <button
                     popoverTarget="popover_plant"
@@ -35,13 +35,14 @@ export default function CardPlant({
                     />
                 </button>
             </div>
-            <h2 className={`${cormorant.className} text-ellipsis overflow-hidden text-2xl md:text-3xl lg:text-4xl`}>{plant.title}</h2>
-            <p className={`text-3xl ${cabinBold.className} text-special-green`}>{plant.price}€</p>
-            <p className={`${cabinCondensed.className} text-sm md:text-base`}>{plant.legend}</p>
-            <ButtonAddToBasket
-                text="Ajouter au panier"
-                plant={plant}
-            />
+            <div className="flex flex-col items-start px-3 gap-3">
+                <h2 className={`${cabinBold.className}`}>{plant.title}</h2>
+                <ButtonAddToBasket
+                    text="+ Ajouter"
+                    plant={plant}
+                />
+            </div>
+
         </div>
     )
 }

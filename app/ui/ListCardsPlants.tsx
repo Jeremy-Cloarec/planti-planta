@@ -14,8 +14,8 @@ export default function ListCardsPlants({ promisePlants }: { promisePlants: Prom
 
     return (
         <>
-            <div className="flex flex-col gap-4 items-center">
-                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 w-full">
+            <div className="flex flex-col items-center">
+                <ul className="grid grid-cols-2 sm:grid-cols-3 gap-y-5 w-full">
                     {plants.map((plant: Plant) => (
                         <li key={plant.id}>
                             <CardPlant

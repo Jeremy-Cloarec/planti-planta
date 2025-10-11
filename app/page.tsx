@@ -13,7 +13,7 @@ export default function Home() {
             <Nav />
             <div className="flex flex-col flex-1 w-full">
                 <Heading title="Dancing Plants" />
-                <main className="flex-1 p-3 md:p-4 w-full max-w-(--breakpoint-lg) m-auto">
+                <main className="flex-1 w-full mt-5">
                     <Suspense fallback={<LoadingPlants />}>
                         <ListCardsPlants promisePlants={promisePlants} />
                     </Suspense>
