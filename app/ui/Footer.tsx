@@ -18,11 +18,11 @@ export default function Footer() {
     const dateYear = new Date()
 
     return (
-        <footer className="w-full mt-10 px-3 py-8 bg-green flex flex-col items-center gap-4">
+        <footer className="w-full mt-10 px-3 py-8 bg-slate-200 flex flex-col items-center gap-4">
             <div className="flex flex-col gap-2 items-center md:flex-row md:justify-between md:w-full">
                 <div className="flex items-center gap-2">
                     <Link href={"./"}>
-                        <Image src={"./logo_dark.svg"} width={24} height={20} alt="Logo du site" />
+                        <Image src={"./logo.svg"} width={24} height={20} alt="Logo du site" />
                     </Link>
                     <h2>Dancing Plants</h2>
                 </div>
