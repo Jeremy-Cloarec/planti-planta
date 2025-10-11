@@ -1,5 +1,4 @@
 "use client"
-import Button from "./Button"
 import { usePopup } from "@/app/context/PopupContext";
 import { usePlantsBasketDispatch } from "@/app/context/PlantsBasketContext";
 import { Plant } from "@/app/lib/definitions";

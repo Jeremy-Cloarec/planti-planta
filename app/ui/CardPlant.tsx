@@ -2,7 +2,7 @@
 import ButtonAddToBasket from "./buttons/ButtonAddToBasket"
 import Image from "next/image"
 import { Plant } from "../lib/definitions"
-import { cabinBold, cabinCondensed, cormorant } from "./fonts"
+import { cabinBold} from "./fonts"
 import { formatedUrl } from "../utils/utils"
 
 interface CardPlantProps {
