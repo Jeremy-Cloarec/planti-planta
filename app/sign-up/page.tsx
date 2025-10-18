@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { SignUpForm } from "../ui/SignUpForm"
+import { SignUpForm } from "../ui/forms/SignUpForm"
 import { cabinBold } from "../ui/fonts"
 import NavForms from "../ui/nav/NavForms"
 

@@ -1,4 +1,4 @@
-import {Plant} from "@/app/lib/definitions";
+import { Plant } from "@/app/lib/definitions";
 
 export const formatedUrl = (title: string) => title.toLowerCase().split(" ").join("_")
 

@@ -118,7 +118,7 @@ export function SignUpForm() {
                     {formErrors.email && <p className="text-red text-sm">{formErrors.email[0]}</p>}
                 </div>
 
-                {/* Champ Mot de passe */}
+                {/* password */}
                 <div className="mt-4">
                     <label className="mb-3 mt-5 block text-sm" htmlFor="password">Mot de passe</label>
                     <div className="relative">
@@ -144,7 +144,7 @@ export function SignUpForm() {
                     }
                 </div>
 
-                {/* Champ Confirmation mot de passe */}
+                {/* pasword confirmation */}
                 <div className="mt-4">
                     <label className="mb-3 mt-5 block text-sm" htmlFor="passwordConfirmation">Confirmer le mot de passe</label>
                     <div className="relative">
@@ -166,7 +166,7 @@ export function SignUpForm() {
                     {formErrors.passwordConfirmation && <p className="text-red text-sm">{formErrors.passwordConfirmation[0]}</p>}
                 </div>
 
-                {/* Erreur générale */}
+                {/* general errors */}
                 {formErrors.general && <p className="text-red text-sm mt-4">{formErrors.general[0]}</p>}
             </div>
 
