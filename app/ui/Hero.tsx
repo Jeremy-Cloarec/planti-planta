@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { cabinRegular, cormorant } from "./fonts"
+import Link from "next/link"
 
 export default function Heading({ title }: { title: string }) {
   return (
@@ -73,9 +74,7 @@ export default function Heading({ title }: { title: string }) {
         height={50}
         alt="Dessin d'une feuille en svg"
         className="rotate-180 w-full scale-y-[-1] object-cover scale-125 translate-x-8 translate-y-5
-
         sm:scale-y-[-1] sm:scale-90 sm:translate-x-24 sm:justify-self-end 
-
         md:scale-y-[-1] md:scale-100 md:w-96  md:translate-x-28 md:translate-y-[100px]
         "
       />
@@ -86,7 +85,9 @@ export default function Heading({ title }: { title: string }) {
           Découvrez nos dessins de plantes dansantes
         </p>
       </div>
-      <Image src={"/arrowBottom.svg"} width={28} height={28} alt="Icone fleche vers le bas" className="z-10 absolute bottom-4 left-1/2 -translate-x-1/2" />
+      <Link href="#list-cards-section">
+        <Image src={"/arrowBottom.svg"} width={28} height={28} alt="Icone fleche vers le bas" className="z-10 absolute bottom-4 left-1/2 -translate-x-1/2" />
+      </Link>
     </header>
   )
 }
