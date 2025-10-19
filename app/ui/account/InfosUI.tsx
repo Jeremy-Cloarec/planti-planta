@@ -26,6 +26,8 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
         return null
     }
 
+    const isGoogleUser = session.user.image?.includes("lh3.googleusercontent.com")
+
     const user: User = {
         id: session?.user.id,
         name: session?.user.name,
@@ -64,12 +66,13 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 />
                 <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
-            <ContainerInfos>
-                <div className="flex items-center justify-between">
-                    <h2 className={`${cabinBold.className}`}>Modifier le mot de passe</h2>
-                    <ButtonChangeInfo textButton="Changer le mot de passe" onClick={() => router.push("/update-password")} />
-                </div>
-            </ContainerInfos>
+            {!isGoogleUser &&
+                <ContainerInfos>
+                    <div className="flex items-center justify-between">
+                        <h2 className={`${cabinBold.className}`}>Modifier le mot de passe</h2>
+                        <ButtonChangeInfo textButton="Changer le mot de passe" onClick={() => router.push("/update-password")} />
+                    </div>
+                </ContainerInfos>}
             <ContainerInfos>
                 <div className="flex items-center justify-between">
                     <h2 className={`${cabinBold.className}`}>Supprimer le compte</h2>
