@@ -10,9 +10,12 @@ import Addresses from "./adresses/Addresses";
 import { authClient } from "@/app/lib/auth-client";
 import HeadingSection from "./HeadingSection";
 import ModalToDeleteUser from "./ModalToDeleteUser";
+import ButtonChangeInfo from "../buttons/ButtonChangeInfo";
+import { useRouter } from "next/navigation";
 
 export default function InfosUI({ addressPromise }: { addressPromise: Promise<AddressType[]> }) {
     const [isChangePersonnalInfos, setIsChangePersonnalInfos] = useState<boolean>(false)
+    const router = useRouter()
 
     {/**   const [isChangePayment, setIsChangePayment] = useState<boolean>(false)
     const [isChangeMDP, setIsChangeMDP] = useState<boolean>(false) */}
@@ -22,6 +25,8 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
     if (!session) {
         return null
     }
+
+    const isGoogleUser = session.user.image?.includes("lh3.googleusercontent.com")
 
     const user: User = {
         id: session?.user.id,
@@ -61,12 +66,13 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                 />
                 <p>Vous n&apos; avez pas ajouté de moyen de paiement</p>
             </ContainerInfos>
-            <ContainerInfos>
-                <HeadingSection
-                    text={"Changer le mot de passe"}
-                    textButton="Modifier"
-                />
-            </ContainerInfos>
+            {!isGoogleUser &&
+                <ContainerInfos>
+                    <div className="flex items-center justify-between">
+                        <h2 className={`${cabinBold.className}`}>Modifier le mot de passe</h2>
+                        <ButtonChangeInfo textButton="Changer le mot de passe" onClick={() => router.push("/update-password")} />
+                    </div>
+                </ContainerInfos>}
             <ContainerInfos>
                 <div className="flex items-center justify-between">
                     <h2 className={`${cabinBold.className}`}>Supprimer le compte</h2>
@@ -74,11 +80,11 @@ export default function InfosUI({ addressPromise }: { addressPromise: Promise<Ad
                         className="px-4 py-2 bg-white text-red-800 ring-1 ring-red-800 hover:bg-red-800 hover:text-white transition duration-300 text-sm"
                         popoverTarget="modalToDeleteUser"
                     >
-                        Supprimer 
+                        Supprimer
                     </button>
                 </div>
             </ContainerInfos>
-            <ModalToDeleteUser/>
+            <ModalToDeleteUser />
         </section>
     )
 }

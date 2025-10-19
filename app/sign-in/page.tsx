@@ -1,4 +1,4 @@
-import { SignInForm } from "@/app/ui/SignInForm"
+import { SignInForm } from "@/app/ui/forms/SignInForm"
 import NavForms from "../ui/nav/NavForms"
 import Link from "next/link"
 import { cabinBold } from "../ui/fonts"

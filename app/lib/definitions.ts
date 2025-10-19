@@ -95,7 +95,7 @@ export const SignupFormShema = z.object({
     email: z.string({ message: "Entrez un email svp" }).email({ message: "Entrez un email valide svp" }),
     password: z
         .string({ message: "être présent" })
-        .min(6, { message: 'avoir au moins 6 caractère de long' })
+        .min(6, { message: 'avoir au moins 6 caractères de long' })
         .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
         .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
         .regex(/[^a-zA-Z0-9]/, {
@@ -104,7 +104,36 @@ export const SignupFormShema = z.object({
         .trim(),
     passwordConfirmation: z
         .string({ message: "être présent" })
-        .min(6, { message: 'avoir au moins 6 caractère de long' })
+        .min(6, { message: 'avoir au moins 6 caractères de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'contenir au moins un caractère spécial',
+        })
+        .trim(),
+})
+export const UpdatePasswordFormShema = z.object({
+    password: z
+        .string({ message: "être présent" })
+        .min(6, { message: 'avoir au moins 6 caractères de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'contenir au moins un caractère spécial',
+        })
+        .trim(),
+    newPassword: z
+        .string({ message: "être présent" })
+        .min(6, { message: 'avoir au moins 6 caractères de long' })
+        .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
+        .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
+        .regex(/[^a-zA-Z0-9]/, {
+            message: 'contenir au moins un caractère spécial',
+        })
+        .trim(),
+    newPasswordConfirmation: z
+        .string({ message: "être présent" })
+        .min(6, { message: 'avoir au moins 6 caractères de long' })
         .regex(/[a-zA-Z]/, { message: 'contenir au moins une lettre' })
         .regex(/[0-9]/, { message: 'contenir au moins un nombre' })
         .regex(/[^a-zA-Z0-9]/, {
@@ -165,7 +194,9 @@ export type FormErrors = {
     name?: string[];
     email?: string[];
     password?: string[];
+    newPassword?: string[];
     passwordConfirmation?: string[];
+    newPasswordConfirmation?: string[];
     general?: string[];
     reset?: string;
     address?: string[];
