@@ -27,7 +27,7 @@ export default function UpdateAddressInfos(
         if (cancel) {
             toogleAddresses(a.id, false);
         }
-    }, [cancel]);
+    }, [cancel, a.id, toogleAddresses]);
 
     useEffect(() => {
         if (state.success) toogleAddresses(a.id, false)

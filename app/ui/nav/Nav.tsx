@@ -29,7 +29,7 @@ export default function Nav() {
                 className="flex items-center justify-between bg-white/80 border-b border-slate-200 px-3 h-16 relative
                 md:bg-transparent md:border-0">
                 <LogoLink />
-                <ul className="flex gap-4 md:bg-white md:px-5 py-2 md:rounded-full md:mt-5 md:ring-1 md:ring-slate-200  md:shadow-2xl">
+                <ul className="flex gap-4 md:bg-white md:px-5 py-2 md:rounded-full md:mt-5 md:ring-1 md:ring-slate-200  md:shadow-lg">
                     <li className="relative group cursor-pointer">
                         {
                             session?.user.name ? (
