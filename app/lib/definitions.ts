@@ -190,6 +190,11 @@ export type Plant = {
     legend: string
 }
 
+export interface PlantInBasket extends Plant {
+    basketQuantity: number,
+    unitPrice: number,
+}
+
 export type FormErrors = {
     name?: string[];
     email?: string[];
@@ -211,12 +216,6 @@ export type PlantsAction =
     | { type: 'decrement', id: string }
     | { type: 'updateQuantity'; id: string; quantity: number }
     | { type: 'clear' };
-
-export interface PlantInBasket extends Plant {
-    basketQuantity: number,
-    unitPrice: number,
-}
-
 
 export type AddressFormState = {
     success: boolean;

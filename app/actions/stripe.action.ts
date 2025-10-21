@@ -1,9 +1,9 @@
 "use server"
 import { headers } from "next/headers"
 import { auth, stripeClient } from "../lib/auth"
-import { Plant } from "../lib/definitions"
+import { PlantInBasket } from "../lib/definitions"
 
-export async function stripePayment(items: Plant[]) {
+export async function stripePayment(items: PlantInBasket[]) {
     const session = await auth.api.getSession({
         headers: await headers()
     })
@@ -13,19 +13,17 @@ export async function stripePayment(items: Plant[]) {
         throw new Error("Echec du paiement. L'utilisateur n'est pas identifié")
     }
 
-    const lineItems = items.map((item: Plant) => ({
+    const lineItems = items.map((item: PlantInBasket) => ({
+        
         price_data: {
             currency: "eur",
             product_data: {
                 name: item.title
             },
-            unit_amount: item.price
+            unit_amount: item.unitPrice * 100
         },
-        quantity: item.quantity
-    }))
-
-    console.log("lineItems: ", lineItems);
-    
+        quantity: item.basketQuantity
+    }))    
 
     const sessionStripe = await stripeClient.checkout.sessions.create({
         payment_method_types: ["card"],
