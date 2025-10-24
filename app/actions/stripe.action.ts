@@ -14,13 +14,12 @@ export async function stripePayment(items: PlantInBasket[]) {
     }
 
     const lineItems = items.map((item: PlantInBasket) => ({
-        
         price_data: {
             currency: "eur",
             product_data: {
                 name: item.title
             },
-            unit_amount: item.unitPrice * 100
+            unit_amount: Math.round(item.unitPrice * 100)
         },
         quantity: item.basketQuantity
     }))    
@@ -30,7 +29,7 @@ export async function stripePayment(items: PlantInBasket[]) {
         mode: "payment",
         customer_email: user.email,
         line_items: lineItems,
-        success_url: "http://localhost:3000",
+        success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: "http://localhost:3000"
     })
 
