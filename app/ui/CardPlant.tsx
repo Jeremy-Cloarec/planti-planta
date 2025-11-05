@@ -29,7 +29,7 @@ export default function CardPlant({
                     <Image
                         src={url}
                         alt={alt}
-                        width={212}
+                        width={2000}
                         height={209}
                         className="w-full"
                     />

@@ -138,12 +138,20 @@ async function seedPlants() {
         )
     `);
 
-    return await Promise.all(
+    const { rows } = await cp.query(`SELECT COUNT(*) AS count FROM plants`);
+    const count = parseInt(rows[0].count, 10);
+
+    if (count > 0) {
+        return;
+    }
+
+    await Promise.all(
         plants.map((plant) =>
-            cp.query(`
-                        INSERT INTO plants (title, price, quantity, legend)
-                        VALUES ($1, $2, $3, $4)`,
-                [plant.title, plant.price, plant.quantity, plant.legend])
+            cp.query(
+                `INSERT INTO plants (title, price, quantity, legend)
+                VALUES ($1, $2, $3, $4)`,
+                [plant.title, plant.price, plant.quantity, plant.legend]
+            )
         )
     );
 }

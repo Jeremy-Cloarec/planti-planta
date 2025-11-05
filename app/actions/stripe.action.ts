@@ -7,6 +7,7 @@ export async function stripePayment(items: PlantInBasket[]) {
     const session = await auth.api.getSession({
         headers: await headers()
     })
+
     const user = session?.user
 
     if (!user) {
@@ -22,16 +23,9 @@ export async function stripePayment(items: PlantInBasket[]) {
             unit_amount: Math.round(item.unitPrice * 100)
         },
         quantity: item.basketQuantity
-    }))    
+    }))
 
-    const sessionStripe = await stripeClient.checkout.sessions.create({
-        payment_method_types: ["card"],
-        mode: "payment",
-        customer_email: user.email,
-        line_items: lineItems,
-        success_url: `http://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: "http://localhost:3000"
-    })
+   
 
-    return sessionStripe.url
+    return {clientSecret : sessionStripe.client_secret}
 }
