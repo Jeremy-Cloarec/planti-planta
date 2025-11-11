@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
             line_items: plantsPayment,
             mode: "payment",
             ui_mode: "custom",
-            return_url: `${process.env.PUBLIC_URL}/return-paiment?session_id={CHECKOUT_SESSION_ID}`
+            return_url: `${process.env.PUBLIC_URL}/return?session_id={CHECKOUT_SESSION_ID}`
         })
 
         console.log("session stripe", session);

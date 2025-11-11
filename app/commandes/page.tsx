@@ -1,6 +1,6 @@
 import Nav from "../ui/nav/Nav";
 import Footer from "../ui/Footer";
-import { auth, stripeClient } from "@/app/lib/auth";
+import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cormorant } from "@/app/ui/fonts";
@@ -12,14 +12,7 @@ export default async function Commandes() {
 
     if (!session) {
         redirect("/sign-in")
-    }
-
-    const sessions = await stripeClient.checkout.sessions.list({
-        limit: 3,
-    });
-
-    console.log(sessions.data.map(s => s.invoice_creation));
-    
+    }    
 
     return (
         <>

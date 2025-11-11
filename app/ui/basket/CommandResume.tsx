@@ -1,8 +1,9 @@
 "use client"
 import {cabinBold} from "@/app/ui/fonts";
 import ButtonOrder from "@/app/ui/buttons/ButtonOrder";
+import { PlantInBasket } from "@/app/lib/definitions";
 
-export default function CommandResume({totalPrice}: { totalPrice: number }) {
+export default function CommandResume({totalPrice, sendOrder}: { totalPrice: number, sendOrder : (plantsInBasket: PlantInBasket[]) => Promise<void>  }) {
     return (
         <div className="relative bg-slate-100 px-3 pt-3 pb-16 flex flex-col gap-3
                         md:flex-2 md:sticky md:top-[74px] md:p-3 md:mt-4">
@@ -27,7 +28,7 @@ export default function CommandResume({totalPrice}: { totalPrice: number }) {
             <div className="p-3 fixed bottom-0 left-0 w-full bg-white shadow-[0_2px_12px_rgba(0,0,0,0.1)]
                             md:relative md:p-0 md:shadow-none
                             ">
-                <ButtonOrder/>
+                <ButtonOrder sendOrder={sendOrder}/>
             </div>
         </div>
     )
