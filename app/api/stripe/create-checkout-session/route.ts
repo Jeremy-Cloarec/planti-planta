@@ -1,16 +1,6 @@
 import { PlantInBasket } from "@/app/lib/definitions";
+import stripe from "@/app/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
-
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY
-
-if (!stripeSecretKey) {
-    throw new Error("Missing STRIPE_SECRET_KEY environment variable")
-}
-
-const stripe = new Stripe(stripeSecretKey, {
-    apiVersion: "2025-03-31.basil",
-});
 
 export async function POST(req: NextRequest) {
     const data: PlantInBasket[] = await req.json()
@@ -34,7 +24,8 @@ export async function POST(req: NextRequest) {
             line_items: plantsPayment,
             mode: "payment",
             ui_mode: "custom",
-            return_url: `${process.env.PUBLIC_URL}/return?session_id={CHECKOUT_SESSION_ID}`
+            payment_method_types: ["card"],
+            return_url: `${process.env.PUBLIC_URL}/complete?session_id={CHECKOUT_SESSION_ID}`
         })
 
         console.log("session stripe", session);
