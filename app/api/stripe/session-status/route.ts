@@ -12,10 +12,19 @@ export async function GET(req: NextRequest) {
         expand: ["payment_intent"],
     });
 
+    const list = await stripe.paymentIntents.list()
+    console.log(list);
+    list
+    
+    
+    const pi = session.payment_intent;
+    const payment_intent_id = typeof pi === "string" ? pi : pi?.id;
+    const payment_intent_status = typeof pi === "string" ? undefined : pi?.status;
+
     return NextResponse.json({
         status: session.status,
         payment_status: session.payment_status,
-        payment_intent_id: session.payment_intent?.id,
-        payment_intent_status: session.payment_intent?.status
-    })
+        payment_intent_id,
+        payment_intent_status
+    });
 }
