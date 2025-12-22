@@ -19,14 +19,12 @@ export default function Basket() {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(plantsInBasket)
-        }).then((response) => response.json())
+        }).then((response) => response.json());
 
-        console.log("status: ", createSession.status);
-
-        {/**   if(createSession.status !== "open") {
+        if (createSession.status !== "open") {
             throw new Error("Un problème est survenu dans la création de la session.");
         };
-        */}
+
         router.push('/paiement');
     }
 

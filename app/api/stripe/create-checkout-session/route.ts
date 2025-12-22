@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
 
         cookieStore.set('secretClientStripe', session.client_secret)
         
-        return NextResponse.json({ statut: session.status });
+        return NextResponse.json({ status: session.status });
 
     } catch (error) {
         console.log(error);
