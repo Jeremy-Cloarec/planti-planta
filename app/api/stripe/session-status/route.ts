@@ -13,10 +13,8 @@ export async function GET(req: NextRequest) {
     });
 
     const list = await stripe.paymentIntents.list()
-    console.log(list);
-    list
-    
-    
+    console.log("list session statut: " + list);
+        
     const pi = session.payment_intent;
     const payment_intent_id = typeof pi === "string" ? pi : pi?.id;
     const payment_intent_status = typeof pi === "string" ? undefined : pi?.status;

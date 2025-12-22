@@ -1,28 +1,21 @@
-"use client"
-import { useSearchParams } from "next/navigation"
-import {loadStripe} from '@stripe/stripe-js';
-import {
-    CheckoutProvider
-} from '@stripe/react-stripe-js/checkout';
-import CheckoutForm from "../ui/stripe/CheckoutForm";
+"use server"
+import { cookies } from "next/headers";
+import Payment from "../ui/payment/Payment";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? "");
 
-export default function Payment() {
-    const searchParams = useSearchParams()
-    const promise = searchParams?.get('secretClient') ?? ''
+export default async function PaymentPage() {
+    const cookieStore = await cookies();
+    const clientSecretCookie = cookieStore.get("secretClientStripe");
+
+    if (!clientSecretCookie) return <p>Un problème est survenu dans la création de la session de paiement.</p>;
+
+    const clientSecret = clientSecretCookie.value;
+    console.log("client secret", clientSecret);
 
     return (
         <>
             <h1>Paiement</h1>
-            <CheckoutProvider
-                stripe={stripePromise}
-                options={{
-                    clientSecret: promise,
-                }}
-            >
-                <CheckoutForm />
-            </CheckoutProvider>
+            <Payment clientSecret={clientSecret} />
         </>
     )
 }

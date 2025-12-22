@@ -10,21 +10,24 @@ import { PlantInBasket } from "../lib/definitions";
 import { useRouter } from "next/navigation";
 
 export default function Basket() {
-    const plantsInBasket = usePlantsBasket()
-    const totalPrice = calculateTotalPrice(plantsInBasket)
-    const router = useRouter()
+    const plantsInBasket = usePlantsBasket();
+    const totalPrice = calculateTotalPrice(plantsInBasket);
+    const router = useRouter();
 
     async function sendOrder(plantsInBasket: PlantInBasket[]) {
-        const secretClient = await fetch(`/api/stripe/create-checkout-session`, {
+        const createSession = await fetch(`/api/stripe/create-checkout-session`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(plantsInBasket)
         }).then((response) => response.json())
-            .then((json) => json.checkoutSessionClientSecret);
 
-        console.log(secretClient);
+        console.log("status: ", createSession.status);
 
-        if(secretClient) router.push(`/paiement?secretClient=${secretClient}`)
+        {/**   if(createSession.status !== "open") {
+            throw new Error("Un problème est survenu dans la création de la session.");
+        };
+        */}
+        router.push('/paiement');
     }
 
     return (
