@@ -11,20 +11,16 @@ export default function ButtonOrder({ sendOrder }: {
     const { data: session } = authClient.useSession()
     const plantsInBasket = usePlantsBasket()
 
-    const text = session?.user?.name ? "Passer la commande" : "Se connecter"
-
-    const buttonOrder = session?.user?.name ?
-        <Button className="w-full" onClick={() => sendOrder(plantsInBasket)}>
-            {text}
-        </Button>
-        :
-        <Link href={"/sign-in"}>
-            <Button className="w-full">
-                {text}
-            </Button>
-        </Link>
-
     return (
-        buttonOrder
+        <div className="flex items-center justify-center gap-4 bg-slate-100">
+            <Button className="w-full" onClick={() => sendOrder(plantsInBasket)}>
+                Passer la commande
+            </Button>
+            {!session?.user?.name &&
+                <Link href={"/sign-in"} className="w-full">
+                    <Button className="w-full bg-white hover:">Se connecter</Button>
+                </Link>
+            }
+        </div>
     )
 } 

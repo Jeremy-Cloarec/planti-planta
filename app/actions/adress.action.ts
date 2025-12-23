@@ -30,7 +30,6 @@ export async function fetchAdress(userId: string) {
 }
 
 export async function createAddress(state: AddressFormState, formData: FormData): Promise<AddressFormState> {
-    console.log(formData)
     const name = formData.get("name")
     const nameAddress = formData.get("nameAddress")
     const address = formData.get("address")

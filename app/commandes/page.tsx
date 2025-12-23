@@ -11,8 +11,8 @@ export default async function Commandes() {
     });
 
     if (!session) {
-        redirect("/sign-in")
-    }    
+        redirect("/sign-in");
+    };
 
     return (
         <>
