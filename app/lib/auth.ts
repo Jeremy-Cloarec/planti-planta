@@ -71,7 +71,7 @@ export const auth = betterAuth({
                         console.log(`User ${user.email} deleted. Keep payments info`);
                     }
                 } catch (e) {
-                    console.error("Failed to check customerStipeId")
+                    console.error("Failed to check customerStipeId", e);
                 }
             }
         },
