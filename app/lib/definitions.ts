@@ -246,3 +246,6 @@ export type EmailInputStripe = {
     setError: (error: string | null) => void
 }
 
+export type EmailInputProps = EmailInputStripe & {
+    user: User|null;
+};

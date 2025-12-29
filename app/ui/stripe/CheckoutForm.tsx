@@ -6,16 +6,18 @@ import {
     StripeCheckoutValue
 } from '@stripe/react-stripe-js/checkout';
 import { authClient } from "@/app/lib/auth-client";
-import { EmailInputStripe } from "@/app/lib/definitions";
+import { EmailInputProps, User } from "@/app/lib/definitions";
 
-const validateEmail = async (email: string, checkout: StripeCheckoutValue) => {
+const validateEmail = async (email: string, checkout: StripeCheckoutValue, user: User | null) => {
+    if (user) return {isValid: true, message: null};
+
     const updateResult = await checkout.updateEmail(email);
     const isValid = updateResult.type !== "error";
 
     return { isValid, message: !isValid ? updateResult.error.message : null };
 }
 
-const EmailInput = ({ email, setEmail, error, setError }: EmailInputStripe) => {
+const EmailInput = ({ email, setEmail, error, setError, user }: EmailInputProps) => {
     const checkoutState = useCheckout();
 
     if (checkoutState.type === 'loading') {
@@ -35,7 +37,7 @@ const EmailInput = ({ email, setEmail, error, setError }: EmailInputStripe) => {
             return;
         }
 
-        const { isValid, message } = await validateEmail(email, checkout);
+        const { isValid, message } = await validateEmail(email, checkout, user);
         if (!isValid) {
             setError(message);
         }
@@ -46,6 +48,24 @@ const EmailInput = ({ email, setEmail, error, setError }: EmailInputStripe) => {
         setEmail(e.target.value);
     };
 
+    if (user) {
+        return (
+            <>
+                <label>
+                    Email
+                    <input
+                        id="email"
+                        type="text"
+                        value={user.email}
+                        readOnly
+                        onBlur={handleBlur}
+                        className={error ? "error" : ""}
+                    />
+                </label>
+                {error && <div id="email-errors">{error}</div>}
+            </>
+        )
+    }
 
     return (
         <>
@@ -71,6 +91,21 @@ const CheckoutForm = () => {
     const [message, setMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const fetchSession = async () => {
+            const { data: session } = await authClient.getSession()
+            setUser(session?.user || null);
+        };
+        fetchSession();
+    }, [])
+
+    useEffect(() => {
+        console.log(user);
+
+    }, [user])
+
     const checkoutState = useCheckout();
 
     if (checkoutState.type === 'error') {
@@ -89,7 +124,7 @@ const CheckoutForm = () => {
         const { checkout } = checkoutState;
         setIsLoading(true);
 
-        const { isValid, message } = await validateEmail(email, checkout);
+        const { isValid, message } = await validateEmail(email, checkout, user);
 
         if (!isValid) {
             setEmailError(message);
@@ -119,6 +154,7 @@ const CheckoutForm = () => {
                 setEmail={setEmail}
                 error={emailError}
                 setError={setEmailError}
+                user={user}
             />
             <h4>Billing Address</h4>
             <BillingAddressElement />
