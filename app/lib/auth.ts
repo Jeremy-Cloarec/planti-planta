@@ -58,7 +58,18 @@ export const auth = betterAuth({
                         customer: customerStripeId,
                     })
 
-                    console.log(sessions);
+                    if (sessions.data.length === 0) {
+                        const deleted = await stripe.customers.del(customerStripeId);
+                        console.log("User deleted: ", deleted)
+                    } else {
+                        await stripe.customers.update(customerStripeId, {
+                            name: "Deleted user",
+                            email: "deleteduser@example.com",
+                            metadata: { deletedAt: new Date().toISOString() }
+                        });
+
+                        console.log(`User ${user.email} deleted. Keep payments info`);
+                    }
                 } catch (e) {
                     console.error("Failed to check customerStipeId")
                 }
