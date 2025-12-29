@@ -161,6 +161,7 @@ export type Session = {
         image: string | null | undefined
         createdAt: Date
         updatedAt: Date
+        stripeCustomerId: string
     }
 } | null
 

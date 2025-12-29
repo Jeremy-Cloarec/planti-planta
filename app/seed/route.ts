@@ -11,7 +11,8 @@ async function betterAuthMigration() {
                 "emailVerified" boolean not null, 
                 "image" text, 
                 "createdAt" timestamp not null, 
-                "updatedAt" timestamp not null
+                "updatedAt" timestamp not null,
+                "stripeCustomerId" text
             )
         `)
     await cp.query(`

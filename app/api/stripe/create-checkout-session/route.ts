@@ -1,10 +1,16 @@
+import { auth } from "@/app/lib/auth";
 import { PlantInBasket } from "@/app/lib/definitions";
 import stripe from "@/app/lib/stripe";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const dataPlants: PlantInBasket[] = await req.json();
+    const user = (await auth.api.getSession({
+        headers: await headers()
+    }))?.user;
+
+    const stripeCustomerId = user?.stripeCustomerId ? user.stripeCustomerId : undefined;
 
     //create checkout session
     const plantsPayment = dataPlants.map(plant => ({
@@ -24,6 +30,8 @@ export async function POST(req: NextRequest) {
             mode: "payment",
             ui_mode: "custom",
             payment_method_types: ["card"],
+            customer: stripeCustomerId,
+            customer_email: user?.email,
             return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/complete?session_id={CHECKOUT_SESSION_ID}`
         })
 
