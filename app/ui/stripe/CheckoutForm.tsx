@@ -1,19 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     PaymentElement,
     BillingAddressElement,
-    useCheckout
+    useCheckout,
+    StripeCheckoutValue
 } from '@stripe/react-stripe-js/checkout';
+import { authClient } from "@/app/lib/auth-client";
+import { EmailInputStripe } from "@/app/lib/definitions";
 
-const validateEmail = async (email, checkout) => {
+const validateEmail = async (email: string, checkout: StripeCheckoutValue) => {
     const updateResult = await checkout.updateEmail(email);
     const isValid = updateResult.type !== "error";
 
     return { isValid, message: !isValid ? updateResult.error.message : null };
 }
 
-const EmailInput = ({ email, setEmail, error, setError }) => {
+const EmailInput = ({ email, setEmail, error, setError }: EmailInputStripe) => {
     const checkoutState = useCheckout();
+
     if (checkoutState.type === 'loading') {
         return (
             <div>Loading...</div>
@@ -23,6 +27,7 @@ const EmailInput = ({ email, setEmail, error, setError }) => {
             <div>Error: {checkoutState.error.message}</div>
         );
     }
+
     const { checkout } = checkoutState;
 
     const handleBlur = async () => {
@@ -36,10 +41,11 @@ const EmailInput = ({ email, setEmail, error, setError }) => {
         }
     };
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setError(null);
         setEmail(e.target.value);
     };
+
 
     return (
         <>
@@ -60,25 +66,31 @@ const EmailInput = ({ email, setEmail, error, setError }) => {
 };
 
 const CheckoutForm = () => {
-    const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState(null);
-    const [message, setMessage] = useState(null);
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState<string | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const checkoutState = useCheckout();
+
     if (checkoutState.type === 'error') {
         return (
             <div>Error: {checkoutState.error.message}</div>
         );
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (checkoutState.type === 'loading') {
+            return;
+        }
 
         const { checkout } = checkoutState;
         setIsLoading(true);
 
         const { isValid, message } = await validateEmail(email, checkout);
+
         if (!isValid) {
             setEmailError(message);
             setMessage(message);

@@ -26,11 +26,11 @@ export const auth = betterAuth({
                             `UPDATE "user" SET "stripeCustomerId"=$1 WHERE id=$2`,
                             [customer.id, user.id]
                         );
-                    } catch(e) {
+                    } catch (e) {
                         console.error("Stripe creation failed", e)
                     }
                 }
-            }
+            },
         },
     },
     emailAndPassword: {
@@ -49,7 +49,20 @@ export const auth = betterAuth({
             enabled: true,
         },
         deleteUser: {
-            enabled: true
+            enabled: true,
+            beforeDelete: async (user) => {
+                try {
+                    const customerStripeId = (await cp.query(`SELECT "stripeCustomerId" FROM "user" WHERE id=$1`, [user.id])).rows[0].stripeCustomerId;
+
+                    const sessions = await stripe.checkout.sessions.list({
+                        customer: customerStripeId,
+                    })
+
+                    console.log(sessions);
+                } catch (e) {
+                    console.error("Failed to check customerStipeId")
+                }
+            }
         },
         additionalFields: {
             stripeCustomerId: {

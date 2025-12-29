@@ -239,4 +239,10 @@ export type AddressFormState = {
     };
 };
 
+export type EmailInputStripe = {
+    email: string;
+    setEmail: (email: string) => void;
+    error: string | null;
+    setError: (error: string | null) => void
+}
 
