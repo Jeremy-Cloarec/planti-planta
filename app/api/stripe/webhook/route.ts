@@ -26,8 +26,8 @@ export async function POST(request: NextRequest) {
             endpointSecret
         );
 
-    } catch (err: any) {
-        console.error("Webhook signature verification failed:", err.message);
+    } catch (err) {
+        console.error("Webhook signature verification failed:", err);
         return new NextResponse("Invalid signature", { status: 400 });
     }
 
