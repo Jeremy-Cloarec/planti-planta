@@ -31,6 +31,7 @@ export async function POST(req: NextRequest) {
             ui_mode: "custom",
             payment_method_types: ["card"],
             customer: stripeCustomerId,
+            metadata : {userId: user?.id},
             return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/complete?session_id={CHECKOUT_SESSION_ID}`
         })
 

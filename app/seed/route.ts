@@ -63,30 +63,29 @@ async function seedOrder() {
     await cp.query(`CREATE EXTENSION IF NOT EXISTS "pgcrypto"`);
 
     await cp.query(`
-        CREATE TABLE IF NOT EXISTS "order" (
+        CREATE TABLE IF NOT EXISTS "orders" (
         "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-        "userId" TEXT NOT NULL REFERENCES "user" ("id") ON DELETE CASCADE,
-
-        -- Références Stripe
-        "stripeSessionId" TEXT UNIQUE,
-        "stripePaymentIntentId" TEXT,
-        "stripeCustomerId" TEXT,
-
-        -- Montant et statut
-        "totalAmount" NUMERIC NOT NULL,
-        "currency" VARCHAR(10) DEFAULT 'eur',
-        "status" VARCHAR(50) DEFAULT 'pending', -- pending, paid, failed, refunded, etc.
-
-        -- Références vers les adresses
-        "billingAddressId" UUID REFERENCES "address" ("id") ON DELETE SET NULL,
-        "shippingAddressId" UUID REFERENCES "address" ("id") ON DELETE SET NULL,
-
-        -- Suivi et infos complémentaires
-        "delivered" BOOLEAN DEFAULT FALSE,
-
-        -- Timestamps
-        "createdAt" TIMESTAMP DEFAULT NOW(),
-        "updatedAt" TIMESTAMP DEFAULT NOW()
+        "user_id" TEXT NOT NULL,
+        "stripe_session_id" TEXT UNIQUE NOT NULL,
+        "stripe_payment_intent" TEXT,
+        "stripe_customer_id" TEXT,
+        "user_email" TEXT NOT NULL,
+        "amount_total" INTEGER NOT NULL,
+        "currency" TEXT NOT NULL,
+        "status" TEXT NOT NULL,
+        "billing_name" TEXT,
+        "billing_line1" TEXT,
+        "billing_line2" TEXT,
+        "billing_city" TEXT,
+        "billing_postal_code" TEXT,
+        "billing_country" TEXT,
+        "shipping_name "TEXT,
+        "shipping_line1" TEXT,
+        "shipping_line2" TEXT,
+        "shipping_city" TEXT,
+        "shipping_postal_code" TEXT,
+        "shipping_country "TEXT,
+        "created_at" TIMESTAMP DEFAULT NOW()
         );
     `);
 }
@@ -97,11 +96,11 @@ async function seedOrderItems() {
     await cp.query(`
         CREATE TABLE IF NOT EXISTS "order_items" (
         "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-        "orderId" UUID NOT NULL REFERENCES "order" ("id") ON DELETE CASCADE,
+        "orderId" UUID NOT NULL REFERENCES "orders" ("id") ON DELETE CASCADE,
         "plantId" UUID NOT NULL REFERENCES "plants" ("id") ON DELETE CASCADE,
 
         "quantity" INTEGER NOT NULL DEFAULT 1,
-        "unitPrice" NUMERIC NOT NULL,       -- prix unitaire au moment de l'achat
+        "unitPrice" NUMERIC NOT NULL,      
         "totalPrice" NUMERIC NOT NULL,      -- quantité × prix unitaire
 
         "createdAt" TIMESTAMP DEFAULT NOW(),
@@ -156,10 +155,6 @@ async function seedPlants() {
         )
     );
 }
-
-// async function deleteTables() {
-//     await cp.query(`DROP TABLE IF EXISTS plants`);
-// }
 
 export async function GET() {
     try {
