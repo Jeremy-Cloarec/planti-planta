@@ -247,5 +247,21 @@ export type EmailInputStripe = {
 }
 
 export type EmailInputProps = EmailInputStripe & {
-    user: User|null;
+    user: User | null;
 };
+
+export interface Order {
+    stripe_session_id: string;
+    stripe_payment_intent: string | null;
+    stripe_customer_id: string;
+    amount_total: number;
+    currency: string;
+    status: string;
+    billing_name: string | null;
+    billing_line1: string | null;
+    billing_line2: string | null;
+    billing_city: string | null;
+    billing_postal_code: string | null;
+    billing_country: string | null;
+    created_at: Date;
+}

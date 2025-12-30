@@ -46,29 +46,31 @@ export async function POST(request: NextRequest) {
         const details = session.customer_details;
         const name = details?.name;
         const address = details?.address;
-    
+
         try {
-            await cp.query(
+            await cp.query("BEGIN");
+
+            const orderResult = await cp.query(
                 `
-        INSERT INTO orders (
-            "stripe_session_id",
-            "user_id",
-            "stripe_payment_intent",
-            "stripe_customer_id",
-            "user_email",
-            "amount_total",
-            "currency",
-            "status",
-            "billing_name",
-            "billing_line1",
-            "billing_line2",
-            "billing_city",
-            "billing_postal_code",
-            "billing_country"
-        )
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
-        ON CONFLICT (stripe_session_id) DO NOTHING
-        `,
+                INSERT INTO orders (
+                    "stripe_session_id",
+                    "user_id",
+                    "stripe_payment_intent",
+                    "stripe_customer_id",
+                    "user_email",
+                    "amount_total",
+                    "currency",
+                    "status",
+                    "billing_name",
+                    "billing_line1",
+                    "billing_line2",
+                    "billing_city",
+                    "billing_postal_code",
+                    "billing_country"
+                )
+                VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+                ON CONFLICT (stripe_session_id) DO NOTHING
+                `,
                 [
                     stripeSessionId,
                     userId,
@@ -87,10 +89,27 @@ export async function POST(request: NextRequest) {
                 ]
             );
 
-            console.log("🟢 Order inserted for", email);
+            const orderId = orderResult.rows[0].id;
+
+            const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+
+            for (const item of lineItems.data) {
+                await cp.query(
+                    `
+                    INSERT INTO order_items (
+                // todo
+                    )
+                    VALUES ()
+                    `,
+                    []
+                );
+            }
+
+            await cp.query("COMMIT");
+            console.log("Order + items saved");
 
         } catch (e) {
-            console.error("❌ DB insert failed", e);
+            console.error("DB insert failed", e);
             return NextResponse.json({ error: "db error" }, { status: 500 });
         }
     }

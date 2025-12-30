@@ -7,7 +7,7 @@ import { Suspense } from "react"
 import LoadingPlants from "./ui/skeleton/loading"
 
 export default function Home() {
-    const promisePlants = fetchPlants()
+    const promisePlants = fetchPlants();
     return (
         <>
             <Nav />

@@ -4,6 +4,9 @@ import { auth } from "@/app/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { cormorant } from "@/app/ui/fonts";
+import { fetchOrders } from "../actions/orders.action";
+import { Order } from "../lib/definitions";
+import OrdersItems from "../ui/nav/OrdersItems";
 
 export default async function Commandes() {
     const session = await auth.api.getSession({
@@ -14,6 +17,10 @@ export default async function Commandes() {
         redirect("/sign-in");
     };
 
+    const orders: Order[] = await fetchOrders(session.user.id)
+    console.log(orders);
+    
+
     return (
         <>
             <Nav />
@@ -21,7 +28,7 @@ export default async function Commandes() {
                 <h1 className={`${cormorant.className} text-3xl`}>Mes commandes</h1>
             </header>
             <main className="w-full flex-1 max-w-[768px]">
-                <p className="px-3">Vous n&apos; avez pas encore de commandes</p>
+                <OrdersItems orders={orders}/>
             </main>
             <Footer />
         </>
